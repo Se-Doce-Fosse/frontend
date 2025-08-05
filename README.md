@@ -1,6 +1,6 @@
 # React + TypeScript + Vite Project
 
-Um projeto moderno de React com TypeScript, configurado com Vite e ferramentas de desenvolvimento completas.
+Estrutura do projeto com React + TypeScript, configurado com Vite e ferramentas auxiliares de desenvolvimento.
 
 ## 🚀 Recursos
 
@@ -15,7 +15,7 @@ Um projeto moderno de React com TypeScript, configurado com Vite e ferramentas d
 ## 📋 Pré-requisitos
 
 - Node.js 20+
-- npm ou yarn
+- npm
 - Git
 
 ## 🛠️ Instalação
@@ -23,7 +23,7 @@ Um projeto moderno de React com TypeScript, configurado com Vite e ferramentas d
 1. Clone o repositório:
 
 ```bash
-git clone <url-do-repositorio>
+git clone https://github.com/Se-Doce-Fosse/frontend.git
 cd frontend
 ```
 
@@ -38,6 +38,14 @@ npm install
 ```bash
 npm run prepare
 ```
+
+## 🤝 Contribuindo
+
+1. Após seguir os passos acima para instalação 👆🏽
+2. Crie uma branch para sua feature (`git checkout -b feature/nova-feature`)
+3. Commit suas mudanças (`git commit -m 'Adiciona nova feature'`)
+4. Push para a branch (`git push origin feature/nova-feature`)
+5. Abra um Pull Request
 
 ## 🚀 Scripts Disponíveis
 
@@ -155,11 +163,9 @@ O CI é executado em:
 
 - Usar interfaces para props de componentes
 - Exportar tipos junto com componentes
-- Usar strict mode
 
 ### Styling
 
-- Usar SCSS com metodologia BEM
 - Variáveis para cores e espaçamentos
 - Mobile-first responsive design
 
@@ -169,15 +175,9 @@ O CI é executado em:
 - Usar Testing Library para testes de componentes
 - Cobertura mínima recomendada: 80%
 
-### Git
+## 🛠️ Configuração de Desenvolvimento Recomendada
 
-- Commits descritivos em português
-- Usar conventional commits quando possível
-- Branches descritivas
-
-## 🛠️ Configuração de Desenvolvimento
-
-### VSCode Extensions Recomendadas
+### Extensões para VSCode Recomendadas
 
 - ESLint
 - Prettier
@@ -196,75 +196,3 @@ O CI é executado em:
   }
 }
 ```
-
-## 🚀 Deploy
-
-Para fazer deploy em produção:
-
-1. Execute o build:
-
-```bash
-npm run build
-```
-
-2. Os arquivos gerados estarão em `dist/`
-
-3. Faça upload para seu servidor ou serviço de hosting
-
-### Opções de Deploy
-
-- **Vercel**: Conecte seu repositório GitHub
-- **Netlify**: Drag & drop da pasta `dist/`
-- **GitHub Pages**: Configure GitHub Actions
-- **AWS S3 + CloudFront**: Para maior controle
-
-## 📚 Próximos Passos
-
-- [ ] Adicionar mais componentes (Input, Modal, etc.)
-- [ ] Implementar roteamento com React Router
-- [ ] Adicionar gerenciamento de estado (Context API ou Zustand)
-- [ ] Configurar Storybook para documentação de componentes
-- [ ] Adicionar testes E2E com Playwright
-- [ ] Implementar PWA features
-
-## 🤝 Contribuindo
-
-1. Faça um fork do projeto
-2. Crie uma branch para sua feature (`git checkout -b feature/nova-feature`)
-3. Commit suas mudanças (`git commit -m 'Adiciona nova feature'`)
-4. Push para a branch (`git push origin feature/nova-feature`)
-5. Abra um Pull Request
-
-## 📄 Licença
-
-Este projeto está sob a licença MIT. Veja o arquivo LICENSE para mais detalhes.
-
-## 🆘 Problemas Comuns
-
-### Node.js Version Warnings
-
-Este projeto foi criado com versões modernas das ferramentas. Para melhor compatibilidade, use Node.js 20+.
-
-### Husky não funciona
-
-Se os git hooks não estiverem funcionando, execute:
-
-```bash
-npx husky install
-```
-
-### Testes falhando
-
-Verifique se todas as dependências estão instaladas:
-
-```bash
-npm ci
-```
-
-## 📞 Suporte
-
-Se você encontrar problemas ou tiver dúvidas:
-
-1. Verifique a documentação
-2. Procure em issues existentes
-3. Crie uma nova issue detalhando o problema
