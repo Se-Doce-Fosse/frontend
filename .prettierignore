@@ -6,3 +6,8 @@ coverage/
 *.min.css
 .env*
 *.log 
+.prettierrc
+.github/
+.vscode/
+.git/
+.gitignore
