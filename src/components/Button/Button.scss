@@ -1,3 +1,5 @@
+@use 'sass:color';
+
 $primary-color: #007bff;
 $secondary-color: #6c757d;
 $danger-color: #dc3545;
@@ -28,7 +30,7 @@ $disabled-text: #6c757d;
     color: $white;
 
     &:hover:not(.btn--disabled) {
-      background-color: darken($primary-color, 10%);
+      background-color: color.adjust($primary-color, $lightness: -10%);
     }
   }
 
@@ -37,7 +39,7 @@ $disabled-text: #6c757d;
     color: $white;
 
     &:hover:not(.btn--disabled) {
-      background-color: darken($secondary-color, 10%);
+      background-color: color.adjust($secondary-color, $lightness: -10%);
     }
   }
 
@@ -46,7 +48,7 @@ $disabled-text: #6c757d;
     color: $white;
 
     &:hover:not(.btn--disabled) {
-      background-color: darken($danger-color, 10%);
+      background-color: color.adjust($danger-color, $lightness: -10%);
     }
   }
 
