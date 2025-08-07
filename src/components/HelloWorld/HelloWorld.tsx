@@ -1,5 +1,4 @@
-import * as React from 'react';
-import './HelloWorld.scss';
+import styles from './HelloWorld.module.scss';
 
 export interface HelloWorldProps {
   name?: string;
@@ -7,17 +6,20 @@ export interface HelloWorldProps {
   className?: string;
 }
 
-export const HelloWorld: React.FC<HelloWorldProps> = ({
+export const HelloWorld = ({
   name = 'World',
   showGreeting = true,
   className = '',
-}) => {
+}: HelloWorldProps) => {
   const message = showGreeting ? `Hello, ${name}!` : `Goodbye, ${name}!`;
 
   return (
-    <div className={`hello-world ${className}`} data-testid="hello-world">
-      <h1 className="hello-world__title">{message}</h1>
-      <p className="hello-world__subtitle">
+    <div
+      className={`${styles.helloWorld} ${className}`}
+      data-testid="hello-world"
+    >
+      <h1 className={styles.helloWorldTitle}>{message}</h1>
+      <p className={styles.helloWorldSubtitle}>
         Welcome to our React + TypeScript + Vite project!
       </p>
     </div>

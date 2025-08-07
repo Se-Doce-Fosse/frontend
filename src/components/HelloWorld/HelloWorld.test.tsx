@@ -1,5 +1,6 @@
 import { render, screen } from '@testing-library/react';
 import { HelloWorld } from './HelloWorld';
+import styles from './HelloWorld.module.scss';
 
 describe('HelloWorld Component', () => {
   it('renders with default props', () => {
@@ -32,7 +33,7 @@ describe('HelloWorld Component', () => {
     render(<HelloWorld className={customClass} />);
 
     const element = screen.getByTestId('hello-world');
-    expect(element).toHaveClass('hello-world');
+    expect(element).toHaveClass(styles.helloWorld);
     expect(element).toHaveClass(customClass);
   });
 
@@ -40,12 +41,14 @@ describe('HelloWorld Component', () => {
     render(<HelloWorld />);
 
     const title = screen.getByRole('heading', { level: 1 });
-    expect(title).toHaveClass('hello-world__title');
+    expect(title).toBeInTheDocument();
+    expect(title).toHaveClass(styles.helloWorldTitle);
 
     const subtitle = screen.getByText(
       'Welcome to our React + TypeScript + Vite project!'
     );
-    expect(subtitle).toHaveClass('hello-world__subtitle');
+    expect(subtitle).toBeInTheDocument();
+    expect(subtitle).toHaveClass(styles.helloWorldSubtitle);
   });
 
   it('handles empty name gracefully', () => {
