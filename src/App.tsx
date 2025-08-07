@@ -1,61 +1,22 @@
-import { useState } from 'react';
-import { HelloWorld, Button } from './components';
-import './App.css';
+import { HelloWorld } from '@components';
 
 function App() {
-  const [showGreeting, setShowGreeting] = useState(true);
-  const [name, setName] = useState('World');
-
-  const toggleGreeting = () => {
-    setShowGreeting(!showGreeting);
-  };
-
-  const changeName = () => {
-    const names = ['World', 'React', 'TypeScript', 'Vite', 'Developer'];
-    const currentIndex = names.indexOf(name);
-    const nextIndex = (currentIndex + 1) % names.length;
-    setName(names[nextIndex]);
-  };
-
   return (
     <div className="app">
-      <div className="app__header">
+      <div className="appHeader">
         <img
           src="/vite.svg"
-          className="app__logo"
+          className="appLogo"
           alt="Vite logo"
           width="60"
           height="60"
         />
-        <h1 className="app__title">React + TypeScript + Vite</h1>
+        <h1 className="appTitle">React + TypeScript + Vite</h1>
       </div>
 
-      <main className="app__main">
-        <HelloWorld
-          name={name}
-          showGreeting={showGreeting}
-          className="app__hello-world"
-        />
-
-        <div className="app__controls">
-          <Button onClick={toggleGreeting} variant="primary">
-            {showGreeting ? 'Say Goodbye' : 'Say Hello'}
-          </Button>
-
-          <Button onClick={changeName} variant="secondary">
-            Change Name
-          </Button>
-
-          <Button
-            onClick={() => window.location.reload()}
-            variant="danger"
-            size="small"
-          >
-            Reset
-          </Button>
-        </div>
-
-        <div className="app__info">
+      <main className="appMain">
+        <HelloWorld className="appHelloWorld" />
+        <div className="appInfo">
           <p>This project includes:</p>
           <ul>
             <li>✅ React 19 with TypeScript</li>
