@@ -1,24 +1,15 @@
-# React + TypeScript + Vite Project
+# Frontend do projeto Se Doce Fosse
 
-Estrutura do projeto com React + TypeScript, configurado com Vite e ferramentas auxiliares de desenvolvimento.
+Guia para instalação e desenvolvimento do projeto
 
-## 🚀 Recursos
 
-- ⚛️ **React 19** com TypeScript a partir do Vite
-- 🎨 **Sass/SCSS** para estilização
-- 🧪 **Jest** + **Testing Library** para testes unitários
-- 📏 **ESLint** + **Prettier** para qualidade de código
-- 🐺 **Husky** para git hooks
-- 🔄 **GitHub Actions** para CI/CD
-- 📦 **lint-staged** para formatação automática
-
-## 📋 Pré-requisitos
+## Pré-requisitos
 
 - Node.js 20+
 - npm
 - Git
 
-## 🛠️ Instalação
+## Instalação
 
 1. Clone o repositório:
 
@@ -38,16 +29,64 @@ npm install
 ```bash
 npm run prepare
 ```
+4. Rode o servidor para desenvolvimento
+```bash
+npm run dev
+```
+5. Entre em http://localhost:5173
 
-## 🤝 Contribuindo
+## Contribuindo para o projeto
+### Após seguir os passos acima para instalação 👆🏽
 
-1. Após seguir os passos acima para instalação 👆🏽
-2. Crie uma branch para sua feature (`git checkout -b feature/nova-feature`)
-3. Commit suas mudanças (`git commit -m 'Adiciona nova feature'`)
-4. Push para a branch (`git push origin feature/nova-feature`)
-5. Abra um Pull Request
+Nomes de branchs, PRs e commmits em português. Para melhor entendimento, siga as normas da Wiki.
+ 
+1. Crie uma branch para sua tarefa. Formato: (`git checkout -b tipo/numeroticket-descricao`) Exemplo: `feat/3422-componente-de-botao`
+2. Commit suas mudanças. Formato: (`git commit -m 'tipo: descrição'`) Exemplo: `fix: altera cor do botão para melhor acessibilidade`
+3. Push para a branch. Formato:(`git push origin tipo/numeroticket-descricao`)
+4. Abra um Pull Request para a branch `develop`
+5. Em caso de dúvidas, entre em contato com os AGES III.
 
-## 🚀 Scripts Disponíveis
+##  Nomenclaturas dento do código
+- **Tudo em inglês**
+- **camelCase** para variáveis, funções e props
+- **PascalCase** para nomes de componentes e arquivos `.tsx`
+
+## Convenções de Código
+
+### Estilização com SCSS
+
+Este projeto utiliza **SCSS modules** com organização modularizada e padrões consistentes para facilitar manutenção e escalabilidade.
+
+### Nomeação das Classes CSS
+
+- Use **camelCase** para nomes de classes (ex: `className={styles.primaryButton}`, `className={styles.mainContainer}`).
+- Escolha nomes semânticos que reflitam a função ou o papel do elemento, não sua aparência.
+
+### Boas Práticas
+
+- Componentes  reutilizáveis;
+- Evitar o uso de `any`: usar tipagens com TypeScript;
+- Comentários de código somente quando necessário. Evite muitos comentários
+- Ao criar um Pull Request, descrever o que foi feito detalhadamente e adicionar screenshots (quando aplicável), bem como qualquer instrução para ver as mudanças.
+
+### TypeScript
+
+- Usar interfaces para props de componentes
+- Exportar tipos junto com componentes
+
+### Styling
+
+- Variáveis para cores e tamanhos
+- Mobile-first responsive design
+
+
+### Testes
+
+- Um arquivo de teste por componente
+- Usar Testing Library para testes de componentes
+- Cobertura mínima recomendada: 80%
+
+## Scripts Disponíveis
 
 ```bash
 # Desenvolvimento
@@ -70,54 +109,33 @@ npm run format:check    # Verifica formatação
 
 ## 🏗️ Estrutura do Projeto
 
+
 ```
-src/
-├── components/           # Componentes reutilizáveis
-│   ├── Button/
-│   │   ├── Button.tsx   # Componente Button
-│   │   ├── Button.scss  # Estilos do Button
-│   │   ├── Button.test.tsx # Testes do Button
-│   │   └── index.ts     # Export do Button
-│   ├── HelloWorld/
-│   │   ├── HelloWorld.tsx
-│   │   ├── HelloWorld.scss
-│   │   ├── HelloWorld.test.tsx
-│   │   └── index.ts
-│   └── index.ts         # Export de todos os componentes
-├── App.tsx              # Componente principal
-├── App.css              # Estilos globais
-├── main.tsx             # Entry point
-└── setupTests.ts        # Configuração dos testes
-```
-
-## 🧪 Exemplos de Componentes
-
-### Button
-
-Componente de botão reutilizável com múltiplas variantes e tamanhos.
-
-```tsx
-import { Button } from './components';
-
-<Button variant="primary" size="medium" onClick={handleClick}>
-  Clique aqui
-</Button>;
+- 📁 `src/`
+  - 📁 `components/`       - Componentes reutilizáveis
+    - 📁 `Button/`
+      - `Button.tsx`
+      - `Button.module.scss`
+      - `Button.test.tsx`
+      - `index.ts`         - Todo componente tem um index para exportação
+    - `index.ts`           - Index geral da pasta components para facilitar imports 
+  - 📁 `pages/`            - Páginas (rotas)
+  - 📁 `hooks/`            - Custom hooks (useSomething)
+  - 📁 `contexts/`         - React Context API
+  - 📁 `services/`         - Comunicação com API
+  - 📁 `types/`            - Tipagens globais
+  - 📁 `utils/`            - Funções auxiliares e reutilizaveis entre vários componentes
+  - 📁 `styles/`           - Estilos globais e variáveis reutilizáveis
 ```
 
-**Props:**
-
-- `variant`: 'primary' | 'secondary' | 'danger'
-- `size`: 'small' | 'medium' | 'large'
-- `disabled`: boolean
-- `onClick`: função de callback
-- `type`: 'button' | 'submit' | 'reset'
+## Exemplos de Componentes
 
 ### HelloWorld
 
 Componente de demonstração com mensagem personalizável.
 
 ```tsx
-import { HelloWorld } from './components';
+import { HelloWorld } from '@/components';
 
 <HelloWorld name="Mundo" showGreeting={true} />;
 ```
@@ -128,7 +146,7 @@ import { HelloWorld } from './components';
 - `showGreeting`: boolean (padrão: true)
 - `className`: string
 
-## 🔧 Git Hooks
+## Git Hooks
 
 O projeto está configurado com Husky para executar verificações automáticas:
 
@@ -142,7 +160,7 @@ O projeto está configurado com Husky para executar verificações automáticas:
 - Verifica lint
 - Gera build para garantir que não há erros
 
-## 🚀 CI/CD
+## CI/CD
 
 O projeto inclui GitHub Actions configurado para:
 
@@ -154,28 +172,10 @@ O projeto inclui GitHub Actions configurado para:
 
 O CI é executado em:
 
-- **Pull Requests** para `main` e `master`
+- **Pull Requests** para `main` e `develop`
 - **Pushes** para **todas as branches**
 
-## 📝 Convenções de Código
-
-### TypeScript
-
-- Usar interfaces para props de componentes
-- Exportar tipos junto com componentes
-
-### Styling
-
-- Variáveis para cores e espaçamentos
-- Mobile-first responsive design
-
-### Testes
-
-- Um arquivo de teste por componente
-- Usar Testing Library para testes de componentes
-- Cobertura mínima recomendada: 80%
-
-## 🛠️ Configuração de Desenvolvimento Recomendada
+## Configuração de Desenvolvimento Recomendada
 
 ### Extensões para VSCode Recomendadas
 
