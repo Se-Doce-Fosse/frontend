@@ -1,4 +1,4 @@
 sh .husky/validate-branch-name.sh
 npm run test
-npm run lint
+npm run format
 npm run build 
