@@ -1,5 +1,6 @@
 import { Chart } from 'react-google-charts';
 import styles from './HelloWorld.module.scss';
+import { FaCookieBite } from 'react-icons/fa';
 
 export interface HelloWorldProps {
   name?: string;
@@ -35,6 +36,7 @@ export const HelloWorld = ({
       <h1 className={styles.helloWorldTitle}>{message}</h1>
       <p className={styles.helloWorldSubtitle}>
         Welcome to our React + TypeScript + Vite project!
+        <FaCookieBite size={24} />
       </p>
 
       <Chart
