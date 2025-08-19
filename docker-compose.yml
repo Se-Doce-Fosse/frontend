@@ -5,11 +5,11 @@ services:
       dockerfile: Dockerfile
     container_name: se-doce-fosse-frontend
     ports:
-      - "3000:4173"
+      - '3000:4173'
     environment:
       - NODE_ENV=production
     restart: unless-stopped
-    
+
     deploy:
       resources:
         limits:
