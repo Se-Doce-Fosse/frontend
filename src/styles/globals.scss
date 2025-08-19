@@ -2,8 +2,8 @@
 @use './reset';
 
 body {
-  background-color: $creme-caramelo;
-  color: $marrom-gourmet;
+  background-color: vars.$creme-caramelo;
+  color: vars.$marrom-gourmet;
 }
 
 h1,
@@ -12,5 +12,5 @@ h3,
 h4,
 h5,
 h6 {
-  color: $marrom-gourmet;
+  color: vars.$marrom-gourmet;
 }
