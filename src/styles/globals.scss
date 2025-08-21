@@ -1,16 +1,7 @@
-@use './variables' as vars;
+@use './variables' as *;
 @use './reset';
 
 body {
-  background-color: vars.$creme-caramelo;
-  color: vars.$marrom-gourmet;
-}
-
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-  color: vars.$marrom-gourmet;
+  background-color: $creme-caramelo;
+  color: $marrom-gourmet;
 }
