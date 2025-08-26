@@ -1,2 +1,2 @@
-export { HelloWorld } from './HelloWorld';
-export { NavBar } from './NavBar';
+export * from './HelloWorld';
+export * from './NavBar';
