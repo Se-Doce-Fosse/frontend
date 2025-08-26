@@ -1,2 +1,2 @@
-export { default as HelloWorld } from './HelloWorld';
-export { default as NavBar } from './Navbar';
+export { HelloWorld } from './HelloWorld';
+export { NavBar } from './NavBar';
