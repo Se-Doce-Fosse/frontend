@@ -1,0 +1,118 @@
+$primary-color: #e8d1a7;
+$text-color: #442d1c;
+$subtitle-color: #666;
+$background-color: #9d9167;
+$brand-color: #e1d7b3;
+$font-xxxl: 3rem; // 48px
+$font-xxxxl: 5rem; // 80px
+$font-xxl: 2rem; // 32px
+$card-bg: #fff;
+$radius: 5px;
+
+$card-bg: #fff;
+$card-border: rgba(0, 0, 0, 0.25);
+$radius: 10px;
+
+.footer {
+  display: flex;
+  flex-direction: row;
+  padding: 4rem;
+  align-items: center;
+  background: $background-color;
+  justify-content: space-between;
+
+  .brand {
+    margin-right: 50px;
+    h2 {
+      font-family: 'Bodoni Moda', 'Didot', 'Bodoni MT', serif;
+      text-align: center;
+
+      span {
+        display: block;
+        line-height: 0.9;
+        color: $brand-color;
+        &:first-child {
+          font-size: $font-xxxl;
+        }
+        &:nth-child(2) {
+          font-size: $font-xxxxl;
+        }
+        &:last-child {
+          font-size: $font-xxxxl;
+        }
+      }
+    }
+  }
+
+  .info {
+    display: flex;
+    align-items: flex-start;
+    gap: 0rem;
+    color: $text-color;
+  }
+
+  .info h3 {
+    white-space: nowrap;
+    margin: 0 0 0.5rem 0;
+    font-size: 1rem;
+    line-height: 1.1;
+    font-weight: 600;
+  }
+
+  /* reset listas*/
+  .info ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .hours ul {
+    /* barra */
+    border-left: 1px solid currentColor;
+    padding-left: 0.6rem;
+  }
+
+  .hours li {
+    margin: 0.2rem 0;
+    line-height: 1.2;
+    font-size: 0.95rem;
+  }
+
+  .contact {
+    padding-left: 1rem;
+    margin-left: 1rem;
+  }
+
+  .contact ul {
+    border-left: 1px solid currentColor;
+    padding-left: 0.6rem;
+  }
+
+  .contact a svg {
+    width: 1rem;
+    height: 1rem; /* tamanho dos ícones */
+  }
+
+  .rightSide {
+    display: flex;
+    align-items: flex-start;
+    gap: 2rem; /* espaço entre o texto e o card */
+  }
+
+  .commentBox {
+    background: $card-bg;
+    border: 1px solid;
+    border-radius: $radius;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.12);
+    padding: 1rem;
+    min-width: 320px; /* dá estrutura ao card */
+    max-width: 420px;
+  }
+
+  .commentBox h3 {
+    margin: 0 0 0.75rem 0;
+    font-size: 1rem; /* menor, como na img2 */
+    font-weight: 600;
+    line-height: 1.1;
+  }
+}
