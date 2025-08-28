@@ -1,4 +1,5 @@
-@import '../../styles/variables.scss';
+@use 'sass:color';
+@use '../../styles/variables.scss' as *;
 
 .addButton {
   display: flex;
@@ -14,7 +15,7 @@
   transition: background 0.2s ease;
 
   &:hover {
-    background-color: darken($creme-caramelo, 5%);
+    background-color: color.adjust($creme-caramelo, $lightness: -5%);
   }
 
   .label {
