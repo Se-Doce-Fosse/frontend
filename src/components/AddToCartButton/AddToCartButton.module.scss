@@ -4,8 +4,9 @@
 .addButton {
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: $space-xs;
-  padding: $space-xs $space-sm;
+  padding: $space-xs;
   background-color: $creme-caramelo;
   border-radius: $space-xs;
   font-size: $font-sm;
@@ -13,46 +14,56 @@
   border: none;
   cursor: pointer;
   transition: background 0.2s ease;
+  width: 40px;
+  height: 40px;
 
   &:hover {
     background-color: color.adjust($creme-caramelo, $lightness: -5%);
   }
 
   .label {
-    display: none; // mobile first: só ícone
+    display: none;
   }
 
   @include desktop {
     .label {
-      display: inline; // desktop: mostra texto "Adicionar"
+      display: inline;
     }
+
+    width: 120px;
+    height: auto;
+    padding: $space-xs $space-md;
   }
 }
 
 .counterWrapper {
   display: flex;
   align-items: center;
+  justify-content: center;
+  gap: $space-xxs;
+  padding: $space-xs $space-md;
+  border: 2px solid $marrom-gourmet;
+  border-radius: $space-xs;
+  background-color: $branco;
+  color: $marrom-gourmet;
+  font-size: $font-md;
+  font-weight: 500;
+  width: 100px;
 }
 
 .counterButton {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 1.75rem; // botao menor no mobile
-  height: 1.75rem;
-  border-radius: $space-xs;
-  border: 1px solid $cinza-borda;
-  background-color: $branco;
+  background: transparent;
+  border: none;
+  color: $marrom-gourmet;
+  font-size: $font-lg;
   cursor: pointer;
-  transition: background 0.2s ease;
+  padding: 0;
 
   &:hover {
-    background-color: $cinza-hover;
-  }
-
-  @include desktop {
-    width: 2rem; // botao maior no desktop
-    height: 2rem;
+    opacity: 0.7;
   }
 }
 
@@ -60,6 +71,6 @@
   min-width: 1.5rem;
   text-align: center;
   font-weight: 600;
-  font-size: $font-sm;
+  font-size: $font-md;
   color: $marrom-gourmet;
 }
