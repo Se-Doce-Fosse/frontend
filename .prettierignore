@@ -11,3 +11,6 @@ coverage/
 .vscode/
 .git/
 .gitignore
+docker-compose.yml
+package-lock.json
+package.json
