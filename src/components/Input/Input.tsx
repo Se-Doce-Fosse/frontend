@@ -21,7 +21,11 @@ export const Input = ({
   return (
     <div className={styles.input}>
       {label && (
-        <label className={styles.inputLabel} htmlFor={inputId}>
+        <label
+          className={styles.inputLabel}
+          aria-labelledby={label}
+          htmlFor={inputId}
+        >
           {label}
         </label>
       )}
