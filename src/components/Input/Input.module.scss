@@ -3,6 +3,7 @@
 .input {
   display: flex;
   flex-direction: column;
+  gap: $space-sm;
 
   &Label {
     font-size: $font-lg;
@@ -10,8 +11,7 @@
     color: black;
   }
 
-  &Field,
-  &Border {
+  &Field {
     padding: 0.625rem 1.25rem;
     border-radius: 0.625rem;
     box-shadow: 0rem 0.25rem 0.25rem 0rem #00000040;
