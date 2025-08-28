@@ -1,6 +1,4 @@
-import { HelloWorld } from '@components';
-import AddToCartButton from './components/AddToCartButton/AddToCartButton';
-
+import { HelloWorld, AddToCartButton } from '@components';
 function App() {
   return (
     <div>
