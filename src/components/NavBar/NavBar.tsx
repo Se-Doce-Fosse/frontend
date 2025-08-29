@@ -16,7 +16,7 @@ export default function NavBar() {
   const navigate = useNavigate();
   const location = useLocation();
   const [isExpanded, setIsExpanded] = useState<boolean>(true);
-  const [isHovered, setIsHovered] = useState<boolean>(false);
+  const [isHoveredOverBar, setIsHoveredOverBar] = useState<boolean>(false);
 
   const handleNavigation = (path: string) => {
     console.log('Navegando para:', path);
@@ -25,6 +25,9 @@ export default function NavBar() {
 
   const toggleExpand = () => {
     setIsExpanded(!isExpanded);
+    if (!isExpanded) {
+      setIsHoveredOverBar(false);
+    }
     console.log('Toggle NavBar:', !isExpanded);
   };
 
@@ -61,6 +64,12 @@ export default function NavBar() {
     },
   ];
 
+  const effectiveWidth = isExpanded
+    ? '250px'
+    : isHoveredOverBar
+      ? '250px'
+      : '70px';
+
   const navBarStyle = {
     position: 'fixed' as const,
     top: 0,
@@ -71,7 +80,7 @@ export default function NavBar() {
     zIndex: 1000,
     display: 'flex',
     flexDirection: 'column' as const,
-    width: isExpanded ? '280px' : isHovered ? '280px' : '70px',
+    width: effectiveWidth,
     color: '#743014',
     fontFamily: 'Arial, sans-serif',
     boxShadow: '2px 0 10px rgba(0, 0, 0, 0.1)',
@@ -81,8 +90,8 @@ export default function NavBar() {
     <nav
       style={navBarStyle}
       className={`${styles.navBar} ${isExpanded ? styles.expanded : styles.collapsed}`}
-      onMouseEnter={() => !isExpanded && setIsHovered(true)}
-      onMouseLeave={() => !isExpanded && setIsHovered(false)}
+      onMouseEnter={() => setIsHoveredOverBar(true)}
+      onMouseLeave={() => setIsHoveredOverBar(false)}
     >
       <div
         style={{
@@ -94,7 +103,7 @@ export default function NavBar() {
           minHeight: '60px',
         }}
       >
-        {isExpanded ? (
+        {isExpanded || isHoveredOverBar ? (
           <>
             <div style={{ display: 'flex', alignItems: 'center' }}>
               <span
@@ -103,34 +112,12 @@ export default function NavBar() {
                   fontSize: '1.25rem',
                   fontWeight: 'bold',
                   color: '#743014',
+                  marginTop: '1rem',
                 }}
               >
                 Se Doce Fosse
               </span>
             </div>
-            <button
-              style={{
-                background: 'none',
-                border: 'none',
-                color: '#743014',
-                cursor: 'pointer',
-                padding: '0.5rem',
-                borderRadius: '4px',
-                transition: 'all 0.2s ease',
-              }}
-              onClick={toggleExpand}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.backgroundColor =
-                  'rgba(116, 48, 20, 0.1)';
-                e.currentTarget.style.borderRadius = '20px';
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.backgroundColor = 'transparent';
-                e.currentTarget.style.borderRadius = '4px';
-              }}
-            >
-              <FaBars size={20} />
-            </button>
           </>
         ) : (
           <div
@@ -139,6 +126,7 @@ export default function NavBar() {
               alignItems: 'center',
               justifyContent: 'center',
               width: '100%',
+              marginTop: '1.5rem',
             }}
           >
             <button
@@ -162,7 +150,10 @@ export default function NavBar() {
                 e.currentTarget.style.borderRadius = '4px';
               }}
             >
-              <FaBars size={20} />
+              <FaBars
+                size={20}
+                style={{ marginRight: '1rem', height: '20px', width: '20px' }}
+              />
             </button>
           </div>
         )}
@@ -184,13 +175,14 @@ export default function NavBar() {
               display: 'flex',
               alignItems: 'center',
               padding: '1rem',
-              paddingLeft: isExpanded || isHovered ? '2rem' : '1rem',
+              paddingLeft: isExpanded || isHoveredOverBar ? '1.5rem' : '1rem',
               cursor: 'pointer',
               transition: 'all 0.2s ease',
               color: location.pathname === item.path ? '#e8d1a7' : '#743014',
               backgroundColor:
                 location.pathname === item.path ? '#743014' : 'transparent',
-              justifyContent: isExpanded || isHovered ? 'flex-start' : 'center',
+              justifyContent:
+                isExpanded || isHoveredOverBar ? 'flex-start' : 'center',
               borderRadius: location.pathname === item.path ? '20px' : '0px',
               margin: '0 0.5rem',
               marginBottom: '0.25rem',
@@ -216,12 +208,12 @@ export default function NavBar() {
                 alignItems: 'center',
                 justifyContent: 'center',
                 minWidth: '24px',
-                width: isExpanded || isHovered ? 'auto' : '100%',
+                width: isExpanded || isHoveredOverBar ? 'auto' : '100%',
               }}
             >
               {item.icon}
             </div>
-            {(isExpanded || isHovered) && (
+            {(isExpanded || isHoveredOverBar) && (
               <span
                 style={{
                   marginLeft: '1rem',
@@ -244,13 +236,14 @@ export default function NavBar() {
           padding: '1rem',
           display: 'flex',
           alignItems: 'center',
-          justifyContent: isExpanded || isHovered ? 'space-between' : 'center',
+          justifyContent:
+            isExpanded || isHoveredOverBar ? 'space-between' : 'center',
           minHeight: '80px',
-          flexDirection: isExpanded || isHovered ? 'row' : 'column',
+          flexDirection: isExpanded || isHoveredOverBar ? 'row' : 'column',
           gap: '0.5rem',
         }}
       >
-        {isExpanded || isHovered ? (
+        {isExpanded || isHoveredOverBar ? (
           <>
             <div style={{ display: 'flex', alignItems: 'center', flex: 1 }}>
               <div
@@ -326,6 +319,7 @@ export default function NavBar() {
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
+                marginBottom: '0.5rem',
               }}
             >
               <BiUser size={20} />
