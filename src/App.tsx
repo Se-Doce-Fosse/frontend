@@ -1,21 +1,13 @@
-import NavBar from './components/NavBar/NavBar';
-import './App.css';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { Home } from '@pages';
 
 function App() {
   return (
-    <div className="App">
-      <NavBar />
-      <main className="main-content">
-        <div className="content-wrapper">
-          <h1>Bem-vindo ao Se Doce Fosse</h1>
-          <p>Sistema de gestão administrativa</p>
-          <div className="dashboard-preview">
-            <h2>Dashboard</h2>
-            <p>Selecione uma opção no menu lateral para começar.</p>
-          </div>
-        </div>
-      </main>
-    </div>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Home />} />
+      </Routes>
+    </BrowserRouter>
   );
 }
 
