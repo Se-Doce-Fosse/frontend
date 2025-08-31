@@ -1,118 +1,183 @@
-$primary-color: #e8d1a7;
-$text-color: #442d1c;
-$subtitle-color: #666;
-$background-color: #9d9167;
-$brand-color: #e1d7b3;
+@use '../../styles/variables.scss' as *;
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+
+$font-xs: 0.75rem; // 12px
+$font-sm: 0.875rem; // 14px
+$font-md: 1rem; // 16px
+$font-lg: 1.25rem; // 20px
+$font-xl: 1.5rem; // 24px
+$font-xxl: 2rem; // 32px
 $font-xxxl: 3rem; // 48px
 $font-xxxxl: 5rem; // 80px
-$font-xxl: 2rem; // 32px
-$card-bg: #fff;
-$radius: 5px;
 
-$card-bg: #fff;
-$card-border: rgba(0, 0, 0, 0.25);
-$radius: 10px;
+$space-xxss: 0rem; // 2px
+$space-xxs: 0.25rem; // 4px
+$space-xs: 0.5rem; // 8px
+$space-sm: 0.75rem; // 12px
+$space-md: 1rem; // 16px
+$space-lg: 1.5rem; // 24px
+$space-xl: 2rem; // 32px
+$space-xxl: 3rem; // 64px
+$space-xxxl: 4rem; // 48px
+$space-xxxxl: 6rem; // 96px
 
 .footer {
-  display: flex;
-  flex-direction: row;
-  padding: 4rem;
-  align-items: center;
-  background: $background-color;
-  justify-content: space-between;
+  background-color: $verde-pistache;
+  padding: $space-md;
+  height: 25rem;
 
-  .brand {
-    margin-right: 50px;
-    h2 {
-      font-family: 'Bodoni Moda', 'Didot', 'Bodoni MT', serif;
-      text-align: center;
+  .sideLeft {
+    padding: 0rem;
+    margin-left: 0rem;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
 
-      span {
-        display: block;
-        line-height: 0.9;
-        color: $brand-color;
-        &:first-child {
-          font-size: $font-xxxl;
-        }
-        &:nth-child(2) {
-          font-size: $font-xxxxl;
-        }
-        &:last-child {
-          font-size: $font-xxxxl;
+    .logo {
+      padding: 0rem;
+      width: 8rem;
+      height: 6rem;
+    }
+
+    .workingHours {
+      color: $cacau-intenso;
+      height: 3rem;
+
+      font-family: 'Roboto', sans-serif;
+
+      h3 {
+        white-space: nowrap;
+      }
+
+      ul {
+        margin: 0;
+        padding: 0;
+        list-style: none;
+
+        li {
+          border-left: 0.0625rem solid currentColor;
+          padding-left: 0.6rem;
         }
       }
     }
   }
 
-  .info {
+  .rithSide {
+    padding: 2rem;
     display: flex;
-    align-items: flex-start;
-    gap: 0rem;
-    color: $text-color;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 2rem;
   }
 
-  .info h3 {
-    white-space: nowrap;
-    margin: 0 0 0.5rem 0;
-    font-size: 1rem;
-    line-height: 1.1;
-    font-weight: 600;
+  .contacts {
+    justify-content: flex-start;
+    color: $cacau-intenso;
+
+    font-family: 'Roboto', sans-serif;
+
+    h3 {
+      display: none;
+    }
+
+    ul {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+      display: flex;
+      gap: 0.5rem;
+      align-items: center;
+
+      li {
+      }
+      a {
+        font-size: 1rem;
+      }
+    }
   }
 
-  /* reset listas*/
-  .info ul {
-    margin: 0;
-    padding: 0;
-    list-style: none;
-  }
-
-  .hours ul {
-    /* barra */
-    border-left: 1px solid currentColor;
-    padding-left: 0.6rem;
-  }
-
-  .hours li {
-    margin: 0.2rem 0;
-    line-height: 1.2;
-    font-size: 0.95rem;
-  }
-
-  .contact {
-    padding-left: 1rem;
-    margin-left: 1rem;
-  }
-
-  .contact ul {
-    border-left: 1px solid currentColor;
-    padding-left: 0.6rem;
-  }
-
-  .contact a svg {
-    width: 1rem;
-    height: 1rem; /* tamanho dos ícones */
-  }
-
-  .rightSide {
-    display: flex;
-    align-items: flex-start;
-    gap: 2rem; /* espaço entre o texto e o card */
+  .highlightText {
+    white-space: pre-line;
+    font-size: $font-sm;
+    color: $cacau-intenso;
+    font-family: 'Roboto', sans-serif;
   }
 
   .commentBox {
-    background: $card-bg;
-    border: 1px solid;
-    border-radius: $radius;
+    padding: 3rem;
+    margin-top: 2rem;
+    margin-left: 1.5rem;
+    display: flex;
+    justify-content: column;
+    background: $snow;
+    border-radius: 0.2rem;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.12);
     padding: 1rem;
-    min-width: 320px; /* dá estrutura ao card */
-    max-width: 420px;
+    width: 22rem;
+    height: 12rem;
+    border: 0.1rem solid $cacau-intenso;
   }
 
   .commentBox h3 {
-    margin: 0 0 0.75rem 0;
-    font-size: 1rem; /* menor, como na img2 */
+    top: $space-xxss;
+    // desce 1rem dentro da caixa
+
+    margin-bottom: $space-xs;
+
+    font-size: $font-md;
     font-weight: 600;
     line-height: 1.1;
+    font-family: 'Roboto', sans-serif;
+    color: $cacau-intenso;
+  }
+
+  .commentBox textarea {
+    width: 17rem;
+    height: 3.5rem;
+
+    top: $space-lg; // desce 1rem dentro da caixa
+
+    border-radius: 0.5rem;
+    font-size: $space-sm;
+    border: 0.1rem solid $cacau-intenso;
+    font-family: 'Roboto', sans-serif;
+    padding-top: 0.8rem;
+    padding-left: 0.4rem;
+  }
+
+  .commentBox .row {
+    display: flex;
+    top: 0.001;
+    font-family: 'Roboto', sans-serif;
+
+    input {
+      margin-right: 0.5rem;
+
+      width: 8.3rem;
+      height: 2rem;
+      padding: 0.5rem;
+      font-size: $space-sm;
+      border-radius: 0.3rem;
+      border: 0.1rem solid $cacau-intenso;
+    }
+  }
+
+  .buttonContainer {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 1rem;
+  }
+
+  .commentBox button {
+    font-size: $space-sm;
+    background-color: $verde-pistache;
+    color: $cacau-intenso;
+    font-family: 'Roboto', sans-serif;
+    font-size: 1rem;
+    font-weight: 580;
+    border-radius: 1rem;
+    cursor: pointer;
+    width: 4.5rem;
+    height: 1.5rem;
   }
 }

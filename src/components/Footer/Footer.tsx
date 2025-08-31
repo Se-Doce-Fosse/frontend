@@ -1,5 +1,6 @@
 import { FaInstagram, FaWhatsapp, FaEnvelope } from 'react-icons/fa';
 import styles from './Footer.module.scss';
+import logoFooter from '../../assets/images/logo-footer.png';
 import type { ReactNode } from 'react';
 
 export interface CommentData {
@@ -9,17 +10,17 @@ export interface CommentData {
 }
 
 export interface FooterProps {
-  brandName?: string[];
+  brandName?: string;
   workingHours?: string[];
   contacts?: {
     type: 'instagram' | 'whatsapp' | 'email';
     href: string;
-    label?: string;
+    label: string;
   }[];
   highlightText?: string;
   commentTitle?: string;
-  className?: string;
   onSendComment?: (data: CommentData) => void;
+  className?: string;
 }
 
 const iconByType: Record<'instagram' | 'whatsapp' | 'email', ReactNode> = {
@@ -29,25 +30,31 @@ const iconByType: Record<'instagram' | 'whatsapp' | 'email', ReactNode> = {
 };
 
 export const Footer = ({
-  brandName = ['Se', 'Doce', 'Fosse'],
+  brandName = 'Se fosse doce',
   workingHours = ['Seg-Sex | 8h-18h', 'sáb | 8h-16h', 'Dom | Fechado'],
   contacts = [
-    { type: 'instagram', href: '#', label: 'Instagram' },
-    { type: 'whatsapp', href: '#', label: 'Whatsapp' },
+    {
+      type: 'instagram',
+      href: 'https://www.instagram.com/sedocefosse/',
+      label: 'Instagram',
+    },
+    {
+      type: 'whatsapp',
+      href: 'https://api.whatsapp.com/send/?phone=5551994527855&text=Ol%C3%A1%20Vim%20pelo%20site%20de%20voc%C3%AAs%20e%20gostaria%20de%20saber%20mais%20detalhes%20sobre%20a%20doceria.&type=phone_number&app_absent=0',
+      label: 'Whatsapp',
+    },
     { type: 'email', href: '#', label: 'E-mail' },
   ],
-  highlightText = 'Queremos saber sua opinião!   Avalie nossa loja!',
-  commentTitle = 'Deixe um Comentário',
+  highlightText = 'Queremos saber sua opinião! \n Avalie nossa loja!',
+  commentTitle = 'Deixe um comentário',
   className = '',
   onSendComment,
 }: FooterProps) => {
   const handleSubmit: React.FormEventHandler<HTMLFormElement> = (e) => {
     e.preventDefault();
     if (!onSendComment) return;
-
     const form = e.currentTarget;
     const formData = new FormData(form);
-
     onSendComment({
       comment: String(formData.get('comment') || ''),
       name: String(formData.get('name') || ''),
@@ -58,32 +65,34 @@ export const Footer = ({
 
   return (
     <footer
-      className={`${styles.footer || ''} ${className}`}
+      className={`${styles.footer} ${className}`}
       data-testid="site-footer"
-      aria-labelledby="footer-brand"
     >
-      <div className={styles.brand || ''}>
-        <h2 id="footer-brand">
-          {brandName.map((line, i) => (
-            <span key={i}>{line}</span>
-          ))}
-        </h2>
-      </div>
+      <div
+        className={`${styles.sideLeft} ${className}`}
+        data-testid="left-side-footer"
+      >
+        <img
+          src={logoFooter}
+          alt={`Logo ${brandName}`}
+          className={styles.logo || ''}
+        />
 
-      <div className={styles.info || ''}>
-        <section
-          className={styles.hours || ''}
-          aria-label="Horário de funcionamento"
-        >
-          <h3>Horário de funcionamento</h3>
+        <div className={styles.workingHours}>
+          <h3>Horário de Funcionamento</h3>
           <ul>
-            {workingHours.map((line, i) => (
-              <li key={i}>{line}</li>
+            {workingHours.map((hours, index) => (
+              <li key={index}>{hours}</li>
             ))}
           </ul>
-        </section>
+        </div>
+      </div>
 
-        <section className={styles.contact} aria-label="Contato">
+      <div
+        className={`${styles.sideRight} ${className}`}
+        data-testid="right-side-footer"
+      >
+        <div className={styles.contacts}>
           <h3>Contato</h3>
           <ul>
             {contacts.map((c, i) => (
@@ -94,47 +103,37 @@ export const Footer = ({
               </li>
             ))}
           </ul>
-        </section>
+        </div>
+
+        <h2 className={styles.highlightText}>{highlightText}</h2>
       </div>
 
-      <div className={styles.rightSide || ''}>
-        <section aria-label="Destaque">
-          <p>{highlightText}</p>
-        </section>
+      <div className={styles.commentBox}>
+        <form onSubmit={handleSubmit} data-testid="comment-form">
+          <h3 className={styles.commentTitle}>{commentTitle}</h3>
 
-        <aside
-          className={styles.commentBox || ''}
-          aria-labelledby="comment-title"
-        >
-          <h3 id="comment-title">{commentTitle}</h3>
-          <form onSubmit={handleSubmit} data-testid="comment-form">
+          <label>
+            <textarea
+              name="comment"
+              placeholder="Comentário*"
+              required
+              rows={3}
+            />
+          </label>
+
+          <div className={styles.row}>
             <label>
-              <textarea
-                name="comment"
-                required
-                placeholder="Comentário*"
-                rows={3}
-              />
+              <input type="text" name="name" placeholder="Nome*" required />
             </label>
+            <label>
+              <input type="tel" name="phone" placeholder="Telefone*" required />
+            </label>
+          </div>
 
-            <div className={styles.row || ''}>
-              <label>
-                <input name="name" type="text" required placeholder="Nome*" />
-              </label>
-
-              <label>
-                <input
-                  name="phone"
-                  type="tel"
-                  required
-                  placeholder="Telefone*"
-                />
-              </label>
-            </div>
-
+          <div className={styles.buttonContainer}>
             <button type="submit">Enviar</button>
-          </form>
-        </aside>
+          </div>
+        </form>
       </div>
     </footer>
   );
