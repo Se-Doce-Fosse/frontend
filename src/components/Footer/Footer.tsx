@@ -69,7 +69,7 @@ export const Footer = ({
       data-testid="site-footer"
     >
       <div
-        className={`${styles.sideLeft} ${className}`}
+        className={`${styles.leftSide} ${className}`}
         data-testid="left-side-footer"
       >
         <img
@@ -78,21 +78,16 @@ export const Footer = ({
           className={styles.logo || ''}
         />
 
-        <div className={styles.workingHours}>
+        <section className={styles.workingHours}>
           <h3>Horário de Funcionamento</h3>
           <ul>
             {workingHours.map((hours, index) => (
               <li key={index}>{hours}</li>
             ))}
           </ul>
-        </div>
-      </div>
+        </section>
 
-      <div
-        className={`${styles.sideRight} ${className}`}
-        data-testid="right-side-footer"
-      >
-        <div className={styles.contacts}>
+        <section className={styles.contacts}>
           <h3>Contato</h3>
           <ul>
             {contacts.map((c, i) => (
@@ -103,13 +98,20 @@ export const Footer = ({
               </li>
             ))}
           </ul>
-        </div>
-
-        <h2 className={styles.highlightText}>{highlightText}</h2>
+        </section>
       </div>
 
-      <div className={styles.commentBox}>
-        <form onSubmit={handleSubmit} data-testid="comment-form">
+      <div
+        className={`${styles.rightSide} ${className}`}
+        data-testid="right-side-footer"
+      >
+        <h2 className={styles.highlightText}>{highlightText}</h2>
+
+        <form
+          className={styles.commentBox}
+          onSubmit={handleSubmit}
+          data-testid="comment-form"
+        >
           <h3 className={styles.commentTitle}>{commentTitle}</h3>
 
           <label>
@@ -121,14 +123,13 @@ export const Footer = ({
             />
           </label>
 
-          <div className={styles.row}>
-            <label>
-              <input type="text" name="name" placeholder="Nome*" required />
-            </label>
-            <label>
-              <input type="tel" name="phone" placeholder="Telefone*" required />
-            </label>
-          </div>
+          <label className={styles.nameLabel}>
+            <input type="text" name="name" placeholder="Nome*" required />
+          </label>
+
+          <label className={styles.phoneLabel}>
+            <input type="tel" name="phone" placeholder="Telefone*" required />
+          </label>
 
           <div className={styles.buttonContainer}>
             <button type="submit">Enviar</button>
