@@ -14,10 +14,10 @@
   &Field {
     padding: 0.625rem 1.25rem;
     border-radius: 0.625rem;
-    box-shadow: 0rem 0.25rem 0.25rem 0rem #00000040;
+    box-shadow: 0rem 0.25rem 0.25rem 0rem $light-shadow;
     max-width: 21.875rem;
     font-size: $font-md;
-    min-height: 6rem;
+    min-height: 3.5rem;
 
     &:focus {
       outline: 2px solid $marrom-gourmet;
