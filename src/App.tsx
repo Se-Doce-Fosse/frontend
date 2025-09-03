@@ -1,7 +1,6 @@
 import { Routes, Route } from 'react-router-dom';
 import { NavBar } from '@components';
 import {
-  Home,
   Dashboard,
   Estoque,
   Produtos,
@@ -16,7 +15,6 @@ function App() {
       <NavBar />
       <main>
         <Routes>
-          <Route path="/" element={<Home />} />
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/estoque" element={<Estoque />} />
           <Route path="/produtos" element={<Produtos />} />
