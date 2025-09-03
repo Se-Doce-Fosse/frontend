@@ -1,5 +1,4 @@
-import { Routes, Route } from 'react-router-dom';
-import { NavBar } from '@components';
+import { Routes, Route, BrowserRouter } from 'react-router-dom';
 import {
   Dashboard,
   Estoque,
@@ -7,14 +6,15 @@ import {
   Pedidos,
   Comentarios,
   Configuracoes,
+  Home,
 } from '@pages';
 
 function App() {
   return (
-    <div>
-      <NavBar />
-      <main>
+    <main>
+      <BrowserRouter>
         <Routes>
+          <Route path="/" element={<Home />} />
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/estoque" element={<Estoque />} />
           <Route path="/produtos" element={<Produtos />} />
@@ -22,8 +22,8 @@ function App() {
           <Route path="/comentarios" element={<Comentarios />} />
           <Route path="/configuracoes" element={<Configuracoes />} />
         </Routes>
-      </main>
-    </div>
+      </BrowserRouter>
+    </main>
   );
 }
 
