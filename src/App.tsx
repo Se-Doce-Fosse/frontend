@@ -1,20 +1,28 @@
 import { Routes, Route } from 'react-router-dom';
 import { NavBar } from '@components';
-import { Home } from '@pages';
+import {
+  Home,
+  Dashboard,
+  Estoque,
+  Produtos,
+  Pedidos,
+  Comentarios,
+  Configuracoes,
+} from '@pages';
 
 function App() {
   return (
-    <div style={{ display: 'flex' }}>
+    <div>
       <NavBar />
-      <main style={{ marginLeft: '12rem', flex: 1 }}>
+      <main>
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/dashboard" element={<div>Dashboard</div>} />
-          <Route path="/estoque" element={<div>Estoque</div>} />
-          <Route path="/produtos" element={<div>Produtos</div>} />
-          <Route path="/pedidos" element={<div>Pedidos</div>} />
-          <Route path="/comentarios" element={<div>Comentários</div>} />
-          <Route path="/configuracoes" element={<div>Configurações</div>} />
+          <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/estoque" element={<Estoque />} />
+          <Route path="/produtos" element={<Produtos />} />
+          <Route path="/pedidos" element={<Pedidos />} />
+          <Route path="/comentarios" element={<Comentarios />} />
+          <Route path="/configuracoes" element={<Configuracoes />} />
         </Routes>
       </main>
     </div>
