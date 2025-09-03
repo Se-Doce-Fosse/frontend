@@ -19,3 +19,10 @@ button {
 input {
   border: none;
 }
+
+textarea {
+  border: none;
+  font: inherit;
+  resize: none;
+  outline: none;
+}

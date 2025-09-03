@@ -1,0 +1,42 @@
+@use './../../styles/variables.scss' as *;
+
+.textarea {
+  display: flex;
+  flex-direction: column;
+  gap: $space-sm;
+
+  &Label {
+    font-size: $font-lg;
+    font-weight: 500;
+    color: black;
+  }
+
+  &Field {
+    padding: 0.625rem 1.25rem;
+    border-radius: 0.625rem;
+    box-shadow: 0rem 0.25rem 0.25rem 0rem $light-shadow;
+    max-width: 21.875rem;
+    font-size: $font-md;
+    min-height: 3.5rem;
+
+    &:focus {
+      outline: 2px solid $marrom-gourmet;
+    }
+  }
+
+  &Border {
+    border: 1px solid $cacau-intenso;
+    box-shadow: none;
+  }
+
+  &Error {
+    border: 1px solid #e53935;
+    outline: none;
+  }
+
+  &ErrorMessage {
+    color: #e53935;
+    font-size: $font-sm;
+    margin-top: 0.25rem;
+  }
+}
