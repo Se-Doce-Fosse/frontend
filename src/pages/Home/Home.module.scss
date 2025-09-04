@@ -1,4 +1,46 @@
 .container {
   padding: 2rem;
-  text-align: center;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.buttonShowcase {
+  margin-top: 2rem;
+  text-align: left;
+}
+
+.section {
+  margin-bottom: 3rem;
+  padding: 1.5rem;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  background-color: #fafafa;
+
+  h2 {
+    margin-top: 0;
+    margin-bottom: 1rem;
+    color: #333;
+    font-size: 1.2rem;
+    font-weight: 600;
+  }
+}
+
+.buttonGroup {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  align-items: center;
+}
+
+// Classes customizadas para demonstração
+.largeButton {
+  padding: 16px 32px !important;
+  font-size: 16px !important;
+  min-height: 56px !important;
+}
+
+.smallButton {
+  padding: 8px 16px !important;
+  font-size: 12px !important;
+  min-height: 32px !important;
 }
