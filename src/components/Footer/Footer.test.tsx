@@ -59,7 +59,7 @@ describe('Footer Component', () => {
     const onSendCommentMock = jest.fn();
     render(<Footer onSendComment={onSendCommentMock} />);
 
-    const commentInput = screen.getByPlaceholderText('Comentário*');
+    const commentInput = screen.getByPlaceholderText('Escreva aqui...');
     const nameInput = screen.getByPlaceholderText('Nome*');
     const phoneInput = screen.getByPlaceholderText('Telefone*');
     const submitButton = screen.getByRole('button', { name: /enviar/i });
@@ -83,7 +83,7 @@ describe('Footer Component', () => {
     render(<Footer onSendComment={onSendCommentMock} />);
 
     const form = screen.getByTestId('comment-form');
-    const commentInput = screen.getByPlaceholderText('Comentário*');
+    const commentInput = screen.getByPlaceholderText('Escreva aqui...');
     const nameInput = screen.getByPlaceholderText('Nome*');
 
     fireEvent.change(commentInput, { target: { value: 'Test' } });
