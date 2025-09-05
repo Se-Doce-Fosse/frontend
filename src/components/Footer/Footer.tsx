@@ -2,6 +2,8 @@ import { FaInstagram, FaWhatsapp, FaEnvelope } from 'react-icons/fa';
 import styles from './Footer.module.scss';
 import logoFooter from '../../assets/images/logo-footer.png';
 import type { ReactNode } from 'react';
+import { Input } from '@components';
+import { Textarea } from '@components';
 
 export interface CommentData {
   comment: string;
@@ -31,7 +33,7 @@ const iconByType: Record<'instagram' | 'whatsapp' | 'email', ReactNode> = {
 
 export const Footer = ({
   brandName = 'Se fosse doce',
-  workingHours = ['Seg-Sex | 8h-18h', 'sáb | 8h-16h', 'Dom | Fechado'],
+  workingHours = ['Seg-Sex | 8h-18h', 'Sáb | 8h-16h', 'Dom | Fechado'],
   contacts = [
     {
       type: 'instagram',
@@ -114,22 +116,34 @@ export const Footer = ({
         >
           <h3 className={styles.commentTitle}>{commentTitle}</h3>
 
-          <label>
-            <textarea
+          <div className={styles.textareaGroup}>
+            <Textarea
+              hasBorder
+              aria-label="comentário"
               name="comment"
-              placeholder="Comentário*"
-              required
-              rows={3}
+              placeholder="Escreva aqui..."
+              rows={4}
             />
-          </label>
+          </div>
 
-          <label className={styles.nameLabel}>
-            <input type="text" name="name" placeholder="Nome*" required />
-          </label>
+          <div className={styles.nameLabel}>
+            <Input
+              hasBorder
+              name="name"
+              placeholder="Nome*"
+              aria-label="Nome"
+            />
+          </div>
 
-          <label className={styles.phoneLabel}>
-            <input type="tel" name="phone" placeholder="Telefone*" required />
-          </label>
+          <div className={styles.phoneLabel}>
+            <Input
+              hasBorder
+              name="phone"
+              type="tel"
+              placeholder="Telefone*"
+              aria-label="Telefone"
+            />
+          </div>
 
           <div className={styles.buttonContainer}>
             <button type="submit">Enviar</button>

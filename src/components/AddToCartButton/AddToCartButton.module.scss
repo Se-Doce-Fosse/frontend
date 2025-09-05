@@ -1,0 +1,76 @@
+@use 'sass:color';
+@use '../../styles/variables.scss' as *;
+
+.addButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: $space-xs;
+  padding: $space-xs;
+  background-color: $creme-caramelo;
+  border-radius: $space-xs;
+  font-size: $font-sm;
+  font-weight: 500;
+  border: none;
+  cursor: pointer;
+  transition: background 0.2s ease;
+  width: 2.5rem; // 40px
+  height: 2.5rem; // 40px
+
+  &:hover {
+    background-color: color.adjust($creme-caramelo, $lightness: -5%);
+  }
+
+  .label {
+    display: none;
+  }
+
+  @include desktop {
+    .label {
+      display: inline;
+    }
+
+    width: 7.5rem; // 120px
+    height: auto;
+    padding: $space-xs $space-md;
+  }
+}
+
+.counterWrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: $space-xxs;
+  padding: $space-xs $space-md;
+  border: 0.125rem solid $marrom-gourmet; // 2px
+  border-radius: $space-xs;
+  background-color: $branco;
+  color: $marrom-gourmet;
+  font-size: $font-md;
+  font-weight: 500;
+  width: 6.25rem; // 100px
+}
+
+.counterButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  border: none;
+  color: $marrom-gourmet;
+  font-size: $font-lg;
+  cursor: pointer;
+  padding: 0;
+
+  &:hover {
+    opacity: 0.7;
+  }
+}
+
+.counterValue {
+  min-width: 1.5rem;
+  text-align: center;
+  font-weight: 600;
+  font-size: $font-md;
+  color: $marrom-gourmet;
+}
