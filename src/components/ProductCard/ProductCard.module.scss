@@ -1,15 +1,15 @@
 @use '../../styles/variables.scss' as *;
 
 .card {
-  width: 250px;
-  height: 300px;
+  width: 15.625rem;
+  height: 18.75rem;
   display: grid;
   grid-template-rows: 1fr auto;
   border-radius: $space-sm;
   background: $branco;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+  box-shadow: 0 0.125rem 0.5rem rgba(0, 0, 0, 0.12);
   overflow: hidden;
-  border: 1px solid rgba(0, 0, 0, 0.06);
+  border: 0.0625rem solid rgba(0, 0, 0, 0.06);
 }
 
 .media {
@@ -18,8 +18,8 @@
   background: $branco;
 
   img {
-    width: 250px;
-    height: 190px;
+    width: 15.625rem;
+    height: 11.875rem;
     object-fit: cover;
     display: block;
   }
@@ -82,18 +82,17 @@
 
 @media (max-width: 480px) {
   .card {
-    width: 161px;
-    height: 225px;
+    width: 10.0625rem;
+    height: 14.0625rem;
   }
 
   .media img {
-    width: 161px;
-    height: 106px;
+    width: 10.0625rem;
+    height: 6.625rem;
   }
 
   .body {
-    gap: 0px;
-    padding: $space-xs;
+    padding: $space-xxs;
   }
 
   .title {
