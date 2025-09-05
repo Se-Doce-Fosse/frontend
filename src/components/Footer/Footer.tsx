@@ -2,8 +2,8 @@ import { FaInstagram, FaWhatsapp, FaEnvelope } from 'react-icons/fa';
 import styles from './Footer.module.scss';
 import logoFooter from '../../assets/images/logo-footer.png';
 import type { ReactNode } from 'react';
-import { Input } from '@components';
-import { Textarea } from '@components';
+import { Input } from '../Input';
+import { Textarea } from '../Textarea';
 
 export interface CommentData {
   comment: string;
