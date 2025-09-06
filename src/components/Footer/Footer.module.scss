@@ -1,0 +1,282 @@
+@use '../../styles/variables.scss' as *;
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+
+.footer {
+  display: grid;
+  background-color: $verde-pistache;
+  padding: $space-md;
+}
+
+.leftSide {
+  display: grid;
+  grid-template-columns: 8rem 1fr;
+  grid-template-areas:
+    'logo horario'
+    'logo contato';
+  gap: 0rem;
+
+  color: $cacau-intenso;
+
+  .logo {
+    width: 9rem;
+
+    margin-left: -1rem;
+  }
+
+  .workingHours {
+    margin-left: $space-xs;
+    margin-top: $space-md;
+    grid-area: horario;
+    width: max-content;
+    font-size: $font-md;
+    font-family: 'Roboto', sans-serif;
+
+    h3 {
+      white-space: nowrap;
+      font-weight: 400;
+    }
+
+    ul {
+      margin-top: $space-md;
+      list-style: none;
+      border-left: 0.07rem solid currentColor;
+      height: 6rem;
+      padding-left: 0.6rem;
+      display: flex;
+      flex-direction: column;
+      margin-top: $space-md;
+      padding-top: $space-xs;
+
+      .li {
+      }
+    }
+  }
+
+  .contacts {
+    font-family: 'Roboto', sans-serif;
+    margin-left: 0.2rem;
+    margin-top: -3rem;
+
+    h3 {
+      visibility: hidden;
+      font-weight: 400;
+    }
+
+    ul {
+      list-style: none;
+      display: flex;
+      flex-direction: row;
+      gap: 0.7rem;
+
+      li {
+        a {
+          font-size: 1.7rem;
+        }
+      }
+    }
+  }
+}
+
+.rightSide {
+  display: flex;
+  flex-direction: column;
+  align-items: center; // Centraliza os elementos filhos horizontalmente
+
+  .highlightText {
+    //margin-top: $space-xl;
+    //margin-left: $space-xs;
+    white-space: pre-line;
+    color: $cacau-intenso;
+    font-family: 'Roboto', sans-serif;
+    justify-content: start;
+    font-weight: 400;
+    font-size: $font-md;
+    //margin: auto;
+    margin-top: 2rem;
+    max-width: 20.875rem;
+    width: 100%; // Garante que tenha a mesma largura base
+    text-align: left; // Mantém o texto alinhado à esquerda dentro do elemento
+  }
+
+  .commentBox {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    grid-template-areas:
+      'commentTitle commentTitle'
+      'textareaGroup textareaGroup'
+      'nome telefone'
+      'enviar enviar';
+
+    max-width: 20.875rem;
+    width: 100%;
+    height: 15.5rem;
+    background: snow;
+    border-radius: 0.375rem;
+    padding: $space-xl;
+    box-sizing: border-box;
+    font-family: 'Roboto', sans-serif;
+    color: $cacau-intenso;
+    margin-top: $space-xs;
+
+    .commentTitle {
+      grid-area: commentTitle;
+      margin-bottom: $space-md;
+      font-weight: 600;
+      color: $cacau-intenso;
+    }
+
+    textarea::placeholder {
+      color: $verde-pistache;
+    }
+
+    .textareaGroup {
+      grid-area: textareaGroup;
+      margin-bottom: 0.2rem;
+    }
+
+    .textareaGroup textarea {
+      height: $space-xxxl;
+      border-radius: 0.3rem;
+    }
+
+    input::placeholder {
+      color: $verde-pistache;
+      font-size: $font-sm;
+    }
+
+    .nameLabel {
+      grid-area: nome;
+    }
+    .nameLabel input {
+      height: $space-xl;
+      margin-right: $space-xs;
+      border-radius: 0.3rem;
+    }
+
+    .phoneLabel {
+      grid-area: telefone;
+    }
+    .phoneLabel input {
+      height: $space-xl;
+      margin-left: $space-xs;
+      border-radius: 0.3rem;
+    }
+  }
+
+  .buttonContainer {
+    grid-area: enviar;
+    margin-top: $space-xl;
+    margin-right: $space-md;
+    display: flex;
+    justify-content: flex-end;
+
+    button {
+      font:
+        550 normal 1rem 'Roboto',
+        sans-serif;
+      cursor: pointer;
+      border: 0 none $cacau-intenso;
+      background: $verde-pistache;
+      padding: 0.4rem 0.6rem;
+      border-radius: $space-xs;
+      color: $cacau-intenso;
+    }
+  }
+}
+
+@media (min-width: 64rem) {
+  .footer {
+    width: 100%;
+    height: auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: $space-xl;
+    align-items: center;
+    padding: $space-md;
+  }
+  .leftSide {
+    grid-column: 1 / 2;
+    display: flex;
+    flex-direction: row;
+    gap: $font-xxl;
+
+    .logo {
+      height: 12rem;
+      width: 15rem;
+    }
+
+    .workingHours {
+      margin-left: -2rem;
+      align-self: center;
+
+      h3 {
+        font-size: $font-md;
+      }
+
+      ul {
+        margin-top: $space-xs;
+        border-left: 0.07rem solid currentColor;
+        padding-top: $space-xs;
+        height: $space-xxxl;
+        li {
+          font-size: $font-md;
+        }
+      }
+    }
+    .contacts {
+      margin-top: 1.3rem;
+      align-self: center;
+
+      h3 {
+        visibility: visible;
+        font-size: $space-md;
+      }
+
+      ul {
+        display: flex;
+        flex-direction: column;
+        list-style: none;
+        gap: 0.1rem;
+        border-left: 0.0625rem solid currentColor;
+        height: $space-xxxl;
+        padding-left: 0.3rem;
+        margin-top: $space-xs;
+        li {
+          a {
+            font-size: $font-md;
+          }
+        }
+      }
+    }
+  }
+
+  .rightSide {
+    grid-column: 2 / 3;
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    gap: $space-xs;
+
+    .highlightText {
+      white-space: pre-line;
+      margin-top: $space-xs;
+      width: 250px;
+    }
+
+    .commentBox {
+      max-width: 20rem;
+      height: 13rem;
+      margin-top: -0.3rem;
+      margin-bottom: -0.3rem;
+      padding: $space-lg;
+
+      .commentTitle {
+        margin-top: -0.5rem;
+      }
+
+      .buttonContainer {
+        margin-top: $space-md;
+      }
+    }
+  }
+}
