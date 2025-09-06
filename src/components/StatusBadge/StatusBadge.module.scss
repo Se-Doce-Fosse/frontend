@@ -1,0 +1,24 @@
+@use '../../styles/variables.scss' as *;
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding-top: 0;
+  padding-bottom: 0;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  border-radius: 10px;
+  font-size: $font-xl;
+  text-align: center;
+}
+
+.active {
+  background-color: $status-active;
+  color: $preto;
+}
+
+.inactive {
+  background-color: $status-inactive;
+  color: $preto;
+}
