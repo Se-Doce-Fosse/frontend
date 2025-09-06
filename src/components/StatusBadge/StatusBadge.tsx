@@ -17,5 +17,3 @@ export const StatusBadge = ({ status }: StatusProps) => {
     </span>
   );
 };
-
-export default StatusBadge;
