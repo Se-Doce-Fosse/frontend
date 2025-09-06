@@ -1,108 +1,123 @@
-import { useLocation, useNavigate } from 'react-router-dom';
-import styles from './NavBar.module.scss';
-import { GoGraph } from 'react-icons/go';
-import { IoSettingsOutline } from 'react-icons/io5';
-import {
-  AiOutlineComment,
-  AiOutlineShop,
-  AiOutlineShoppingCart,
-  AiOutlineTags,
-} from 'react-icons/ai';
-import { FaSignOutAlt } from 'react-icons/fa';
-import logoImage from '../../assets/logo-se-doce-fosse.png';
+import { useState } from 'react';
+import styles from './Navbar.module.scss';
+import { FaUser, FaShoppingCart, FaBars, FaTimes } from 'react-icons/fa';
+import logoImage from '../../assets/logo-se-doce-fosse-dark.png';
 
-export default function NavBar() {
-  const navigate = useNavigate();
-  const location = useLocation();
+interface NavLink {
+  label: string;
+  href: string;
+}
 
-  const handleNavigation = (path: string) => {
-    navigate(path);
+export interface NavbarProps {
+  onCartClick?: () => void;
+  onLoginClick?: () => void;
+  links?: NavLink[];
+  isLoginActive?: boolean;
+  isCartDrawerActive?: boolean;
+}
+
+const defaultLinks: NavLink[] = [
+  { label: 'Produtos', href: '/produtos' },
+  { label: 'Encomendas', href: '/encomendas' },
+  { label: 'Sobre Nós', href: '/sobre-nos' },
+];
+
+export function Navbar({
+  onCartClick,
+  onLoginClick,
+  links = defaultLinks,
+  isLoginActive = false,
+  isCartDrawerActive = false,
+}: NavbarProps) {
+  const [isMenuOpen, setMenuOpen] = useState(false);
+
+  const toggleMenu = () => {
+    setMenuOpen(!isMenuOpen);
   };
-
-  const handleLogout = () => {
-    // Aqui você pode adicionar a lógica de logout
-    // Por exemplo: limpar tokens, redirecionar para login, etc.
-    navigate('/login');
-  };
-
-  const navBarItems = [
-    {
-      icon: <GoGraph size={24} />,
-      label: 'Dashboard',
-      path: '/dashboard',
-    },
-    {
-      icon: <AiOutlineShop size={24} />,
-      label: 'Estoque',
-      path: '/estoque',
-    },
-    {
-      icon: <AiOutlineTags size={24} />,
-      label: 'Produtos',
-      path: '/produtos',
-    },
-    {
-      icon: <AiOutlineShoppingCart size={24} />,
-      label: 'Pedidos',
-      path: '/pedidos',
-    },
-    {
-      icon: <AiOutlineComment size={24} />,
-      label: 'Comentários',
-      path: '/comentarios',
-    },
-    {
-      icon: <IoSettingsOutline size={24} />,
-      label: 'Configurações',
-      path: '/configuracoes',
-    },
-  ];
 
   return (
-    <nav className={styles.navBar}>
-      <div className={styles.navHeader}>
-        <div className={styles.navLogo}>
+    <nav className={styles.navbar}>
+      <div className={styles.navbarContainer}>
+        <a
+          href="/"
+          className={styles.logoLink}
+          aria-label="Página inicial Se Doce Fosse"
+        >
           <img
             src={logoImage}
-            alt="Se Doce Fosse"
+            alt="Se Doce Fosse - Logotipo"
             className={styles.logoImage}
           />
-        </div>
-      </div>
-
-      <ul className={styles.navList}>
-        {navBarItems.map((item, index) => (
-          <li
-            key={index}
-            className={`${styles.navItem} ${
-              location.pathname === item.path ? styles.active : ''
-            }`}
-            onClick={() => handleNavigation(item.path)}
+        </a>
+        <ul className={styles.navLinks}>
+          {links.map((link) => (
+            <li key={link.label}>
+              <a href={link.href}>{link.label}</a>
+            </li>
+          ))}
+        </ul>
+        <div className={styles.navIcons}>
+          <button
+            onClick={onLoginClick}
+            className={`${styles.iconButton} ${isLoginActive ? styles.active : ''}`}
           >
-            <div className={styles.navIcon}>{item.icon}</div>
-            <span className={styles.navLabel}>{item.label}</span>
-          </li>
-        ))}
-      </ul>
-
-      <div className={styles.navFooter}>
-        <div className={styles.adminInfo}>
-          <div className={styles.adminAvatar}>
-            <span className={styles.avatarText}>C</span>
-          </div>
-          <div className={styles.adminDetails}>
-            <span className={styles.adminName}>Administrador</span>
-            <span className={styles.adminEmail}>@carolina.padilha</span>
-          </div>
+            <FaUser />
+            <span>Entrar</span>
+          </button>
+          <button
+            onClick={onCartClick}
+            className={`${styles.iconButton} ${isCartDrawerActive ? styles.active : ''}`}
+          >
+            <FaShoppingCart />
+            <span>Carrinho</span>
+          </button>
         </div>
-        <button
-          className={styles.logoutButton}
-          onClick={handleLogout}
-          title="Sair"
+        <div
+          className={styles.hamburger}
+          onClick={toggleMenu}
+          role="button"
+          aria-label="Abrir ou fechar menu de navegação"
+          tabIndex={0}
+          onKeyDown={(e) => e.key === 'Enter' && toggleMenu()}
         >
-          <FaSignOutAlt size={18} />
-        </button>
+          {isMenuOpen ? <FaTimes /> : <FaBars />}
+        </div>
       </div>
+      {isMenuOpen && (
+        <ul className={styles.mobileMenu}>
+          {links.map((link) => (
+            <li key={link.label}>
+              <a href={link.href} onClick={() => setMenuOpen(false)}>
+                {link.label}
+              </a>
+            </li>
+          ))}
+          <li className={styles.mobileActionItem}>
+            <button
+              onClick={() => {
+                onLoginClick?.();
+                setMenuOpen(false);
+              }}
+              className={`${styles.iconButton} ${isLoginActive ? styles.active : ''}`}
+            >
+              <FaUser />
+              <span>Entrar</span>
+            </button>
+          </li>
+          <li className={styles.mobileActionItem}>
+            <button
+              onClick={() => {
+                onCartClick?.();
+                setMenuOpen(false);
+              }}
+              className={`${styles.iconButton} ${isCartDrawerActive ? styles.active : ''}`}
+            >
+              <FaShoppingCart />
+              <span>Carrinho</span>
+            </button>
+          </li>
+        </ul>
+      )}
     </nav>
   );
 }

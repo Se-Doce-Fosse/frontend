@@ -1,5 +1,5 @@
 export * from './HelloWorld';
-export * from './NavBar';
+export * from './Navbar';
 export * from './Input';
 export * from './AddToCartButton';
 export * from './Textarea';
