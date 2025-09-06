@@ -1,3 +1,11 @@
 .container {
   // adicionar estilos específicos para a página Home aqui, cuidando para não deformar outros componentes da página
 }
+
+.productCard {
+  display: flex;
+  margin: 0 auto;
+  justify-content: center;
+  gap: 2rem;
+  margin-top: 2rem;
+}
