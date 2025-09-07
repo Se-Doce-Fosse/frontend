@@ -1,0 +1,108 @@
+@use 'sass:color';
+@use '../../styles/variables.scss' as *;
+
+$table-shadow: 0px 10px 10px #ccc;
+$table-radius: 10px;
+$table-bg: $cinza-claro;
+$table-color: $preto;
+$table-padding: 0.8rem;
+$table-border: 0.5px solid $cinza-borda;
+
+$label-radius: 3px;
+$label-padding: 0.3rem;
+$label-color: $branco;
+
+$label-draft-bg: #777;
+$label-live-bg: #42a942;
+$label-error-bg: #d9534f;
+$label-ativo-bg: #42a942;
+$label-inativo-bg: #777;
+
+$table-width: 100em;
+$table-max-width: 80%;
+
+.table-wrapper {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.table {
+  display: block;
+  overflow: hidden;
+  table-layout: fixed;
+  border-collapse: collapse;
+  box-shadow: $table-shadow;
+  border-radius: $table-radius;
+  white-space: nowrap;
+  width: $table-width;
+  max-width: $table-max-width;
+  margin: auto;
+  table-layout: auto;
+  overflow-x: auto;
+  min-width: 600px;
+
+  thead {
+    background-color: $table-bg;
+    color: $table-color;
+  }
+
+  th,
+  td {
+    padding: $table-padding;
+  }
+
+  td {
+    border: none;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-align: left;
+    vertical-align: middle;
+  }
+
+  th {
+    border: none;
+    text-align: left;
+    vertical-align: middle;
+  }
+
+  tr {
+    border-bottom: 1px solid #000;
+  }
+
+  tbody {
+    tr {
+      &:hover {
+        background-color: $cinza-hover;
+      }
+    }
+  }
+}
+
+.expand {
+  width: 100%;
+}
+
+.label {
+  border-radius: $label-radius;
+  padding: $label-padding;
+  color: $label-color;
+
+  &-ativo {
+    background-color: $label-ativo-bg;
+  }
+  &-inativo {
+    background-color: $label-inativo-bg;
+  }
+}
+
+.actions {
+  display: flex;
+  justify-content: space-around;
+
+  svg {
+    cursor: pointer;
+  }
+}
+#F5F5F5 .delete-btn {
+  color: #e10d05;
+}
