@@ -46,7 +46,7 @@ $disabled-text: #999999;
   color: $text-primary;
 
   &:hover:not(:disabled) {
-    background-color: darken($primary-color, 10%);
+    background-color: $primary-color;
   }
 }
 
@@ -56,7 +56,7 @@ $disabled-text: #999999;
   border: none;
 
   &:hover:not(:disabled) {
-    background-color: darken($secondary-color, 5%);
+    background-color: $primary-color;
   }
 }
 

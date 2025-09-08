@@ -1,6 +1,6 @@
 import React from 'react';
 import type { IconType } from 'react-icons';
-import styles from './DefaultButton.module.scss';
+import styles from './Button.module.scss';
 
 export interface DefaultButtonProps
   extends React.ButtonHTMLAttributes<HTMLButtonElement> {
