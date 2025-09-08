@@ -1,13 +1,29 @@
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import { Home } from '@pages';
+import { Routes, Route, BrowserRouter } from 'react-router-dom';
+import {
+  Dashboard,
+  Estoque,
+  Produtos,
+  Pedidos,
+  Comentarios,
+  Configuracoes,
+  Home,
+} from '@pages';
 
 function App() {
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<Home />} />
-      </Routes>
-    </BrowserRouter>
+    <main>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/estoque" element={<Estoque />} />
+          <Route path="/produtos" element={<Produtos />} />
+          <Route path="/pedidos" element={<Pedidos />} />
+          <Route path="/comentarios" element={<Comentarios />} />
+          <Route path="/configuracoes" element={<Configuracoes />} />
+        </Routes>
+      </BrowserRouter>
+    </main>
   );
 }
 
