@@ -1,98 +1,91 @@
-$primary-color: #8b4513;
-$secondary-color: #9d9167;
-$outlined-border: #8b4513;
-$text-primary: #ffffff;
-$text-secondary: #000000;
-$text-outlined: #8b4513;
-$disabled-color: #cccccc;
-$disabled-text: #999999;
+@use '../../styles/variables.scss' as *;
 
 .button {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 8px;
-  padding: 12px 24px;
+  gap: 0.5rem;
+  padding: 0.75rem 1.5rem;
   border: none;
-  border-radius: 8px;
-  font-family:
-    -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+  border-radius: 0.5rem;
   font-size: 14px;
   font-weight: 600;
   cursor: pointer;
   transition: all 0.2s ease-in-out;
   text-decoration: none;
-  min-height: 44px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  min-height: 1.5rem;
+  box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.1);
 
   &:focus {
-    outline: 2px solid $primary-color;
-    outline-offset: 2px;
+    outline: 0.125rem solid $marrom-gourmet;
+    outline-offset: 0.125rem;
   }
 
   &:hover:not(:disabled) {
     transform: translateY(-1px);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.15);
   }
 
   &:active:not(:disabled) {
     transform: translateY(0);
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.1);
   }
 }
 
 .primary {
-  background-color: $primary-color;
-  color: $text-primary;
+  background-color: $marrom-gourmet;
+  color: $branco;
 
   &:hover:not(:disabled) {
-    background-color: $primary-color;
+    background-color: $verde-pistache;
+    color: $marrom-gourmet;
   }
 }
 
 .secondary {
-  background-color: $secondary-color;
-  color: $text-secondary;
+  background-color: $verde-pistache;
+  color: $marrom-gourmet;
   border: none;
 
   &:hover:not(:disabled) {
-    background-color: $primary-color;
+    background-color: $marrom-gourmet;
+    color: $branco;
   }
 }
 
 .outlined {
   background-color: transparent;
-  color: $text-outlined;
-  border: 2px solid $outlined-border;
+  color: $marrom-gourmet;
+  border: 2px solid $marrom-gourmet;
 
   &:hover:not(:disabled) {
-    background-color: rgba($primary-color, 0.1);
+    background-color: rgba($marrom-gourmet, 0.1);
   }
 }
 
 .disabled {
-  background-color: $disabled-color !important;
-  color: $disabled-text !important;
-  border-color: $disabled-color !important;
-  cursor: not-allowed !important;
-  transform: none !important;
-  box-shadow: none !important;
+  background-color: $disabled-color;
+  color: $disabled-text;
+  border-color: $disabled-color;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
 
   &:hover {
-    transform: none !important;
-    box-shadow: none !important;
+    transform: none;
+    box-shadow: none;
   }
-}
 
-.icon {
-  font-size: 16px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
+  .icon {
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
 
-.label {
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  .label {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
 }

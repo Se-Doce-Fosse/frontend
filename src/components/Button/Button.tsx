@@ -2,7 +2,7 @@ import React from 'react';
 import type { IconType } from 'react-icons';
 import styles from './Button.module.scss';
 
-export interface DefaultButtonProps
+export interface ButtonProps
   extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   label: string;
   variant?: 'primary' | 'secondary' | 'outlined';
@@ -11,7 +11,7 @@ export interface DefaultButtonProps
   className?: string;
 }
 
-export default function DefaultButton({
+export const Button = ({
   label,
   variant = 'primary',
   icon: Icon,
@@ -19,7 +19,7 @@ export default function DefaultButton({
   className = '',
   disabled = false,
   ...buttonProps
-}: DefaultButtonProps) {
+}: ButtonProps) => {
   const buttonClasses = [
     styles.button,
     styles[variant],
@@ -40,4 +40,4 @@ export default function DefaultButton({
       <span className={styles.label}>{label}</span>
     </button>
   );
-}
+};
