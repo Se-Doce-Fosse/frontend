@@ -1,0 +1,91 @@
+@use '../../styles/variables.scss' as *;
+
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: 0.5rem;
+  font-size: $font-sm;
+  font-weight: $semi-bold;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+  text-decoration: none;
+  min-height: 1.5rem;
+  box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.1);
+
+  &:focus {
+    outline: 0.125rem solid $marrom-gourmet;
+    outline-offset: 0.125rem;
+  }
+
+  &:hover:not(:disabled) {
+    transform: translateY(-1px);
+    box-shadow: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.15);
+  }
+
+  &:active:not(:disabled) {
+    transform: translateY(0);
+    box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.1);
+  }
+}
+
+.primary {
+  background-color: $marrom-gourmet;
+  color: $branco;
+
+  &:hover:not(:disabled) {
+    background-color: $verde-pistache;
+    color: $marrom-gourmet;
+  }
+}
+
+.secondary {
+  background-color: $verde-pistache;
+  color: $marrom-gourmet;
+  border: none;
+
+  &:hover:not(:disabled) {
+    background-color: $marrom-gourmet;
+    color: $branco;
+  }
+}
+
+.outlined {
+  background-color: transparent;
+  color: $marrom-gourmet;
+  border: 2px solid $marrom-gourmet;
+
+  &:hover:not(:disabled) {
+    background-color: rgba($marrom-gourmet, 0.1);
+  }
+}
+
+.disabled {
+  background-color: $disabled-color;
+  color: $disabled-text;
+  border-color: $disabled-color;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+
+  &:hover {
+    transform: none;
+    box-shadow: none;
+  }
+
+  .icon {
+    font-size: $font-md;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .label {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+}

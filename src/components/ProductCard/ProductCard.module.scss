@@ -1,0 +1,128 @@
+@use '../../styles/variables.scss' as *;
+
+.card {
+  width: 15.625rem;
+  height: 18.75rem;
+  display: grid;
+  grid-template-rows: 1fr auto;
+  border-radius: $space-sm;
+  background: $branco;
+  box-shadow: 0 0.125rem 0.5rem rgba(0, 0, 0, 0.12);
+  overflow: hidden;
+  border: 0.0625rem solid rgba(0, 0, 0, 0.06);
+}
+
+.media {
+  position: relative;
+  overflow: hidden;
+  background: $branco;
+
+  img {
+    width: 15.625rem;
+    height: 11.875rem;
+    object-fit: cover;
+    display: block;
+  }
+}
+
+.body {
+  display: grid;
+  grid-template-rows: auto auto auto;
+  gap: $space-xs;
+  padding: $space-sm;
+}
+
+.title {
+  font-family: 'Roboto', sans-serif;
+  font-weight: 700;
+  font-size: $font-sm;
+  color: $cacau-intenso;
+  line-height: 1.2;
+  margin: 0;
+  text-align: left;
+  display: block;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.description {
+  color: $cacau-intenso;
+  font-size: $font-xs;
+  line-height: 1.3;
+  font-family: 'Roboto', sans-serif;
+  text-align: left;
+  font-weight: 400;
+
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-height: calc(1.3em * 2);
+}
+
+.footer {
+  margin-top: $space-xxs;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.price {
+  font-size: $font-lg;
+  color: $cacau-intenso;
+  letter-spacing: 0.2px;
+  font-family: 'Roboto', sans-serif;
+  font-weight: 700;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+@media (max-width: 480px) {
+  .card {
+    width: 10.0625rem;
+    height: 14.0625rem;
+  }
+
+  .media img {
+    width: 10.0625rem;
+    height: 6.625rem;
+  }
+
+  .body {
+    padding: $space-xxs;
+  }
+
+  .title {
+    font-size: $font-xs;
+
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: normal;
+  }
+
+  .description {
+    display: none;
+  }
+
+  .footer {
+    margin-top: 0;
+    flex-direction: column;
+    align-items: stretch;
+    gap: $space-xxs;
+  }
+
+  .price {
+    font-size: $font-md;
+    text-align: right;
+    margin-right: 0.2rem;
+    padding-top: 0.2rem;
+    padding-bottom: 0.2rem;
+  }
+}
