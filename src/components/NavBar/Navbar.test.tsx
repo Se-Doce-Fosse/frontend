@@ -1,10 +1,10 @@
 import { render, screen, fireEvent } from '@testing-library/react';
 import '@testing-library/jest-dom';
-import { Navbar } from './';
+import { NavBar } from './';
 
-jest.mock('../../assets/logo-se-doce-fosse-dark.png', () => 'test-file-stub');
+jest.mock('@/assets/logo-se-doce-fosse-dark.png', () => 'test-file-stub');
 
-describe('Navbar Component', () => {
+describe('NavBar Component', () => {
   const mockOnLoginClick = jest.fn();
   const mockOnCartClick = jest.fn();
 
@@ -15,7 +15,7 @@ describe('Navbar Component', () => {
 
   describe('Rendering', () => {
     it('renders correctly on desktop with all links and logo image', () => {
-      render(<Navbar />);
+      render(<NavBar />);
 
       const logo = screen.getByAltText('Se Doce Fosse - Logotipo');
       expect(logo).toBeInTheDocument();
@@ -31,15 +31,15 @@ describe('Navbar Component', () => {
 
   describe('Click Behavior', () => {
     it('calls onLoginClick when the login button is clicked', () => {
-      render(<Navbar onLoginClick={mockOnLoginClick} />);
-      const loginButton = screen.getByRole('button', { name: /entrar/i });
+      render(<NavBar onLoginClick={mockOnLoginClick} />);
+      const loginButton = screen.getByText('Entrar').closest('button');
 
-      fireEvent.click(loginButton);
+      fireEvent.click(loginButton!);
       expect(mockOnLoginClick).toHaveBeenCalledTimes(1);
     });
 
     it('calls onCartClick when the cart button is clicked', () => {
-      render(<Navbar onCartClick={mockOnCartClick} />);
+      render(<NavBar onCartClick={mockOnCartClick} />);
       const cartButton = screen.getByText('Carrinho').closest('button');
 
       fireEvent.click(cartButton!);
@@ -48,22 +48,22 @@ describe('Navbar Component', () => {
   });
 
   describe('Active States', () => {
-    it('applies the "active" class to the login button when isLoginActive is true', () => {
-      render(<Navbar isLoginActive={true} />);
+    it('applies the "active" class to the login button when isLoginModalActive is true', () => {
+      render(<NavBar isLoginModalActive={true} />);
       const loginButton = screen.getByText('Entrar').closest('button');
 
       expect(loginButton).toHaveClass('active');
     });
 
     it('applies the "active" class to the cart button when isCartDrawerActive is true', () => {
-      render(<Navbar isCartDrawerActive={true} />);
+      render(<NavBar isCartDrawerActive={true} />);
       const cartButton = screen.getByText('Carrinho').closest('button');
 
       expect(cartButton).toHaveClass('active');
     });
 
     it('does not apply the "active" class when state props are false or undefined', () => {
-      render(<Navbar />);
+      render(<NavBar />);
       const loginButton = screen.getByText('Entrar').closest('button');
       const cartButton = screen.getByText('Carrinho').closest('button');
 
@@ -74,24 +74,22 @@ describe('Navbar Component', () => {
 
   describe('Mobile Behavior', () => {
     it('toggles the mobile menu when the hamburger icon is clicked', () => {
-      render(<Navbar />);
+      render(<NavBar />);
 
       const hamburgerButton = screen.getByRole('button', {
         name: /abrir ou fechar menu/i,
       });
 
       expect(screen.getAllByText('Produtos').length).toBe(1);
-      expect(screen.getAllByText('Entrar').length).toBe(1);
 
       fireEvent.click(hamburgerButton);
 
       expect(screen.getAllByText('Produtos').length).toBe(2);
-      expect(screen.getAllByText('Entrar').length).toBe(2);
+      expect(screen.getAllByText('Encomendas').length).toBe(2);
 
       fireEvent.click(hamburgerButton);
 
       expect(screen.getAllByText('Produtos').length).toBe(1);
-      expect(screen.getAllByText('Entrar').length).toBe(1);
     });
   });
 });

@@ -1,18 +1,18 @@
 import { useState } from 'react';
-import styles from './Navbar.module.scss';
+import styles from './NavBar.module.scss';
 import { FaUser, FaShoppingCart, FaBars, FaTimes } from 'react-icons/fa';
-import logoImage from '../../assets/logo-se-doce-fosse-dark.png';
+import logoImage from '@/assets/logo-se-doce-fosse-dark.png';
 
 interface NavLink {
   label: string;
   href: string;
 }
 
-export interface NavbarProps {
+export interface NavBarProps {
   onCartClick?: () => void;
   onLoginClick?: () => void;
   links?: NavLink[];
-  isLoginActive?: boolean;
+  isLoginModalActive?: boolean;
   isCartDrawerActive?: boolean;
 }
 
@@ -22,22 +22,29 @@ const defaultLinks: NavLink[] = [
   { label: 'Sobre Nós', href: '/sobre-nos' },
 ];
 
-export function Navbar({
+export function NavBar({
   onCartClick,
   onLoginClick,
   links = defaultLinks,
-  isLoginActive = false,
+  isLoginModalActive = false,
   isCartDrawerActive = false,
-}: NavbarProps) {
+}: NavBarProps) {
   const [isMenuOpen, setMenuOpen] = useState(false);
 
   const toggleMenu = () => {
     setMenuOpen(!isMenuOpen);
   };
 
+  const handleMobileLinkClick = (action?: () => void) => {
+    if (action) {
+      action();
+    }
+    setMenuOpen(false);
+  };
+
   return (
-    <nav className={styles.navbar}>
-      <div className={styles.navbarContainer}>
+    <nav className={styles.NavBar}>
+      <div className={styles.NavBarContainer}>
         <a
           href="/"
           className={styles.logoLink}
@@ -59,14 +66,18 @@ export function Navbar({
         <div className={styles.navIcons}>
           <button
             onClick={onLoginClick}
-            className={`${styles.iconButton} ${isLoginActive ? styles.active : ''}`}
+            className={`${styles.iconButton} ${
+              isLoginModalActive ? styles.active : ''
+            }`}
           >
             <FaUser />
             <span>Entrar</span>
           </button>
           <button
             onClick={onCartClick}
-            className={`${styles.iconButton} ${isCartDrawerActive ? styles.active : ''}`}
+            className={`${styles.iconButton} ${
+              isCartDrawerActive ? styles.active : ''
+            }`}
           >
             <FaShoppingCart />
             <span>Carrinho</span>
@@ -92,13 +103,13 @@ export function Navbar({
               </a>
             </li>
           ))}
+          <li className={styles.mobileActionsSeparator} />
           <li className={styles.mobileActionItem}>
             <button
-              onClick={() => {
-                onLoginClick?.();
-                setMenuOpen(false);
-              }}
-              className={`${styles.iconButton} ${isLoginActive ? styles.active : ''}`}
+              onClick={() => handleMobileLinkClick(onLoginClick)}
+              className={`${styles.iconButton} ${
+                isLoginModalActive ? styles.active : ''
+              }`}
             >
               <FaUser />
               <span>Entrar</span>
@@ -106,11 +117,10 @@ export function Navbar({
           </li>
           <li className={styles.mobileActionItem}>
             <button
-              onClick={() => {
-                onCartClick?.();
-                setMenuOpen(false);
-              }}
-              className={`${styles.iconButton} ${isCartDrawerActive ? styles.active : ''}`}
+              onClick={() => handleMobileLinkClick(onCartClick)}
+              className={`${styles.iconButton} ${
+                isCartDrawerActive ? styles.active : ''
+              }`}
             >
               <FaShoppingCart />
               <span>Carrinho</span>

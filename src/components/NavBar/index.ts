@@ -1,2 +1,2 @@
-export { Navbar } from './Navbar';
-export type { NavbarProps } from './Navbar';
+export { NavBar } from './NavBar';
+export type { NavBarProps } from './NavBar';
