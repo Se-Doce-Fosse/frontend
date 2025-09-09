@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Input } from '../../components/Input';
 import styles from './Login.module.scss';
+import { Button } from '../../components/Button';
 
 const Login = () => {
   const [email, setEmail] = useState('');
@@ -56,11 +57,7 @@ const Login = () => {
               onChange={(e) => setPassword(e.target.value)}
               error={errors.password}
             />
-
-            {/* Botão Provisório */}
-            <button type="submit" className={styles.button}>
-              Entrar
-            </button>
+            <Button label="Entrar" type="submit" />
           </form>
 
           <p className={styles.helper}>
