@@ -1,25 +1,18 @@
-$marrom-gourmet: #743014;
-$creme-caramelo: #e8d1a7;
-$cacau-intenso: #442d1c;
-
-$font-principal: 'Playfair Display', serif;
-$font-secundaria: 'Montserrat', sans-serif;
-
-$breakpoint-mobile: 768px;
+@use '../../styles/variables.scss' as *;
 
 .navbar {
   background-color: $cacau-intenso;
   color: $creme-caramelo;
-  padding: 1rem 2rem;
+  padding: $space-md $space-xl;
   position: relative;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 4px $light-shadow;
 }
 
 .navbarContainer {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  max-width: 1200px;
+  max-width: $container-max;
   margin: 0 auto;
 }
 
@@ -29,35 +22,19 @@ $breakpoint-mobile: 768px;
 }
 
 .logoImage {
-  height: 42px;
+  height: 2.625rem;
   width: auto;
 }
 
-.navLinks {
-  display: flex;
-  list-style: none;
-  gap: 2.5rem;
-  margin: 0;
-  padding: 0;
-  font-family: $font-secundaria;
-
-  a {
-    color: $creme-caramelo;
-    text-decoration: none;
-    font-size: 1rem;
-    font-weight: 500;
-    transition: color 0.3s ease;
-
-    &:hover {
-      color: darken($creme-caramelo, 15%);
-    }
-  }
+.navLinks,
+.navIcons {
+  display: none;
 }
 
-.navIcons {
-  display: flex;
-  align-items: center;
-  gap: 1.5rem;
+.hamburger {
+  display: block;
+  cursor: pointer;
+  font-size: $font-xl;
 }
 
 .iconButton {
@@ -68,19 +45,19 @@ $breakpoint-mobile: 768px;
   cursor: pointer;
   display: flex;
   align-items: center;
-  gap: 0.5rem;
-  font-size: 1rem;
+  gap: $space-xs;
+  font-size: $font-md;
   font-weight: 500;
   font-family: $font-secundaria;
-  padding: 0.5rem 0.75rem;
+  padding: $space-xs $space-sm;
   transition: all 0.3s ease;
 
   span {
-    display: inline;
+    display: none;
   }
 
   svg {
-    font-size: 1.2rem;
+    font-size: $font-lg;
   }
 
   &:hover {
@@ -97,73 +74,81 @@ $breakpoint-mobile: 768px;
   }
 }
 
-.hamburger {
-  display: none;
-  cursor: pointer;
-  font-size: 1.5rem;
-}
-
 .mobileMenu {
-  display: none;
+  display: flex;
+  flex-direction: column;
+  list-style: none;
+  padding: $space-md 0;
+  margin: 0;
+  background-color: $cacau-intenso;
+  font-family: $font-secundaria;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 100%;
+  box-shadow: 0 2px 4px $light-shadow;
+
+  li {
+    text-align: center;
+    padding: $space-sm 0;
+    width: 100%;
+
+    .iconButton {
+      width: 100%;
+      justify-content: center;
+      span {
+        display: inline;
+      }
+    }
+  }
+
+  a {
+    color: $creme-caramelo;
+    text-decoration: none;
+    font-size: $font-lg;
+    width: 100%;
+    display: block;
+
+    &:hover {
+      background-color: darken($cacau-intenso, 5%);
+    }
+  }
 }
 
 .mobileActionsSeparator {
-  height: 1px;
+  height: 0.0625rem;
   background-color: rgba(232, 209, 167, 0.2);
-  margin: 0.5rem 2rem;
+  margin: $space-xs $space-xl;
 }
 
 .mobileActionItem {
   display: flex;
   justify-content: center;
-  padding: 0.5rem 0;
+  padding: $space-xs 0;
 }
 
-@media (max-width: $breakpoint-mobile) {
-  .navLinks,
+@include desktop {
+  .navLinks {
+    display: flex;
+    gap: $space-xl;
+  }
+
   .navIcons {
-    display: none;
+    display: flex;
+    gap: $space-lg;
+  }
+
+  .iconButton {
+    span {
+      display: inline;
+    }
   }
 
   .hamburger {
-    display: block;
+    display: none;
   }
 
   .mobileMenu {
-    display: flex;
-    flex-direction: column;
-    list-style: none;
-    padding: 1rem 0;
-    margin: 0;
-    background-color: $cacau-intenso;
-    font-family: $font-secundaria;
-    position: absolute;
-    top: 100%;
-    left: 0;
-    width: 100%;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-
-    li {
-      text-align: center;
-      padding: 0.75rem 0;
-      width: 100%;
-
-      .iconButton {
-        width: 100%;
-        justify-content: center;
-      }
-    }
-
-    a {
-      color: $creme-caramelo;
-      text-decoration: none;
-      font-size: 1.2rem;
-      width: 100%;
-      display: block;
-
-      &:hover {
-        background-color: darken($cacau-intenso, 5%);
-      }
-    }
+    display: none;
   }
 }
