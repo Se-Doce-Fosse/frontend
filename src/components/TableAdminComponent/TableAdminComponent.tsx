@@ -3,6 +3,7 @@ import { HeaderTableAdmin } from '../HeaderTableAdmin/HeaderTableAdmin';
 import type { ProdutoRow } from '../HeaderTableAdmin/HeaderTableAdmin';
 import { TempModalComponent } from '../TempModalComponent/TempModalComponent';
 import { BsPlus } from 'react-icons/bs';
+import { Button } from '../Button/Button';
 import styles from './TableAdminComponent.module.scss';
 
 function TableAdminComponent() {
@@ -50,10 +51,13 @@ function TableAdminComponent() {
   return (
     <div className={styles.TableAdminComponent}>
       <div className={styles.btnWrapper}>
-        <button onClick={() => setModalOpen(true)} className={styles.btn}>
-          <BsPlus style={{ fontSize: '1.2em', marginRight: '0.3em' }} />
-          Adicionar
-        </button>
+        <Button
+          label="Adicionar"
+          icon={BsPlus}
+          onClick={() => setModalOpen(true)}
+          variant="primary"
+          className={styles.btn}
+        />
       </div>
       <div style={{ width: '100%', overflowX: 'auto' }}>
         <HeaderTableAdmin

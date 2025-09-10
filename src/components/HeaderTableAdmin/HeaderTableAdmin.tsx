@@ -1,6 +1,7 @@
 import React from 'react';
 import { BsFillTrashFill, BsFillPencilFill } from 'react-icons/bs';
 import styles from './HeaderTableAdmin.module.scss';
+import { StatusBadge } from '../StatusBadge/StatusBadge';
 
 export type ProdutoRow = {
   produto: string;
@@ -36,20 +37,13 @@ export const HeaderTableAdmin: React.FC<TableProps> = ({
         </thead>
         <tbody>
           {produtos.map((row, idx) => {
-            const statusText =
-              row.status.charAt(0).toUpperCase() + row.status.slice(1);
-
             return (
               <tr key={idx}>
                 <td className={styles.expand}>{row.produto}</td>
                 <td>{row.categoria}</td>
                 <td>{row.preco}</td>
                 <td>
-                  <span
-                    className={`${styles.label} ${styles[`label-${row.status}`]}`}
-                  >
-                    {statusText}
-                  </span>
+                  <StatusBadge status={row.status} />
                 </td>
                 <td className={styles.quantidade}>{row.quantidade}</td>
                 <td>
