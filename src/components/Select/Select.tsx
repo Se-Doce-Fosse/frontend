@@ -15,9 +15,9 @@ export interface SelectProps {
 export const Select = ({ placeholder, options, ...props }: SelectProps) => {
   return (
     <div className={styles.selectWrapper}>
-      <select className={styles.selectField} {...props}>
+      <select className={styles.selectField} defaultValue="" {...props}>
         {placeholder && (
-          <option value="" hidden selected>
+          <option value="" hidden>
             {placeholder}
           </option>
         )}
