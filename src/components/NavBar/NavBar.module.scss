@@ -6,6 +6,7 @@
   padding: $space-md $space-xl;
   position: relative;
   box-shadow: 0 2px 4px $light-shadow;
+  z-index: 1000;
 }
 
 .navbarContainer {
@@ -47,8 +48,6 @@
   align-items: center;
   gap: $space-xs;
   font-size: $font-md;
-  font-weight: 500;
-  font-family: $font-secundaria;
   padding: $space-xs $space-sm;
   transition: all 0.3s ease;
 
@@ -81,7 +80,6 @@
   padding: $space-md 0;
   margin: 0;
   background-color: $cacau-intenso;
-  font-family: $font-secundaria;
   position: absolute;
   top: 100%;
   left: 0;
