@@ -1,11 +1,10 @@
-// Polyfill para TextEncoder/TextDecoder no ambiente de testes do Jest
+// @ts-nocheck
+// Polyfill global para TextEncoder/TextDecoder em ambiente de teste (Jest/jsdom)
 import { TextEncoder, TextDecoder } from 'util';
 if (typeof global.TextEncoder === 'undefined') {
-  // @ts-expect-error: Jest pode não ter TextDecoder, então fazemos o polyfill
   global.TextEncoder = TextEncoder;
 }
 if (typeof global.TextDecoder === 'undefined') {
-  // @ts-expect-error: Jest pode não ter TextDecoder, então fazemos o polyfill
   global.TextDecoder = TextDecoder;
 }
 import '@testing-library/jest-dom';
