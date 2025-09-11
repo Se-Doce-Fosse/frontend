@@ -1,6 +1,6 @@
 export * from './HelloWorld';
 export * from './Footer';
-export * from './NavBar';
+export * from './SideBar';
 export * from './Input';
 export * from './AddToCartButton';
 export * from './StatusBadge';
