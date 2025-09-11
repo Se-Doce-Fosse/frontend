@@ -8,7 +8,7 @@ export type ProdutoRow = {
   categoria: string;
   preco: number;
   status: 'ativo' | 'inativo';
-  quantidade: number;
+  estoque: number;
 };
 
 type TableProps = {
@@ -27,10 +27,10 @@ export const HeaderTableAdmin: React.FC<TableProps> = ({
       <table className={styles.table}>
         <thead>
           <tr>
-            <th className={styles.expand}>Produto</th>
+            <th>Produto</th>
             <th>Categoria</th>
             <th>Preço</th>
-            <th>Quantidade</th>
+            <th>Estoque</th>
             <th>Status</th>
             <th>Ações</th>
           </tr>
@@ -39,10 +39,10 @@ export const HeaderTableAdmin: React.FC<TableProps> = ({
           {produtos.map((row, idx) => {
             return (
               <tr key={idx}>
-                <td className={styles.expand}>{row.produto}</td>
+                <td>{row.produto}</td>
                 <td>{row.categoria}</td>
                 <td>{row.preco}</td>
-                <td className={styles.quantidade}>{row.quantidade}</td>
+                <td>{row.estoque}</td>
                 <td>
                   <StatusBadge status={row.status} />
                 </td>
@@ -51,10 +51,12 @@ export const HeaderTableAdmin: React.FC<TableProps> = ({
                     <BsFillPencilFill
                       className={styles['edit-btn']}
                       onClick={() => editRow(idx)}
+                      color="#5065B8"
                     />
                     <BsFillTrashFill
                       className={styles['delete-btn']}
                       onClick={() => deleteRow(idx)}
+                      color="#CA071A"
                     />
                   </span>
                 </td>

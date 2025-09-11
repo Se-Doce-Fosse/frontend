@@ -13,14 +13,14 @@ function TableAdminComponent() {
       produto: 'Cookie Vegano',
       categoria: 'Vegano',
       preco: 35.99,
-      quantidade: 10,
+      estoque: 10,
       status: 'ativo',
     },
     {
       produto: 'Cookie',
       categoria: 'Cookie',
       preco: 19.99,
-      quantidade: 5,
+      estoque: 5,
       status: 'inativo',
     },
   ]);
@@ -51,7 +51,7 @@ function TableAdminComponent() {
   return (
     <div className={styles.TableAdminComponent}>
       <div className={styles.header}>
-        <h1>Lista de Produtos</h1>
+        <h2 className={styles.headerTitle}>Lista de Produtos</h2>
         <div className={styles.btnWrapper}>
           <Button
             label="Adicionar"
