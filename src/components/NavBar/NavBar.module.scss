@@ -1,0 +1,161 @@
+@use '../../styles/variables.scss' as *;
+@use 'sass:color';
+
+.navbar {
+  background-color: $cacau-intenso;
+  color: $creme-caramelo;
+  padding: $space-md $space-xl;
+  position: relative;
+  box-shadow: 0 2px 4px $light-shadow;
+  z-index: 1000;
+}
+
+.navbarContainer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  max-width: $container-max;
+  margin: 0 auto;
+}
+
+.logoLink {
+  display: flex;
+  align-items: center;
+}
+
+.logoImage {
+  height: 2.625rem;
+  width: auto;
+}
+
+.navLinks,
+.navIcons {
+  display: none;
+}
+
+.hamburger {
+  display: block;
+  cursor: pointer;
+  font-size: $font-xl;
+}
+
+.iconButton {
+  background: none;
+  border: 1px solid transparent;
+  border-radius: 6px;
+  color: $creme-caramelo;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: $space-xs;
+  font-size: $font-md;
+  transition: all 0.3s ease;
+
+  span {
+    display: none;
+  }
+
+  svg {
+    font-size: $font-lg;
+  }
+
+  &:hover {
+    color: color.scale($creme-caramelo, $lightness: -15%);
+  }
+}
+
+.active {
+  border-color: $creme-caramelo;
+
+  &:hover {
+    background-color: rgba(232, 209, 167, 0.1);
+    color: $creme-caramelo;
+  }
+}
+
+.mobileMenu {
+  display: flex;
+  flex-direction: column;
+  list-style: none;
+  padding: $space-md 0;
+  margin: 0;
+  background-color: $cacau-intenso;
+  position: absolute;
+  top: 100%;
+  right: 0;
+  width: 14rem;
+  height: 34rem;
+  box-shadow: 0 2px 4px $light-shadow;
+  text-align: right;
+
+  li {
+    padding: $space-sm $space-xl;
+
+    .iconButton {
+      justify-content: center;
+      font-size: $font-xl;
+
+      span {
+        display: inline;
+      }
+    }
+  }
+
+  a {
+    color: $creme-caramelo;
+    text-decoration: none;
+    font-size: $font-xl;
+    width: 100%;
+    display: block;
+
+    &:hover {
+      background-color: color.scale($cacau-intenso, $lightness: -5%);
+    }
+  }
+}
+
+.mobileActionsSeparator {
+  height: 0.0625rem;
+  background-color: rgba(232, 209, 167, 0.2);
+  margin: $space-xs $space-xl;
+}
+
+.mobileActionItem {
+  display: flex;
+  justify-content: flex-end;
+  padding: $space-xs 0;
+}
+
+@include desktop {
+  .navLinks {
+    display: flex;
+    gap: $space-xl;
+    list-style: none;
+    font-size: $font-lg;
+  }
+
+  .navIcons {
+    display: flex;
+    gap: $space-lg;
+  }
+
+  .iconButton {
+    padding: 0.5rem;
+    span {
+      display: inline;
+    }
+  }
+
+  .hamburger {
+    display: none;
+  }
+
+  .mobileMenu {
+    display: none;
+  }
+
+  .cartButton {
+    position: relative;
+    border: 1px solid $creme-caramelo;
+  }
+}
