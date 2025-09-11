@@ -1,6 +1,5 @@
 import styles from './Home.module.scss';
-import { ProductCard } from '../../components/ProductCard';
-import { ProductDetailCard } from '@components';
+import { ProductDetailCard, ProductCard } from '../../components';
 
 const parseBRLToCents = (price: string): number => {
   const numberString = price.replace(/[R$\s.]/g, '').replace(',', '.');

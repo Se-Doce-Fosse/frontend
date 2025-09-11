@@ -5,3 +5,4 @@ export * from './Input';
 export * from './AddToCartButton';
 export * from './Textarea';
 export * from './ProductDetailCard';
+export * from './ProductCard';
