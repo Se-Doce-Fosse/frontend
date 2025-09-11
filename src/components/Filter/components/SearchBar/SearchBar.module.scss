@@ -1,0 +1,36 @@
+@use '../../../../styles/variables.scss' as *;
+
+.searchBarWrapper {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+
+  width: 100%;
+  background: $branco;
+  border-radius: $space-sm;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.12);
+  padding: 0.625rem 1rem;
+
+  cursor: text;
+}
+
+.icon {
+  font-size: $font-lg;
+  color: $verde-pistache;
+  flex-shrink: 0;
+}
+
+.input {
+  flex: 1;
+  border: none;
+  outline: none;
+  background: transparent;
+
+  font-size: $font-md;
+  color: $verde-pistache;
+
+  &::placeholder {
+    color: $verde-pistache;
+    opacity: 0.7;
+  }
+}
