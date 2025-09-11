@@ -1,6 +1,8 @@
 import styles from './Home.module.scss';
 import { ProductCard } from '../../components/ProductCard';
 import { useProducts } from '../../hooks/useProducts';
+import { Banner } from '../../components/Banner';
+import { VerMaisButton } from '../../components/VerMaisButton';
 
 const Home = () => {
   const { products, loading, error } = useProducts();
@@ -20,8 +22,10 @@ const Home = () => {
 
   return (
     <div className={styles.container}>
-      <h1>Página Inicial</h1>
-      <p>Bem-vindo ao site!</p>
+      <Banner />
+      <div className={styles.categoria}>
+        <h1>Doces</h1> <VerMaisButton />
+      </div>
       <div className={styles.productCard}>
         {products.map((p) => (
           <ProductCard

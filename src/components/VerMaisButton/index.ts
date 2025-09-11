@@ -1,0 +1,1 @@
+export { VerMaisButton } from './VerMaisButton';

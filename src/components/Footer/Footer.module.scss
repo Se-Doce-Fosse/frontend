@@ -2,9 +2,22 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
 
 .footer {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+
   display: grid;
+  width: 100%;
   background-color: $verde-pistache;
   padding: $space-md;
+  z-index: 100;
+
+  box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.08);
+}
+
+:global(body) {
+  padding-bottom: 18rem;
 }
 
 .leftSide {
@@ -185,7 +198,16 @@
 }
 
 @media (min-width: 64rem) {
+  :global(body) {
+    padding-bottom: 16rem;
+  }
   .footer {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 100;
+
     width: 100%;
     height: auto;
     display: grid;

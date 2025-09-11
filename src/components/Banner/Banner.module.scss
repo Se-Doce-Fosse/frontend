@@ -1,0 +1,77 @@
+@use '../../styles/variables.scss' as *;
+
+.hero {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: $space-md;
+  background: rgba($creme-caramelo, 0.5);
+  padding: 0;
+  border-radius: 0.5rem;
+  height: 15.375rem;
+
+  @media (min-width: 64rem) {
+    grid-template-columns: 1.2fr 1fr;
+    align-items: stretch;
+    gap: $space-xl;
+  }
+}
+
+.left {
+  display: grid;
+  align-content: center;
+  gap: $space-sm;
+  color: $cacau-intenso;
+  font-family: 'Roboto', sans-serif;
+  margin-left: 5.625rem;
+
+  h2 {
+    font-size: clamp(1.5rem, 2.2vw, 2.25rem);
+    line-height: 1.15;
+    font-weight: 700;
+    margin: 0;
+  }
+
+  .subtext {
+    font-size: $font-md;
+    line-height: 1.4;
+    opacity: 0.9;
+    width: 48.75rem;
+  }
+
+  .hours {
+    margin-top: $space-sm;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-weight: 500;
+
+    svg {
+      font-size: 1rem;
+      color: $cacau-intenso;
+      flex-shrink: 0;
+    }
+  }
+}
+
+.right {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: $space-sm;
+
+  @media (min-width: 64rem) {
+    gap: $space-md;
+  }
+
+  img {
+    width: 45.875rem;
+    height: 15.375rem;
+    object-fit: cover;
+    border-radius: 0.35rem;
+    display: block;
+    margin-top: 0;
+  }
+
+  .photoA {
+    aspect-ratio: 1.4 / 1;
+  }
+}
