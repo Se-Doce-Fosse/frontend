@@ -1,5 +1,5 @@
 import { useLocation, useNavigate } from 'react-router-dom';
-import styles from './NavBar.module.scss';
+import styles from './SideBar.module.scss';
 import { GoGraph } from 'react-icons/go';
 import { IoSettingsOutline } from 'react-icons/io5';
 import {
@@ -11,7 +11,7 @@ import {
 import { FaSignOutAlt } from 'react-icons/fa';
 import logoImage from '../../assets/logo-se-doce-fosse.png';
 
-export default function NavBar() {
+export default function SideBar() {
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -20,8 +20,7 @@ export default function NavBar() {
   };
 
   const handleLogout = () => {
-    // Aqui você pode adicionar a lógica de logout
-    // Por exemplo: limpar tokens, redirecionar para login, etc.
+    //TODO: Implementar logout;
     navigate('/login');
   };
 
