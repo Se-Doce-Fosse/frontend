@@ -23,11 +23,10 @@ export const ProductDetailCard: React.FC<ProductDetailCardProps> = ({
   imageAlt = '',
   allergens,
   priceCents,
-  onQuantityChange,
   className,
-  onAddToCart,
 }) => {
   const [expanded, setExpanded] = useState(false);
+  const [quantity, setQuantity] = useState(0);
 
   const priceBRL = (priceCents / 100).toLocaleString('pt-BR', {
     style: 'currency',
@@ -36,7 +35,11 @@ export const ProductDetailCard: React.FC<ProductDetailCardProps> = ({
   });
 
   return (
-    <article className={`${styles.card} ${className || ''}`} aria-label={name}>
+    <article
+      className={`${styles.card} ${className || ''}`}
+      aria-label={name}
+      id={id}
+    >
       <h3 className={styles.title} title={name} aria-label={name}>
         {name}
       </h3>
@@ -60,19 +63,18 @@ export const ProductDetailCard: React.FC<ProductDetailCardProps> = ({
         </p>
       )}
 
-      <div className={styles.footer}>
+      <div
+        className={`${styles.footer} ${quantity > 0 ? styles.alignCounter : ''}`}
+      >
         <strong className={styles.price}>{priceBRL}</strong>
 
-        <AddToCartButton
-          className={styles.shoppingCart}
-          onQuantityChange={(qty) => {
-            onQuantityChange?.(qty); // mantém callback externo se existir
-            if (qty === 1) {
-              // só dispara no primeiro clique
-              onAddToCart(id);
-            }
-          }}
-        />
+        <div className={styles.addToCartWrapper}>
+          <AddToCartButton
+            className={styles.shoppingCart}
+            quantity={quantity}
+            onQuantityChange={setQuantity}
+          />
+        </div>
       </div>
     </article>
   );

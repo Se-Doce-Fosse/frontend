@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styles from './ProductCard.module.scss';
 import { AddToCartButton, type AddToCartButtonProps } from '../AddToCartButton';
 
@@ -21,11 +21,17 @@ export const ProductCard: React.FC<ProductCardProps> = ({
   onQuantityChange,
   className,
 }) => {
+  const [quantity, setQuantity] = useState(0);
   const priceBRL = (priceCents / 100).toLocaleString('pt-BR', {
     style: 'currency',
     currency: 'BRL',
     minimumFractionDigits: 2,
   });
+
+  const handleQuantityChange = (qty: number) => {
+    setQuantity(qty);
+    onQuantityChange?.(qty);
+  };
 
   return (
     <article className={`${styles.card} ${className || ''}`} aria-label={title}>
@@ -44,7 +50,10 @@ export const ProductCard: React.FC<ProductCardProps> = ({
         <div className={styles.footer}>
           <strong className={styles.price}>{priceBRL}</strong>
 
-          <AddToCartButton onQuantityChange={onQuantityChange} />
+          <AddToCartButton
+            quantity={quantity}
+            onQuantityChange={handleQuantityChange}
+          />
         </div>
       </div>
     </article>

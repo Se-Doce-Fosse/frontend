@@ -1,4 +1,3 @@
-import React, { useState, useEffect } from 'react';
 import styles from './AddToCartButton.module.scss';
 import { FiPlus as Plus, FiMinus as Minus } from 'react-icons/fi';
 
@@ -8,20 +7,17 @@ export type AddToCartButtonProps = {
 } & React.ButtonHTMLAttributes<HTMLButtonElement>;
 
 export const AddToCartButton: React.FC<AddToCartButtonProps> = ({
-  quantity: initialQuantity = 0,
+  quantity = 0,
   onQuantityChange,
   className,
   ...props
 }) => {
-  const [quantity, setQuantity] = useState(initialQuantity);
-
-  useEffect(() => {
-    onQuantityChange?.(quantity);
-  }, [quantity, onQuantityChange]);
-
-  const handleIncrement = () => setQuantity((prev) => prev + 1);
-  const handleDecrement = () =>
-    setQuantity((prev) => (prev > 0 ? prev - 1 : 0));
+  const handleIncrement = () => {
+    onQuantityChange?.(quantity + 1);
+  };
+  const handleDecrement = () => {
+    onQuantityChange?.(quantity > 0 ? quantity - 1 : 0);
+  };
 
   if (quantity === 0) {
     return (
