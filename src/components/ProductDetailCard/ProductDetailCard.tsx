@@ -52,7 +52,11 @@ export const ProductDetailCard: React.FC<ProductDetailCardProps> = ({
 
       <div className={styles.allergens}>
         {(allergens ?? []).length > 0 &&
-          allergens?.map((allergen) => <span key={allergen}>{allergen}</span>)}
+          allergens?.map((allergen) => (
+            <span key={allergen} className={styles.tag}>
+              {allergen}
+            </span>
+          ))}
       </div>
 
       {description && (

@@ -14,8 +14,15 @@ const products = [
     imageSrc: '/images/cookie.png',
     imageAlt: 'Cookie Oreo com Nutella',
     description:
-      'Imagine um cookie dourado por fora, crocante nas bordas e incrivelmente macio no centro. Esse é o nosso Cookie Recheado com Nutella, uma verdadeira explosão de sabor para quem ama chocolate. Feito com massa artesanal, preparada com manteiga de qualidade, açúcar mascavo que dá um toque de caramelo e pedacinhos de chocolate que derretem na boca, cada mordida é uma experiência única..',
-    allergens: ['sem lactose'],
+      'Imagine um cookie dourado por fora, crocante nas bordas e incrivelmente macio no centro. Esse é o nosso Cookie Recheado com Nutella, uma verdadeira explosão de sabor para quem ama chocolate. Feito com massa artesanal, preparada com manteiga de qualidade, açúcar mascavo que dá um toque de caramelo e pedacinhos de chocolate que derretem na boca, cada mordida é uma experiência única.',
+    allergens: [
+      'sem lactose',
+      'sem glutem',
+      'sem nuts',
+      'sem lactose',
+      'sem glutem',
+      'sem nuts',
+    ],
   },
 ];
 
@@ -44,6 +51,7 @@ const Home = () => (
               priceCents={parseBRLToCents(p.price)}
               id={p.id.toString()}
               price="R$20,00"
+              allergens={p.allergens}
               onAddToCart={(id) => console.log(`Adicionado ao carrinho: ${id}`)}
             />
           </>
