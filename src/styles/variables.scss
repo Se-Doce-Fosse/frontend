@@ -11,6 +11,8 @@ $cinza-borda: #dcdcdc;
 $cinza-texto: #666666;
 $light-shadow: #00000040;
 $transparent: #00000000;
+$status-inactive: #e68f8f;
+$status-active: #8fe68f;
 
 $branco: #ffffff;
 $preto: #000000;
@@ -19,6 +21,8 @@ $cinza-hover: #f0f0f0;
 $cinza-borda: #dcdcdc;
 $cinza-texto: #666666;
 $light-shadow: #00000040;
+$disabled-color: #cccccc;
+$disabled-text: #999999;
 
 // Font sizes
 $font-xs: 0.75rem; // 12px
@@ -42,6 +46,8 @@ $space-xxxl: 4rem; // 48px
 $space-xxxxl: 6rem; // 96px
 
 $container-max: 1200px;
+$semi-bold: 600;
+$bold: 700;
 
 $breakpoint-desktop: 1024px;
 
