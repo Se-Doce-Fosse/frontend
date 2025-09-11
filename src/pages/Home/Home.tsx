@@ -13,7 +13,9 @@ const products = [
     price: 'R$20,00',
     imageSrc: '/images/cookie.png',
     imageAlt: 'Cookie Oreo com Nutella',
-    description: 'Delicioso cookie recheado com Nutella cremosa.',
+    description:
+      'Imagine um cookie dourado por fora, crocante nas bordas e incrivelmente macio no centro. Esse é o nosso Cookie Recheado com Nutella, uma verdadeira explosão de sabor para quem ama chocolate. Feito com massa artesanal, preparada com manteiga de qualidade, açúcar mascavo que dá um toque de caramelo e pedacinhos de chocolate que derretem na boca, cada mordida é uma experiência única..',
+    allergens: ['sem lactose'],
   },
   {
     id: 2,

@@ -1,0 +1,134 @@
+@use '../../styles/variables.scss' as *;
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+
+.card {
+  background-color: $transparent;
+  max-width: 19.6875rem;
+  width: 100%;
+  box-sizing: border-box;
+  grid-template-columns: 1fr;
+  height: auto;
+  display: grid;
+  grid-template-areas:
+    'title'
+    'allergens'
+    'img'
+    'description'
+    'price'
+    'shoppingcart';
+}
+
+.card .media {
+  grid-area: img;
+}
+
+.media img {
+  margin-top: 0.5rem;
+  width: 18.6875rem;
+  height: 16.4375rem;
+  margin-bottom: $space-lg;
+  border-radius: 0.3125rem;
+}
+
+.title {
+  grid-area: title;
+  font-family: 'Roboto', sans-serif;
+
+  color: $cacau-intenso;
+  font-size: $font-xxl;
+  white-space: normal;
+  word-break: normal;
+}
+
+.allergens {
+  grid-area: allergens;
+  color: $marrom-gourmet;
+  margin-bottom: $space-xl;
+  border: 0.0625rem solid $marrom-gourmet;
+  padding: 0.2rem 0.4rem;
+  border-radius: 0.3125rem;
+  width: 10rem;
+  margin-top: $space-xs;
+}
+
+.card .description {
+  grid-area: description;
+  font-family: 'Roboto', sans-serif;
+  color: $cacau-intenso;
+  font-size: $font-lg;
+  margin-bottom: $space-xl;
+  overflow-wrap: break-word;
+
+  cursor: pointer;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 4;
+  overflow: hidden;
+  text-overflow: ellipsis;
+
+  &.expanded {
+    -webkit-line-clamp: unset;
+    display: block;
+  }
+}
+
+.card .price {
+  grid-area: price;
+  font-family: 'Roboto', sans-serif;
+  font-size: 2.5rem;
+  color: $cacau-intenso;
+}
+
+.shoppingCart {
+  grid-area: shoppingcart;
+  width: 19.7125rem;
+  height: 2.5625rem;
+  margin-left: 0;
+  margin-top: $space-xl;
+}
+
+@media (min-width: 64rem) {
+  .card {
+    display: grid;
+    grid-template-columns: 18.1875rem auto;
+    grid-template-areas:
+      'img title '
+      'img allergens '
+      'img description '
+      'img footer ';
+    width: 60.875rem;
+
+    max-width: none;
+    column-gap: $space-xxxxl;
+    row-gap: none;
+  }
+
+  .card .media {
+    height: 16rem;
+    width: 18.1875rem;
+  }
+
+  .card .allergens {
+    margin-bottom: $space-md;
+  }
+
+  .card .description {
+    margin-bottom: $space-md;
+  }
+
+  .card .footer {
+    grid-area: footer;
+    display: flex;
+    align-items: flex-end;
+    gap: 15rem;
+  }
+  .card .price {
+    margin: 0;
+  }
+
+  .card .shoppingCart {
+    width: 10.625rem;
+    height: 2.125rem;
+    margin: 0;
+  }
+}
