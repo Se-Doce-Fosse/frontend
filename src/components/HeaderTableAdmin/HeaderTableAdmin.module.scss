@@ -2,27 +2,8 @@
 @use '../../styles/variables.scss' as *;
 
 $table-shadow: 0px 10px 10px #ccc;
-$table-radius: 10px;
-$table-bg: $cinza-claro;
-$table-color: $preto;
-$table-padding: 0.8rem;
-$table-border: 0.5px solid $cinza-borda;
-
-$label-radius: 3px;
-$label-padding: 0.3rem;
-$label-color: $branco;
-
-$label-draft-bg: #777;
-$label-live-bg: #42a942;
-$label-error-bg: #d9534f;
-$label-ativo-bg: #42a942;
-$label-inativo-bg: #777;
-
-$table-width: 100em;
-$table-max-width: 80%;
 
 .table-wrapper {
-  width: 100%;
   overflow-x: auto;
 }
 
@@ -32,23 +13,22 @@ $table-max-width: 80%;
   table-layout: fixed;
   border-collapse: collapse;
   box-shadow: $table-shadow;
-  border-radius: $table-radius;
+  border-radius: 0.625rem;
   white-space: nowrap;
-  width: $table-width;
-  max-width: $table-max-width;
   margin: auto;
   table-layout: auto;
   overflow-x: auto;
-  min-width: 600px;
+  width: 93.5rem;
 
   thead {
-    background-color: $table-bg;
-    color: $table-color;
+    background-color: $cinza-claro;
+    color: $preto;
   }
 
   th,
   td {
-    padding: $table-padding;
+    background-color: $cinza-claro;
+    padding: 0.8rem;
   }
 
   td {
@@ -71,8 +51,9 @@ $table-max-width: 80%;
 
   tbody {
     tr {
-      &:hover {
-        background-color: $cinza-hover;
+      &:hover td {
+        background-color: $creme-caramelo;
+        cursor: pointer;
       }
     }
   }
@@ -80,19 +61,6 @@ $table-max-width: 80%;
 
 .expand {
   width: 100%;
-}
-
-.label {
-  border-radius: $label-radius;
-  padding: $label-padding;
-  color: $label-color;
-
-  &-ativo {
-    background-color: $label-ativo-bg;
-  }
-  &-inativo {
-    background-color: $label-inativo-bg;
-  }
 }
 
 .actions {

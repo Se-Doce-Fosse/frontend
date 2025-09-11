@@ -30,9 +30,9 @@ export const HeaderTableAdmin: React.FC<TableProps> = ({
             <th className={styles.expand}>Produto</th>
             <th>Categoria</th>
             <th>Preço</th>
-            <th>Status</th>
             <th>Quantidade</th>
-            <th>Actions</th>
+            <th>Status</th>
+            <th>Ações</th>
           </tr>
         </thead>
         <tbody>
@@ -42,10 +42,10 @@ export const HeaderTableAdmin: React.FC<TableProps> = ({
                 <td className={styles.expand}>{row.produto}</td>
                 <td>{row.categoria}</td>
                 <td>{row.preco}</td>
+                <td className={styles.quantidade}>{row.quantidade}</td>
                 <td>
                   <StatusBadge status={row.status} />
                 </td>
-                <td className={styles.quantidade}>{row.quantidade}</td>
                 <td>
                   <span className={styles.actions}>
                     <BsFillPencilFill

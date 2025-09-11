@@ -13,15 +13,15 @@ function TableAdminComponent() {
       produto: 'Cookie Vegano',
       categoria: 'Vegano',
       preco: 35.99,
-      status: 'ativo',
       quantidade: 10,
+      status: 'ativo',
     },
     {
       produto: 'Cookie',
       categoria: 'Cookie',
       preco: 19.99,
-      status: 'inativo',
       quantidade: 5,
+      status: 'inativo',
     },
   ]);
   const [rowToEdit, setRowToEdit] = useState<number | null>(null);
@@ -50,16 +50,19 @@ function TableAdminComponent() {
 
   return (
     <div className={styles.TableAdminComponent}>
-      <div className={styles.btnWrapper}>
-        <Button
-          label="Adicionar"
-          icon={BsPlus}
-          onClick={() => setModalOpen(true)}
-          variant="primary"
-          className={styles.btn}
-        />
+      <div className={styles.header}>
+        <h1>Lista de Produtos</h1>
+        <div className={styles.btnWrapper}>
+          <Button
+            label="Adicionar"
+            icon={BsPlus}
+            onClick={() => setModalOpen(true)}
+            variant="primary"
+            className={styles.btn}
+          />
+        </div>
       </div>
-      <div style={{ width: '100%', overflowX: 'auto' }}>
+      <div>
         <HeaderTableAdmin
           produtos={produtos}
           deleteRow={handleDeleteRow}
