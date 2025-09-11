@@ -24,6 +24,8 @@ export const ProductDetailCard: React.FC<ProductDetailCardProps> = ({
   allergens,
   priceCents,
   className,
+  onQuantityChange,
+  onAddToCart,
 }) => {
   const [expanded, setExpanded] = useState(false);
   const [quantity, setQuantity] = useState(0);
@@ -49,9 +51,8 @@ export const ProductDetailCard: React.FC<ProductDetailCardProps> = ({
       </div>
 
       <div className={styles.allergens}>
-        {allergens?.map((allergen) => (
-          <span>{allergen}</span>
-        ))}
+        {(allergens ?? []).length > 0 &&
+          allergens?.map((allergen) => <span key={allergen}>{allergen}</span>)}
       </div>
 
       {description && (
@@ -72,7 +73,12 @@ export const ProductDetailCard: React.FC<ProductDetailCardProps> = ({
           <AddToCartButton
             className={styles.shoppingCart}
             quantity={quantity}
-            onQuantityChange={setQuantity}
+            onQuantityChange={(qty) => {
+              setQuantity(qty);
+              if (typeof onQuantityChange === 'function') onQuantityChange(qty);
+              if (qty === 1 && typeof onAddToCart === 'function')
+                onAddToCart(id);
+            }}
           />
         </div>
       </div>
