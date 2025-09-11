@@ -7,7 +7,7 @@
   border-radius: $space-sm;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.12);
   overflow: hidden;
-  height: 45px;
+  height: 2.8125rem;
 }
 
 .selectField {
@@ -24,9 +24,9 @@
   border: none;
   color: $verde-pistache;
 
-  font-size: 16px;
+  font-size: $font-md;
   line-height: 1.2;
-  padding: 0 36px 0 14px;
+  padding: 0 2.25rem 0 0.875rem;
   cursor: pointer;
 
   &::-ms-expand {
@@ -39,7 +39,7 @@
 
 .selectIcon {
   position: absolute;
-  right: 12px;
+  right: 0.75rem;
   top: 50%;
   transform: translateY(-50%);
   color: $verde-pistache;

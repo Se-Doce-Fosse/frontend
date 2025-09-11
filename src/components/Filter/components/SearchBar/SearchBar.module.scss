@@ -3,19 +3,19 @@
 .searchBarWrapper {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 0.5rem;
 
   width: 100%;
   background: $branco;
   border-radius: $space-sm;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.12);
-  padding: 10px 16px;
+  padding: 0.625rem 1rem;
 
   cursor: text;
 }
 
 .icon {
-  font-size: 20px;
+  font-size: $font-lg;
   color: $verde-pistache;
   flex-shrink: 0;
 }
@@ -26,7 +26,7 @@
   outline: none;
   background: transparent;
 
-  font-size: 16px;
+  font-size: $font-md;
   color: $verde-pistache;
 
   &::placeholder {
