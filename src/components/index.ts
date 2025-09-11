@@ -5,4 +5,8 @@ export * from './Input';
 export * from './AddToCartButton';
 export * from './StatusBadge';
 export * from './Textarea';
+export * from './ProductDetailCard';
+export * from './ProductCard';
 export * from './Button';
+export * from './NavBar';
+export * from './ProductCard';
