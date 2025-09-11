@@ -48,7 +48,6 @@
   align-items: center;
   gap: $space-xs;
   font-size: $font-md;
-  padding: $space-xs $space-sm;
   transition: all 0.3s ease;
 
   span {
@@ -60,7 +59,7 @@
   }
 
   &:hover {
-    color: darken($creme-caramelo, 15%);
+    color: color.scale($creme-caramelo, $lightness: -15%);
   }
 }
 
@@ -82,18 +81,19 @@
   background-color: $cacau-intenso;
   position: absolute;
   top: 100%;
-  left: 0;
-  width: 100%;
+  right: 0;
+  width: 14rem;
+  height: 34rem;
   box-shadow: 0 2px 4px $light-shadow;
+  text-align: right;
 
   li {
-    text-align: center;
-    padding: $space-sm 0;
-    width: 100%;
+    padding: $space-sm $space-xl;
 
     .iconButton {
-      width: 100%;
       justify-content: center;
+      font-size: $font-xl;
+
       span {
         display: inline;
       }
@@ -103,12 +103,12 @@
   a {
     color: $creme-caramelo;
     text-decoration: none;
-    font-size: $font-lg;
+    font-size: $font-xl;
     width: 100%;
     display: block;
 
     &:hover {
-      background-color: darken($cacau-intenso, 5%);
+      background-color: color.scale($cacau-intenso, $lightness: -5%);
     }
   }
 }
@@ -121,7 +121,7 @@
 
 .mobileActionItem {
   display: flex;
-  justify-content: center;
+  justify-content: flex-end;
   padding: $space-xs 0;
 }
 
@@ -129,6 +129,8 @@
   .navLinks {
     display: flex;
     gap: $space-xl;
+    list-style: none;
+    font-size: $font-lg;
   }
 
   .navIcons {
@@ -137,6 +139,7 @@
   }
 
   .iconButton {
+    padding: 0.5rem;
     span {
       display: inline;
     }
@@ -148,5 +151,10 @@
 
   .mobileMenu {
     display: none;
+  }
+
+  .cartButton {
+    position: relative;
+    border: 1px solid $creme-caramelo;
   }
 }

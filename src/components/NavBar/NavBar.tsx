@@ -29,10 +29,10 @@ export function NavBar({
   isLoginModalActive = false,
   isCartDrawerActive = false,
 }: NavBarProps) {
-  const [isMenuOpen, setMenuOpen] = useState(false);
+  const [isMobileMenuOpen, setMenuOpen] = useState(false);
 
   const toggleMenu = () => {
-    setMenuOpen(!isMenuOpen);
+    setMenuOpen(!isMobileMenuOpen);
   };
 
   const handleMobileLinkClick = (action?: () => void) => {
@@ -75,7 +75,7 @@ export function NavBar({
           </button>
           <button
             onClick={onCartClick}
-            className={`${styles.iconButton} ${
+            className={`${styles.iconButton} ${styles.cartButton} ${
               isCartDrawerActive ? styles.active : ''
             }`}
           >
@@ -91,10 +91,10 @@ export function NavBar({
           tabIndex={0}
           onKeyDown={(e) => e.key === 'Enter' && toggleMenu()}
         >
-          {isMenuOpen ? <FaTimes /> : <FaBars />}
+          {isMobileMenuOpen ? <FaTimes /> : <FaBars />}
         </div>
       </div>
-      {isMenuOpen && (
+      {isMobileMenuOpen && (
         <ul className={styles.mobileMenu}>
           {links.map((link) => (
             <li key={link.label}>
@@ -103,7 +103,6 @@ export function NavBar({
               </a>
             </li>
           ))}
-          <li className={styles.mobileActionsSeparator} />
           <li className={styles.mobileActionItem}>
             <button
               onClick={() => handleMobileLinkClick(onLoginClick)}
