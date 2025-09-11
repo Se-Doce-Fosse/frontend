@@ -7,6 +7,7 @@ import {
   Comentarios,
   Configuracoes,
   Home,
+  Login,
 } from '@pages';
 
 function App() {
@@ -21,6 +22,7 @@ function App() {
           <Route path="/pedidos" element={<Pedidos />} />
           <Route path="/comentarios" element={<Comentarios />} />
           <Route path="/configuracoes" element={<Configuracoes />} />
+          <Route path="/admin/login/" element={<Login />} />
         </Routes>
       </BrowserRouter>
     </main>

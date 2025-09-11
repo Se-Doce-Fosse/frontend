@@ -1,0 +1,84 @@
+@use './../../styles/variables.scss' as *;
+
+.page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  width: 100vw;
+  padding: 5%;
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  background-color: $branco;
+  width: 50%;
+  border-radius: 10px;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.18);
+  padding: 10px 5px 10px 5px;
+  gap: $space-md;
+}
+
+.wrapper {
+  width: 100%;
+  max-width: 80%;
+  margin-inline: auto;
+  display: flex;
+  flex-direction: column;
+  gap: $space-md;
+}
+
+.header {
+  text-align: center;
+}
+
+.title {
+  margin: 0;
+}
+
+.divider {
+  width: 80px;
+  height: 2px;
+  background: $marrom-gourmet;
+  margin: 10px auto 12px;
+  border: none;
+  border-radius: 1px;
+}
+
+.subtitle {
+  color: $preto;
+  margin: 0;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: $space-lg;
+  width: 100%;
+}
+
+.helper {
+  text-align: center;
+  color: $verde-pistache;
+  margin: 0;
+  opacity: 0.8;
+}
+
+.notice {
+  margin-top: $space-md;
+  color: $preto;
+  font-weight: bold;
+}
+
+@media (max-width: 972px) {
+  .card {
+    width: 90%;
+    max-width: $container-max;
+  }
+  .wrapper {
+    max-width: 92%;
+  }
+}
