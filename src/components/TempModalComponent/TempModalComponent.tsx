@@ -20,21 +20,21 @@ export const TempModalComponent: React.FC<ModalProps> = ({
       categoria: '',
       preco: 0,
       status: 'ativo',
-      quantidade: 0,
+      estoque: 0,
     }
   );
   const [errors, setErrors] = useState<string>('');
 
   const validateForm = () => {
-    const { produto, categoria, preco, status, quantidade } = formState;
+    const { produto, categoria, preco, status, estoque } = formState;
     const errorFields: string[] = [];
     if (!produto) errorFields.push('produto');
     if (!categoria) errorFields.push('categoria');
     if (preco === null || preco === undefined || preco < 0)
       errorFields.push('preco');
     if (!status) errorFields.push('status');
-    if (quantidade === null || quantidade === undefined || quantidade < 0)
-      errorFields.push('quantidade');
+    if (estoque === null || estoque === undefined || estoque < 0)
+      errorFields.push('estoque');
     setErrors(errorFields.join(', '));
     return errorFields.length === 0;
   };
@@ -45,7 +45,7 @@ export const TempModalComponent: React.FC<ModalProps> = ({
     const { name, value } = e.target;
     setFormState((prev) => ({
       ...prev,
-      [name]: name === 'preco' || name === 'quantidade' ? Number(value) : value,
+      [name]: name === 'preco' || name === 'estoque' ? Number(value) : value,
     }));
   };
 
@@ -112,15 +112,15 @@ export const TempModalComponent: React.FC<ModalProps> = ({
             </select>
           </div>
           <div className={styles['form-group']}>
-            <label htmlFor="quantidade">Quantidade em estoque</label>
+            <label htmlFor="estoque">Quantidade em estoque</label>
             <input
-              name="quantidade"
+              name="estoque"
               type="number"
               min={0}
               step="1"
               onChange={handleChange}
-              value={formState.quantidade}
-              placeholder="Quantidade"
+              value={formState.estoque}
+              placeholder="Estoque"
               required
             />
           </div>
