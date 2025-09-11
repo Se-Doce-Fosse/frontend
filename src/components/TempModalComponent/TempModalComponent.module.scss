@@ -1,0 +1,72 @@
+@use '../../styles/variables.scss' as *;
+
+.modal-container {
+  position: fixed;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba($preto, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal {
+  border-radius: $space-sm;
+  padding: $space-xl;
+  background-color: $branco;
+  width: 32rem;
+
+  .btn {
+    display: block;
+    margin: auto;
+    background-color: $marrom-gourmet;
+    color: $branco;
+    border-radius: $space-xs;
+    padding: $space-xs $space-md;
+    font-size: $font-md;
+    font-weight: 500;
+    border: none;
+    cursor: pointer;
+    box-shadow: 0px 5px 5px $cinza-borda;
+    transition: background 0.2s ease;
+    &:hover {
+      background-color: $cacau-intenso;
+    }
+  }
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: $space-md;
+
+  input,
+  textarea,
+  select {
+    border: 1px solid $cinza-borda;
+    border-radius: $space-xxs;
+    padding: $space-xs;
+    font-size: $font-md;
+    color: $cinza-texto;
+    background: $branco;
+  }
+
+  label {
+    margin-bottom: $space-xxs;
+    font-size: $font-sm;
+    color: $marrom-gourmet;
+    font-weight: 500;
+  }
+}
+
+.error {
+  background-color: #f8d7da;
+  color: #df4759;
+  padding: $space-xs;
+  border-radius: $space-xxs;
+  margin-bottom: $space-md;
+  font-size: $font-sm;
+}
