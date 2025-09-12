@@ -1,5 +1,5 @@
 import styles from './Home.module.scss';
-import { ProductCard } from '../../components/ProductCard';
+import { ProductList } from '../../components/ProductList';
 
 const parseBRLToCents = (price: string): number => {
   const numberString = price.replace(/[R$\s.]/g, '').replace(',', '.');
@@ -23,24 +23,36 @@ const products = [
     imageAlt: 'Cookie Oreo com Nutella',
     description: 'Delicioso cookie recheado com Nutella cremosa.',
   },
+  {
+    id: 3,
+    name: 'Cookie Oreo com Nutella',
+    price: 'R$20,00',
+    imageSrc: '/images/cookie.png',
+    imageAlt: 'Cookie Oreo com Nutella',
+    description: 'Delicioso cookie recheado com Nutella cremosa.',
+  },
+  {
+    id: 4,
+    name: 'Cookie Oreo com Nutella',
+    price: 'R$20,00',
+    imageSrc: '/images/cookie.png',
+    imageAlt: 'Cookie Oreo com Nutella',
+    description: 'Delicioso cookie recheado com Nutella cremosa.',
+  },
 ];
 
 const Home = () => (
   <div className={styles.container}>
     <h1>Página Inicial</h1>
     <p>Bem-vindo ao site!</p>
-    <div className={styles.productCard}>
-      {products.map((p) => (
-        <ProductCard
-          key={p.id}
-          imageSrc={p.imageSrc}
-          imageAlt={p.imageAlt}
-          title={p.name}
-          description={p.description}
-          priceCents={parseBRLToCents(p.price)}
-        />
-      ))}
-    </div>
+    <ProductList
+      title="Doces"
+      products={products.map((p) => ({
+        ...p,
+        id: String(p.id),
+      }))}
+      showMore
+    />
   </div>
 );
 

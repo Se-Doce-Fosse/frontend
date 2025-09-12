@@ -113,15 +113,16 @@
 
   .footer {
     margin-top: 0;
-    flex-direction: column;
-    align-items: stretch;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
     gap: $space-xxs;
   }
 
   .price {
     font-size: $font-md;
-    text-align: right;
-    margin-right: 0.2rem;
+    text-align: left;
+    margin-right: 0;
     padding-top: 0.2rem;
     padding-bottom: 0.2rem;
   }

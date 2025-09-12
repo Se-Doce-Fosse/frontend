@@ -1,0 +1,54 @@
+/* ProductList.module.scss */
+.productListContainer {
+  width: 100%;
+  margin-bottom: 2rem;
+}
+
+
+.header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.title {
+  font-size: 2rem;
+  font-weight: bold;
+  color: #3d2c13;
+  letter-spacing: -0.5px;
+  line-height: 1.1;
+}
+
+.productsRow {
+  display: flex;
+  flex-direction: row;
+  gap: 1.5rem;
+  overflow-x: auto;
+  padding-bottom: 0.5rem;
+  scrollbar-width: thin;
+  scrollbar-color: #e0e0e0 #fff;
+}
+
+@media (min-width: 768px) {
+  .productsRow {
+    overflow-x: visible;
+    gap: 2rem;
+  }
+}
+
+@media (max-width: 767px) {
+  .productListContainer {
+    padding: 0 1rem;
+  }
+  .title {
+    font-size: 1.5rem;
+  }
+  .productsRow {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    padding-bottom: 0.5rem;
+    overflow-x: visible;
+  }
+}

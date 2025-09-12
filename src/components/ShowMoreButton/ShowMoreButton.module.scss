@@ -1,0 +1,25 @@
+/* ShowMoreButton.module.scss */
+.showMoreButton {
+  background: #fff;
+  color: #743014;
+  border: 1px solid #743014;
+  border-radius: 5px;
+  width: 66px;
+  height: 22px;
+  padding: 0;
+  font-size: 14px;
+  font-weight: bold;
+  cursor: pointer;
+  box-shadow: none;
+  transition: background 0.2s, color 0.2s, border-color 0.2s;
+  margin-left: 1rem;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.showMoreButton:hover {
+  background: #f5e9c8;
+  color: #743014;
+  border-color: #743014;
+}
