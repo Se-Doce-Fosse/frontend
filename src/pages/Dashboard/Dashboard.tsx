@@ -1,11 +1,11 @@
 import React from 'react';
-import styles from './Dashboard.module.scss';
+import AdminLayout from '../../layouts/AdminLayout/AdminLayout';
 
 const Dashboard: React.FC = () => {
   return (
-    <div className={styles.dashboard}>
+    <AdminLayout>
       <h1>Dashboard</h1>
-    </div>
+    </AdminLayout>
   );
 };
 

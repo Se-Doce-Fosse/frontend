@@ -22,7 +22,7 @@ function App() {
           <Route path="/pedidos" element={<Pedidos />} />
           <Route path="/comentarios" element={<Comentarios />} />
           <Route path="/configuracoes" element={<Configuracoes />} />
-          <Route path="/admin/login/" element={<Login />} />
+          <Route path="/login/" element={<Login />} />
         </Routes>
       </BrowserRouter>
     </main>

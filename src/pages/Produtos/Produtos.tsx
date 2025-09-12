@@ -1,11 +1,11 @@
 import React from 'react';
-import styles from './Produtos.module.scss';
+import AdminLayout from '../../layouts/AdminLayout/AdminLayout';
 
 const Produtos: React.FC = () => {
   return (
-    <div className={styles.produtos}>
+    <AdminLayout>
       <h1>Produtos</h1>
-    </div>
+    </AdminLayout>
   );
 };
 

@@ -1,11 +1,11 @@
 import React from 'react';
-import styles from './Estoque.module.scss';
+import AdminLayout from '../../layouts/AdminLayout/AdminLayout';
 
 const Estoque: React.FC = () => {
   return (
-    <div className={styles.estoque}>
+    <AdminLayout>
       <h1>Estoque</h1>
-    </div>
+    </AdminLayout>
   );
 };
 

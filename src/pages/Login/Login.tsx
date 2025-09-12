@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Input } from '../../components/Input';
 import styles from './Login.module.scss';
 import { Button } from '../../components/Button';
+import { useNavigate } from 'react-router-dom';
 
 const Login = () => {
   const [email, setEmail] = useState('');
@@ -9,6 +10,7 @@ const Login = () => {
   const [errors, setErrors] = useState<{ email?: string; password?: string }>(
     {}
   );
+  const navigate = useNavigate();
 
   const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9-]+(?:\.[A-Z0-9-]+)*\.[A-Z]{2,}$/i;
 
@@ -27,7 +29,8 @@ const Login = () => {
     setErrors(newErrors);
 
     if (Object.keys(newErrors).length === 0) {
-      // Dados de email e senha válidos
+      // TODO: integrar login com back
+      navigate('/dashboard');
     }
   };
 
