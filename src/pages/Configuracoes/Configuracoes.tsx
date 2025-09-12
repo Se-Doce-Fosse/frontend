@@ -1,11 +1,11 @@
 import React from 'react';
-import styles from './Configuracoes.module.scss';
+import AdminLayout from '../../layouts/AdminLayout/AdminLayout';
 
 const Configuracoes: React.FC = () => {
   return (
-    <div className={styles.configuracoes}>
+    <AdminLayout>
       <h1>Configurações</h1>
-    </div>
+    </AdminLayout>
   );
 };
 

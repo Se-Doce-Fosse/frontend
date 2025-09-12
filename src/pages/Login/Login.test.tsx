@@ -7,6 +7,14 @@ const submit = async () => {
   await userEvent.click(btn);
 };
 
+jest.mock('react-router-dom', () => {
+  const actual = jest.requireActual('react-router-dom');
+  return {
+    ...actual,
+    useNavigate: () => jest.fn(),
+  };
+});
+
 describe('Login page', () => {
   test('renderiza títulos e campos', () => {
     render(<Login />);

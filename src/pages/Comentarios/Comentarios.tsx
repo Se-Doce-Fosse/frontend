@@ -1,11 +1,11 @@
 import React from 'react';
-import styles from './Comentarios.module.scss';
+import AdminLayout from '../../layouts/AdminLayout/AdminLayout';
 
 const Comentarios: React.FC = () => {
   return (
-    <div className={styles.comentarios}>
+    <AdminLayout>
       <h1>Comentários</h1>
-    </div>
+    </AdminLayout>
   );
 };
 
