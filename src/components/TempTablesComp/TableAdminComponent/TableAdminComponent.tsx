@@ -1,9 +1,9 @@
 import { useState } from 'react';
 import { HeaderTableAdmin } from '../HeaderTableAdmin/HeaderTableAdmin';
 import type { ProdutoRow } from '../HeaderTableAdmin/HeaderTableAdmin';
-import { TempModalComponent } from '../TempModalComponent/TempModalComponent';
+import { TempModalComponent } from '../../TempModalComponent/TempModalComponent';
 import { BsPlus } from 'react-icons/bs';
-import { Button } from '../Button/Button';
+import { Button } from '../../Button/Button';
 import styles from './TableAdminComponent.module.scss';
 
 function TableAdminComponent() {

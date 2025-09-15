@@ -1,7 +1,7 @@
 import React from 'react';
 import { BsFillTrashFill, BsFillPencilFill } from 'react-icons/bs';
 import styles from './HeaderTableAdmin.module.scss';
-import { StatusBadge } from '../StatusBadge/StatusBadge';
+import { StatusBadge } from '../../StatusBadge/StatusBadge';
 
 export type ProdutoRow = {
   produto: string;
