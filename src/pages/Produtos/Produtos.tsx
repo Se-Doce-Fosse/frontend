@@ -1,7 +1,7 @@
 import style from './Produtos.module.scss';
 import AdminLayout from '../../layouts/AdminLayout/AdminLayout';
 import { Filter } from '../../components/Filter';
-import TableAdminComponent from '../../components/TableAdminComponent/TableAdminComponent';
+import TableAdminComponent from '../../components/TempTablesComp/TableAdminComponent/TableAdminComponent';
 
 const status = [
   { label: 'Todos os status', value: 'todos' },
