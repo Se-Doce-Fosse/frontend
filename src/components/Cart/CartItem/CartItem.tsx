@@ -1,0 +1,59 @@
+import React from 'react';
+import { FaTrash } from 'react-icons/fa';
+import styles from './CartItem.module.scss';
+
+export type CartItemProps = {
+  id: string;
+  name: string;
+  description?: string;
+  price: string;
+  imageSrc: string;
+  imageAlt: string;
+  quantity: number;
+  onIncrement: (id: string) => void;
+  onDecrement: (id: string) => void;
+  onRemove: (id: string) => void;
+};
+
+export const CartItem: React.FC<CartItemProps> = ({
+  id,
+  name,
+  description = 'Lorem ipsum dolor sit amet. Eum amet culpa aut commodi accusamus vel culpa suscipit!',
+  price,
+  imageSrc,
+  imageAlt,
+  quantity,
+  onIncrement,
+  onDecrement,
+  onRemove,
+}) => {
+  return (
+    <div className={styles.cartItem}>
+      <button
+        className={styles.removeButton}
+        onClick={() => onRemove(id)}
+        aria-label="Remover item"
+      >
+        <FaTrash />
+      </button>
+
+      <img src={imageSrc} alt={imageAlt} className={styles.image} />
+
+      <div className={styles.details}>
+        <h3 className={styles.title}>{name}</h3>
+        <p className={styles.description}>{description}</p>
+
+        <div className={styles.priceRow}>
+          <p className={styles.price}>{price}</p>
+          <div className={styles.quantityControls}>
+            <button onClick={() => onIncrement(id)}>+</button>
+            <span>{quantity}</span>
+            <button onClick={() => onDecrement(id)} disabled={quantity <= 1}>
+              -
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
