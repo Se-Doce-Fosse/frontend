@@ -15,6 +15,13 @@ export type CartItemProps = {
   onRemove: (id: string) => void;
 };
 
+export type CartItemListProps = {
+  items: Omit<CartItemProps, 'onIncrement' | 'onDecrement' | 'onRemove'>[];
+  onIncrement: (id: string) => void;
+  onDecrement: (id: string) => void;
+  onRemove: (id: string) => void;
+};
+
 export const CartItem: React.FC<CartItemProps> = ({
   id,
   name,
@@ -56,4 +63,39 @@ export const CartItem: React.FC<CartItemProps> = ({
       </div>
     </div>
   );
+};
+
+export const CartItemList: React.FC<CartItemListProps> = ({
+  items,
+  onIncrement,
+  onDecrement,
+  onRemove,
+}) => {
+  return (
+    <main className={styles.appContainer}>
+      <div className={styles.cartContainer}>
+        {items.map((item) => (
+          <CartItem
+            key={item.id}
+            id={item.id}
+            name={item.name}
+            description={item.description}
+            price={item.price}
+            imageSrc={item.imageSrc}
+            imageAlt={item.imageAlt}
+            quantity={item.quantity}
+            onIncrement={onIncrement}
+            onDecrement={onDecrement}
+            onRemove={onRemove}
+          />
+        ))}
+      </div>
+    </main>
+  );
+};
+
+export const CartItemContainer: React.FC<{ children: React.ReactNode }> = ({
+  children,
+}) => {
+  return <main className={styles.appContainer}>{children}</main>;
 };
