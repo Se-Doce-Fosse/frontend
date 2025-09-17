@@ -1,5 +1,4 @@
 import React from 'react';
-import { FaTrash } from 'react-icons/fa';
 import styles from './CartItem.module.scss';
 
 export type CartItemProps = {
@@ -34,16 +33,15 @@ export const CartItem: React.FC<CartItemProps> = ({
   onDecrement,
   onRemove,
 }) => {
+  const handleDecrement = () => {
+    if (quantity <= 1) {
+      onRemove(id);
+    } else {
+      onDecrement(id);
+    }
+  };
   return (
     <div className={styles.cartItem}>
-      <button
-        className={styles.removeButton}
-        onClick={() => onRemove(id)}
-        aria-label="Remover item"
-      >
-        <FaTrash />
-      </button>
-
       <img src={imageSrc} alt={imageAlt} className={styles.image} />
 
       <div className={styles.details}>
@@ -55,9 +53,7 @@ export const CartItem: React.FC<CartItemProps> = ({
           <div className={styles.quantityControls}>
             <button onClick={() => onIncrement(id)}>+</button>
             <span>{quantity}</span>
-            <button onClick={() => onDecrement(id)} disabled={quantity <= 1}>
-              -
-            </button>
+            <button onClick={handleDecrement}>-</button>
           </div>
         </div>
       </div>
