@@ -48,24 +48,26 @@ describe('CartItem', () => {
     expect(mockProps.onDecrement).toHaveBeenCalledWith('1');
   });
 
-  it('deve desabilitar o botão - quando quantity for 1', () => {
+  it('deve chamar onRemove quando quantity for 1 e botão - for clicado', () => {
     const propsWithQuantityOne = { ...mockProps, quantity: 1 };
     render(<CartItem {...propsWithQuantityOne} />);
 
     const decrementButton = screen.getByText('-');
-    expect(decrementButton).toBeDisabled();
-  });
-
-  it('deve chamar onRemove quando o botão de lixeira for clicado', () => {
-    render(<CartItem {...mockProps} />);
-
-    const removeButton = screen.getByLabelText('Remover item');
-    fireEvent.click(removeButton);
+    fireEvent.click(decrementButton);
 
     expect(mockProps.onRemove).toHaveBeenCalledWith('1');
   });
 
-  it('deve habilitar o botão - quando quantity for maior que 1', () => {
+  it('deve chamar onDecrement quando quantity for maior que 1 e botão - for clicado', () => {
+    render(<CartItem {...mockProps} />);
+
+    const decrementButton = screen.getByText('-');
+    fireEvent.click(decrementButton);
+
+    expect(mockProps.onDecrement).toHaveBeenCalledWith('1');
+  });
+
+  it('deve sempre manter o botão - habilitado', () => {
     render(<CartItem {...mockProps} />);
 
     const decrementButton = screen.getByText('-');
