@@ -36,6 +36,8 @@ export const CartItem: React.FC<CartItemProps> = ({
   const handleDecrement = () => {
     if (quantity > 1) {
       onDecrement(id);
+    } else {
+      onRemove(id);
     }
   };
 
@@ -52,12 +54,7 @@ export const CartItem: React.FC<CartItemProps> = ({
           <div className={styles.quantityControls}>
             <button onClick={() => onIncrement(id)}>+</button>
             <span>{quantity}</span>
-            <button onClick={handleDecrement} disabled={quantity <= 1}>
-              -
-            </button>
-            <button onClick={() => onRemove(id)} aria-label="Remover item">
-              🗑️
-            </button>
+            <button onClick={handleDecrement}>-</button>
           </div>
         </div>
       </div>
