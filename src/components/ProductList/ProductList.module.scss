@@ -1,9 +1,9 @@
-/* ProductList.module.scss */
+@use '../../styles/variables.scss' as *;
+
 .productListContainer {
   width: 100%;
   margin-bottom: 2rem;
 }
-
 
 .header {
   display: flex;
@@ -13,7 +13,7 @@
 }
 
 .title {
-  font-size: 2rem;
+  font-size: 1.5rem;
   font-weight: bold;
   color: #3d2c13;
   letter-spacing: -0.5px;
@@ -28,27 +28,22 @@
   padding-bottom: 0.5rem;
   scrollbar-width: thin;
   scrollbar-color: #e0e0e0 #fff;
+  & > * {
+    flex: 0 0 calc(50% - 0.75rem);
+    max-width: calc(50% - 0.75rem);
+  }
 }
 
-@media (min-width: 768px) {
+@include desktop {
+  .title {
+    font-size: 2rem;
+  }
   .productsRow {
     overflow-x: visible;
     gap: 2rem;
-  }
-}
-
-@media (max-width: 767px) {
-  .productListContainer {
-    padding: 0 1rem;
-  }
-  .title {
-    font-size: 1.5rem;
-  }
-  .productsRow {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 1rem;
-    padding-bottom: 0.5rem;
-    overflow-x: visible;
+    & > * {
+      flex: 0 0 calc(25% - 1.5rem);
+      max-width: calc(25% - 1.5rem);
+    }
   }
 }
