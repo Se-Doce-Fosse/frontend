@@ -8,7 +8,7 @@ export type ProdutoRow = {
   quantidade: number;
   uniMedida: string;
   preco: number;
-  categoria: string;
+  categoria: 'ativo' | 'inativo';
   atualizadoEm: Date;
 };
 
@@ -41,12 +41,12 @@ export const HeaderTableAdmin: React.FC<TableProps> = ({
           {produtos.map((row, idx) => {
             return (
               <tr key={idx}>
-                <td>{row.produto}</td>
+                <td>{row.item}</td>
                 <td>{row.categoria}</td>
                 <td>{row.preco}</td>
-                <td>{row.estoque}</td>
+                <td>{row.uniMedida}</td>
                 <td>
-                  <StatusBadge status={row.status} />
+                  <StatusBadge status={row.categoria} />
                 </td>
                 <td>
                   <span className={styles.actions}>
