@@ -1,4 +1,3 @@
-import React from 'react';
 import styles from './Home.module.scss';
 import { NavBar, Footer } from '../../components';
 import bannerDesktop from '../../assets/images/banner-desktop.png';
