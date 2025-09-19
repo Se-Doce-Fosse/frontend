@@ -1,7 +1,7 @@
 import styles from './Home.module.scss';
 import { NavBar, Footer } from '../../components';
-import bannerDesktop from '../../assets/images/bannerDesktop.png';
-import bannerMobile from '../../assets/images/bannerMobile.png';
+import bannerDesktop from '../../assets/images/banner-desktop.png';
+import bannerMobile from '../../assets/images/banner-mobile.png';
 
 const Home = () => {
   return (
