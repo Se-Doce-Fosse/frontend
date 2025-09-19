@@ -9,7 +9,7 @@ export type Product = {
   price: string;
   imageSrc: string;
   imageAlt: string;
-  description: string;
+  description?: string;
 };
 
 export type ProductListProps = {
