@@ -1,4 +1,3 @@
-/* ProductList.module.scss */
 .productListContainer {
   width: 100%;
   margin-bottom: 2rem;
@@ -21,20 +20,22 @@
 }
 
 .productsRow {
-  display: flex;
-  flex-direction: row;
+  display: grid;
+  grid-auto-flow: column; 
+  
+  grid-auto-columns: min-content; 
+  
   gap: 1.5rem;
-  overflow-x: auto;
-  padding-bottom: 0.5rem;
-  scrollbar-width: thin;
-  scrollbar-color: #e0e0e0 #fff;
+  
+  overflow-x: auto; 
+  padding-bottom: 1rem;
+
+  scrollbar-width: none; 
+  -ms-overflow-style: none;  
 }
 
-@media (min-width: 768px) {
-  .productsRow {
-    overflow-x: visible;
-    gap: 2rem;
-  }
+.productsRow::-webkit-scrollbar {
+  display: none; 
 }
 
 @media (max-width: 767px) {
@@ -45,10 +46,6 @@
     font-size: 1.5rem;
   }
   .productsRow {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 1rem;
-    padding-bottom: 0.5rem;
-    overflow-x: visible;
+    gap: 2.5rem; 
   }
 }

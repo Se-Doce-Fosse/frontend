@@ -26,7 +26,7 @@ export const ProductList: React.FC<ProductListProps> = ({ title, products, showM
         <span className={styles.title}>{title}</span>
         {showMore && <ShowMoreButton onClick={onShowMoreClick} />}
       </div>
-      <div className={styles.productsRow}>
+      <div className={`${styles.productsRow} ${styles.list}`}>
         {products.map((product) => {
           // Extrai centavos do preço (ex: 'R$ 15,00' -> 1500)
           const priceCents = Number(product.price.replace(/[^\d]/g, ''));

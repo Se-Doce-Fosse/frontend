@@ -1,9 +1,6 @@
-// import React from 'react';
 import { render, screen } from '@testing-library/react';
 import { ProductList } from './ProductList';
 import type { Product } from './ProductList';
-// jest-dom adds custom jest matchers for asserting on DOM nodes.
-// import '@testing-library/jest-dom';
 
 describe('ProductList', () => {
   const products: Product[] = [

@@ -5,6 +5,8 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  gap: $space-xs;
+  padding: $space-xs;
   background-color: $verde-pistache;
   border-radius: $space-xs;
   font-size: $font-sm;
@@ -12,27 +14,25 @@
   border: none;
   cursor: pointer;
   transition: background 0.2s ease;
-  width: 7.5rem; // 120px
-  height: 2rem;
-  gap: $space-xs;
-  padding: $space-xs $space-md;
+  width: 2.5rem; // 40px
+  height: 2.5rem; // 40px
 
   &:hover {
     background-color: color.adjust($creme-caramelo, $lightness: -5%);
   }
 
   .label {
-    display: inline;
+    display: none;
   }
 
-  @media (max-width: 1023px) {
-    width: 2.5rem; // 40px;
-    height: 2.5rem; // 40px;
-    padding: 0;
-    gap: 0;
+  @include desktop {
     .label {
-      display: none;
+      display: inline;
     }
+
+    width: 7.5rem; // 120px
+    height: 2rem;
+    padding: $space-xs $space-md;
   }
 }
 
@@ -79,4 +79,33 @@
   line-height: 1;
 }
 
+@media (max-width: 480px) {
+  .addButton {
+    width: 97%;
+    margin: 0 auto;
+    height: 2.5rem;
 
+    .label {
+      display: inline;
+    }
+  }
+
+  .counterWrapper {
+    width: 97%;
+    margin: 0 auto;
+    height: 2.5rem;
+    padding: $space-xxs $space-xs;
+  }
+
+  .counterButton {
+    width: 2.5rem;
+    height: 2.5rem;
+    font-size: $font-lg;
+  }
+
+  .counterValue {
+    min-width: 2rem;
+    font-size: $font-md;
+    font-weight: 700;
+  }
+}
