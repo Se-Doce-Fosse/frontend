@@ -1,14 +1,15 @@
 import React from 'react';
 import { BsFillTrashFill, BsFillPencilFill } from 'react-icons/bs';
 import styles from './HeaderTableAdmin.module.scss';
-import { StatusBadge } from '../../StatusBadge/StatusBadge';
+import { StatusBadge } from '../../../StatusBadge/StatusBadge';
 
 export type ProdutoRow = {
-  produto: string;
-  categoria: string;
+  item: string;
+  quantidade: number;
+  uniMedida: string;
   preco: number;
-  status: 'ativo' | 'inativo';
-  estoque: number;
+  categoria: string;
+  atualizadoEm: Date;
 };
 
 type TableProps = {
@@ -27,11 +28,12 @@ export const HeaderTableAdmin: React.FC<TableProps> = ({
       <table className={styles.table}>
         <thead>
           <tr>
-            <th>Produto</th>
+            <th>Item</th>
+            <th>Quantidade</th>
+            <th>Uni.Medida</th>
+            <th>Preco</th>
             <th>Categoria</th>
-            <th>Preço</th>
-            <th>Estoque</th>
-            <th>Status</th>
+            <th>Atualizado Em</th>
             <th>Ações</th>
           </tr>
         </thead>

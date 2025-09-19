@@ -1,12 +1,12 @@
 import { useState } from 'react';
-import { HeaderTableAdmin } from '../HeaderTableAdmin/HeaderTableAdmin';
-import type { ProdutoRow } from '../HeaderTableAdmin/HeaderTableAdmin';
-import { TempModalComponent } from '../../TempModalComponent/TempModalComponent';
+import { HeaderTableAdmin } from '../HeaderTableAdminProduto/HeaderTableAdminProduto';
+import type { ProdutoRow } from '../HeaderTableAdminProduto/HeaderTableAdminProduto';
+import { TempModalComponent } from '../../../TempModalComponent/TempModalComponent';
 import { BsPlus } from 'react-icons/bs';
-import { Button } from '../../Button/Button';
-import styles from './TableAdminComponent.module.scss';
+import { Button } from '../../../Button/Button';
+import styles from './TableAdminProdutoComponent.module.scss';
 
-function TableAdminComponent() {
+function TabelAdminProdutoComponent() {
   const [modalOpen, setModalOpen] = useState<boolean>(false);
   const [produtos, setProdutos] = useState<ProdutoRow[]>([
     {
@@ -49,7 +49,7 @@ function TableAdminComponent() {
   };
 
   return (
-    <div className={styles.TableAdminComponent}>
+    <div className={styles.TabelAdminProdutoComponent}>
       <div className={styles.header}>
         <h2 className={styles.headerTitle}>Lista de Produtos</h2>
         <div className={styles.btnWrapper}>
@@ -83,4 +83,4 @@ function TableAdminComponent() {
   );
 }
 
-export default TableAdminComponent;
+export default TabelAdminProdutoComponent;

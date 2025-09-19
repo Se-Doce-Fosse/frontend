@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import type { ChangeEvent, FormEvent } from 'react';
 import styles from './TempModalComponent.module.scss';
-import type { ProdutoRow } from '../TempTablesComp/HeaderTableAdmin/HeaderTableAdmin';
+import type { ProdutoRow } from '../TempTablesComp/ProdutoTable/HeaderTableAdminProduto/HeaderTableAdminProduto';
 
 type ModalProps = {
   closeModal: () => void;
