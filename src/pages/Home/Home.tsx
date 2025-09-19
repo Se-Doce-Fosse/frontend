@@ -1,59 +1,29 @@
 import styles from './Home.module.scss';
-import { ProductList } from '../../components/ProductList';
+import { NavBar, Footer } from '../../components';
+import bannerDesktop from '../../assets/images/banner-desktop.png';
+import bannerMobile from '../../assets/images/banner-mobile.png';
 
-const parseBRLToCents = (price: string): number => {
-  const numberString = price.replace(/[R$\s.]/g, '').replace(',', '.');
-  return Math.round(parseFloat(numberString) * 100);
+const Home = () => {
+  return (
+    <div className={styles.container}>
+      <div className={styles.top}>
+        <NavBar />
+        <img
+          src={bannerDesktop}
+          alt="Banner promocional da loja Se Doce Fosse"
+          className={styles.bannerDesktop || ''}
+        />
+
+        <img
+          src={bannerMobile}
+          alt="Banner promocional da loja Se Doce Fosse"
+          className={styles.bannerMobile || ''}
+        />
+      </div>
+
+      <Footer />
+    </div>
+  );
 };
-
-const products = [
-  {
-    id: 1,
-    name: 'Cookie Oreo com Nutella',
-    price: 'R$20,00',
-    imageSrc: '/images/cookie.png',
-    imageAlt: 'Cookie Oreo com Nutella',
-    description: 'Delicioso cookie recheado com Nutella cremosa.',
-  },
-  {
-    id: 2,
-    name: 'Cookie Oreo com Nutella',
-    price: 'R$20,00',
-    imageSrc: '/images/cookie.png',
-    imageAlt: 'Cookie Oreo com Nutella',
-    description: 'Delicioso cookie recheado com Nutella cremosa.',
-  },
-  {
-    id: 3,
-    name: 'Cookie Oreo com Nutella',
-    price: 'R$20,00',
-    imageSrc: '/images/cookie.png',
-    imageAlt: 'Cookie Oreo com Nutella',
-    description: 'Delicioso cookie recheado com Nutella cremosa.',
-  },
-  {
-    id: 4,
-    name: 'Cookie Oreo com Nutella',
-    price: 'R$20,00',
-    imageSrc: '/images/cookie.png',
-    imageAlt: 'Cookie Oreo com Nutella',
-    description: 'Delicioso cookie recheado com Nutella cremosa.',
-  },
-];
-
-const Home = () => (
-  <div className={styles.container}>
-    <h1>Página Inicial</h1>
-    <p>Bem-vindo ao site!</p>
-    <ProductList
-      title="Doces"
-      products={products.map((p) => ({
-        ...p,
-        id: String(p.id),
-      }))}
-      showMore
-    />
-  </div>
-);
 
 export default Home;

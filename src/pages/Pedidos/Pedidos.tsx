@@ -1,11 +1,11 @@
 import React from 'react';
-import styles from './Pedidos.module.scss';
+import AdminLayout from '../../layouts/AdminLayout/AdminLayout';
 
 const Pedidos: React.FC = () => {
   return (
-    <div className={styles.pedidos}>
+    <AdminLayout>
       <h1>Pedidos</h1>
-    </div>
+    </AdminLayout>
   );
 };
 

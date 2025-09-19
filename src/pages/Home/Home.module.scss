@@ -1,14 +1,48 @@
+@use '../../styles/variables.scss' as *;
+
 .container {
-  background: #fff;
-  min-height: 100vh;
-  width: 100%;
-  // adicionar estilos específicos para a página Home aqui, cuidando para não deformar outros componentes da página
+  display: flex;
+  flex-direction: column;
+  gap: 32.75rem;
+  background-color: $branco;
 }
 
-.productCard {
+.top {
   display: flex;
-  margin: 0 auto;
-  justify-content: center;
-  gap: 2rem;
-  margin-top: 2rem;
+  flex-direction: column;
+  gap: 0rem;
+}
+
+.bannerMobile {
+  margin-top: 0rem;
+  padding: 0;
+  width: 100vw;
+}
+
+.bannerDesktop {
+  display: none;
+}
+
+@media (min-width: 64rem) {
+  .container {
+    gap: 47.625rem;
+  }
+
+  .bannerMobile {
+    display: none;
+  }
+
+  .top {
+    display: flex;
+    flex-direction: column;
+    gap: 0rem;
+  }
+
+  .bannerDesktop {
+    display: block;
+    padding: 0;
+    width: 100%;
+    margin: 0rem;
+    height: auto;
+  }
 }
