@@ -2,7 +2,10 @@ import { render, screen, fireEvent } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import { NavBar } from './';
 
-jest.mock('../../assets/logo-se-doce-fosse-dark.png', () => 'test-file-stub');
+jest.mock(
+  '../../assets//images/logo-se-doce-fosse-dark.png',
+  () => 'test-file-stub'
+);
 
 describe('NavBar Component', () => {
   const mockOnLoginClick = jest.fn();
