@@ -7,10 +7,18 @@ type ShowMoreButtonProps = {
   className?: string;
 };
 
-export const ShowMoreButton: React.FC<ShowMoreButtonProps> = ({ onClick, children = 'Ver mais', className }) => (
+export const ShowMoreButton: React.FC<ShowMoreButtonProps> = ({
+  onClick,
+  children = 'Ver mais',
+  className,
+}) => (
   <button
     type="button"
-    className={className ? `${styles.showMoreButton} ${className}` : styles.showMoreButton}
+    className={
+      className
+        ? `${styles.showMoreButton} ${className}`
+        : styles.showMoreButton
+    }
     onClick={onClick}
   >
     {children}

@@ -11,7 +11,10 @@
   font-weight: bold;
   cursor: pointer;
   box-shadow: none;
-  transition: background 0.2s, color 0.2s, border-color 0.2s;
+  transition:
+    background 0.2s,
+    color 0.2s,
+    border-color 0.2s;
   margin-left: 1rem;
   line-height: 1;
   display: flex;

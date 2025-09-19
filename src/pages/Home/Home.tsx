@@ -2,6 +2,7 @@ import styles from './Home.module.scss';
 import { NavBar, Footer } from '../../components';
 import bannerDesktop from '../../assets/images/banner-desktop.png';
 import bannerMobile from '../../assets/images/banner-mobile.png';
+import ProductList from '../../components/ProductList';
 
 const Home = () => {
   return (
@@ -21,6 +22,47 @@ const Home = () => {
         />
       </div>
 
+      <ProductList
+        title="Produtos em Destaque"
+        products={[
+          {
+            id: '3',
+            name: 'Cookie Oreo com Nutella',
+            price: 'R$20,00',
+            imageSrc: '/images/cookie.png',
+            imageAlt: 'Cookie Oreo com Nutella',
+            description: 'Delicioso cookie recheado com Nutella cremosa.',
+          },
+          {
+            id: '4',
+            name: 'Cookie Oreo com Nutella',
+            price: 'R$20,00',
+            imageSrc: '/images/cookie.png',
+            imageAlt: 'Cookie Oreo com Nutella',
+            description: 'Delicioso cookie recheado com Nutella cremosa.',
+          },
+          {
+            id: '5',
+            name: 'Cookie Oreo com Nutella',
+            price: 'R$20,00',
+            imageSrc: '/images/cookie.png',
+            imageAlt: 'Cookie Oreo com Nutella',
+            description: 'Delicioso cookie recheado com Nutella cremosa.',
+          },
+          {
+            id: '6',
+            name: 'Cookie Oreo com Nutella',
+            price: 'R$20,00',
+            imageSrc: '/images/cookie.png',
+            imageAlt: 'Cookie Oreo com Nutella',
+            description: 'Delicioso cookie recheado com Nutella cremosa.',
+          },
+        ]}
+        showMore={true}
+        onShowMoreClick={() => {
+          console.log('Mostrar mais produtos');
+        }}
+      />
       <Footer />
     </div>
   );

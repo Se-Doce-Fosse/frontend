@@ -9,7 +9,7 @@ export type Product = {
   price: string;
   imageSrc: string;
   imageAlt: string;
-  [key: string]: any;
+  description: string;
 };
 
 export type ProductListProps = {
@@ -19,7 +19,12 @@ export type ProductListProps = {
   onShowMoreClick?: () => void;
 };
 
-export const ProductList: React.FC<ProductListProps> = ({ title, products, showMore = false, onShowMoreClick }) => {
+export const ProductList: React.FC<ProductListProps> = ({
+  title,
+  products,
+  showMore = false,
+  onShowMoreClick,
+}) => {
   return (
     <section className={styles.productListContainer}>
       <div className={styles.header}>
