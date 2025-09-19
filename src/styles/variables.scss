@@ -50,3 +50,30 @@ $breakpoint-desktop: 1024px;
     @content;
   }
 }
+
+//TESTE GABRIELLA
+// Cores
+$marrom-gourmet: #6f4e37;
+$cacau-intenso: #4a2c2a;
+$gray-light: #f5f5f5;
+$gray-lighter: #eaeaea;
+$gray-medium: #cccccc;
+$gray-dark: #666666;
+
+// Espaçamentos
+$space-xs: 0.25rem; // 4px
+$space-sm: 0.5rem; // 8px
+$space-md: 1rem; // 16px
+$space-lg: 1.5rem; // 24px
+$space-xl: 2rem; // 32px
+
+// Tamanhos de fonte
+$font-sm: 0.875rem; // 14px
+$font-md: 1rem; // 16px
+$font-lg: 1.125rem; // 18px
+$font-xl: 2rem; // 32px
+
+// Border Radius
+$border-radius-sm: 0.4rem;
+$border-radius-md: 0.625rem; // Correspondendo ao Input
+$border-radius-lg: 0.9rem; // Correspondendo ao Dropdown

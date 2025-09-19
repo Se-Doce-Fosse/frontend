@@ -1,0 +1,86 @@
+@use './../../styles/variables.scss' as *;
+
+.pageContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: $space-lg;
+  background-color: $gray-light;
+  min-height: 100vh;
+}
+
+.formGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: $space-md $space-lg;
+  background-color: white;
+  padding: $space-xl;
+  border-radius: $border-radius-lg;
+  box-shadow: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 50rem;
+
+  .pageTitle {
+    grid-column: 1 / -1;
+    text-align: center;
+    margin-bottom: $space-lg;
+  }
+
+  .imagePlaceholder {
+    grid-column: 1 / 2;
+    grid-row: 2 / span 2;
+  }
+
+  .inputGroupRow,
+  .descriptionContainer {
+    grid-column: 1 / -1;
+  }
+
+  .inputGroupRow {
+    display: flex;
+    gap: $space-md;
+    align-items: flex-end;
+
+    & > * {
+      flex-grow: 1;
+    }
+  }
+
+  .descriptionContainer {
+    display: flex;
+    flex-direction: column;
+    gap: $space-sm;
+  }
+
+  .descriptionLabel {
+    font-size: $font-lg;
+    font-weight: 500;
+    color: black;
+  }
+
+  .descriptionField {
+    width: 100%;
+    padding: 0.625rem 1.25rem;
+    border-radius: 0.625rem;
+    box-shadow: 0rem 0.25rem 0.25rem 0rem #00000040;
+    font-size: $font-md;
+    border: 0.125rem solid transparent;
+    resize: vertical;
+
+    &:focus {
+      outline: 0.125rem solid $marrom-gourmet;
+      border-color: transparent;
+    }
+  }
+
+  .extraContainer {
+    grid-column: 1 / -1; // ocupa toda a largura
+    display: flex;
+    flex-direction: column;
+    gap: $space-sm;
+    margin-top: $space-md; // dá espaço do textarea para o novo container
+    padding: $space-md;
+    background-color: $gray-light;
+    border-radius: $border-radius-md;
+  }
+}
