@@ -1,14 +1,18 @@
 import styles from './Home.module.scss';
 import { NavBar, Footer } from '../../components';
+import { useState } from 'react';
+import CartDrawerOrder from '../../components/Cart/CartDrawerOrder/CartDrawerOrder';
+//import CartDrawerFinish from '../../components/Cart/CartDrawerFinish/CartDrawerFinish';
 import bannerDesktop from '../../assets/images/banner-desktop.png';
 import bannerMobile from '../../assets/images/banner-mobile.png';
 import ProductList from '../../components/ProductList';
 
 const Home = () => {
+  const [isDrawerOpened, setIsDrawerOpened] = useState(true);
   return (
     <div className={styles.container}>
       <div className={styles.top}>
-        <NavBar />
+        <NavBar onCartClick={() => setIsDrawerOpened(true)} />
         <img
           src={bannerDesktop}
           alt="Banner promocional da loja Se Doce Fosse"
@@ -63,6 +67,14 @@ const Home = () => {
           console.log('Mostrar mais produtos');
         }}
       />
+      <CartDrawerOrder
+        open={isDrawerOpened}
+        onClose={() => setIsDrawerOpened(false)}
+      />
+      {/*  <CartDrawerFinish
+                open={isDrawerOpened}
+                onClose={() => setIsDrawerOpened(false)}
+              /> */}
       <Footer />
     </div>
   );

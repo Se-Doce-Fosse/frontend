@@ -5,3 +5,12 @@ export type ApiProduct = {
   imageSrc: string;
   imageAlt: string;
 };
+
+export interface CartItem {
+  id: string;
+  name: string;
+  price: string;
+  imageSrc: string;
+  imageAlt: string;
+  quantity: number;
+}
