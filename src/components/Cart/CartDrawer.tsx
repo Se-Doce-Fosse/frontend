@@ -1,21 +1,23 @@
 import React, { useEffect } from 'react';
-import {
-  FaShoppingCart,
-  FaTimes,
-  FaPlus,
-  FaMinus,
-  FaTrash,
-} from 'react-icons/fa';
+import type { ReactNode } from 'react';
+import { FaTimes } from 'react-icons/fa';
 import styles from './CartDrawer.module.scss';
-import type { CartItem } from '../../types/api';
 
 export interface CartDrawerProps {
   open: boolean;
   onClose: () => void;
-  items: CartItem[];
+  icon?: ReactNode;
+  title?: string;
+  children?: ReactNode;
 }
 
-export default function CartDrawer({ open, onClose, items }: CartDrawerProps) {
+export default function CartDrawer({
+  open,
+  onClose,
+  icon,
+  title,
+  children,
+}: CartDrawerProps) {
   useEffect(() => {
     if (open) {
       document.body.style.overflow = 'hidden';
@@ -50,17 +52,6 @@ export default function CartDrawer({ open, onClose, items }: CartDrawerProps) {
     }
   };
 
-  // Calcular subtotal
-  const calculateSubtotal = () => {
-    return items.reduce((total, item) => {
-      const price = parseFloat(item.price.replace('R$', '').replace(',', '.'));
-      return total + price * item.quantity;
-    }, 0);
-  };
-
-  const subtotal = calculateSubtotal();
-  const subtotalFormatted = `R$ ${subtotal.toFixed(2).replace('.', ',')}`;
-
   return (
     <>
       {open && (
@@ -68,84 +59,19 @@ export default function CartDrawer({ open, onClose, items }: CartDrawerProps) {
           <div className={`${styles.drawer} ${open ? styles.open : ''}`}>
             <div className={styles.header}>
               <div className={styles.headerContent}>
-                <FaShoppingCart className={styles.cartIcon} />
-                <h2 className={styles.title}>Meu carrinho</h2>
+                {icon && icon}
+                {title && <h2 className={styles.title}>{title}</h2>}
               </div>
               <button
                 className={styles.closeButton}
-                onClick={onClose}
-                aria-label="Fechar carrinho"
+                onClick={() => onClose()}
+                aria-label="Fechar"
               >
                 <FaTimes />
               </button>
             </div>
-
             <div className={styles.content}>
-              <div className={styles.contentWrapper}>
-                {items.length === 0 ? (
-                  <div className={styles.emptyArea}>
-                    <p>Seu carrinho está vazio</p>
-                  </div>
-                ) : (
-                  <>
-                    <div className={styles.itemsList}>
-                      {items.map((item) => (
-                        <div key={item.id} className={styles.cartItem}>
-                          <div className={styles.itemImage}>
-                            <img src={item.imageSrc} alt={item.imageAlt} />
-                          </div>
-                          <div className={styles.itemDetails}>
-                            <h3 className={styles.itemName}>{item.name}</h3>
-                            <p className={styles.itemPrice}>{item.price}</p>
-                            <div className={styles.quantityControls}>
-                              <button
-                                className={styles.quantityButton}
-                                aria-label="Diminuir quantidade"
-                              >
-                                <FaMinus />
-                              </button>
-                              <span className={styles.quantity}>
-                                {item.quantity}
-                              </span>
-                              <button
-                                className={styles.quantityButton}
-                                aria-label="Aumentar quantidade"
-                              >
-                                <FaPlus />
-                              </button>
-                              <button
-                                className={styles.removeButton}
-                                aria-label="Remover item"
-                              >
-                                <FaTrash />
-                              </button>
-                            </div>
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-
-                    <div className={styles.subtotal}>
-                      <div className={styles.subtotalRow}>
-                        <span>Subtotal:</span>
-                        <span className={styles.subtotalValue}>
-                          {subtotalFormatted}
-                        </span>
-                      </div>
-                    </div>
-                  </>
-                )}
-
-                <div className={styles.footer}>
-                  <button
-                    onClick={onClose}
-                    className={styles.continueButton}
-                    disabled={items.length === 0}
-                  >
-                    Continuar
-                  </button>
-                </div>
-              </div>
+              <div className={styles.contentWrapper}>{children}</div>
             </div>
           </div>
         </div>

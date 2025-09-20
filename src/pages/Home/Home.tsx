@@ -1,5 +1,8 @@
 import styles from './Home.module.scss';
 import { ProductDetailCard, ProductCard } from '../../components';
+import { useState } from 'react';
+import CartDrawerOrder from '../../components/Cart/CartDrawerOrder/CartDrawerOrder';
+//import CartDrawerFinish from '../../components/Cart/CartDrawerFinish/CartDrawerFinish';
 
 const parseBRLToCents = (price: string): number => {
   const numberString = price.replace(/[R$\s.]/g, '').replace(',', '.');
@@ -26,39 +29,53 @@ const products = [
   },
 ];
 
-const Home = () => (
-  <div className={styles.container}>
-    <h1>Página Inicial</h1>
-    <p>Bem-vindo ao site!</p>
-    <div className={styles.productCard}>
-      {products.map((p) => {
-        return (
-          <>
-            <ProductCard
-              key={p.id}
-              imageSrc={p.imageSrc}
-              imageAlt={p.imageAlt}
-              title={p.name}
-              description={p.description}
-              priceCents={parseBRLToCents(p.price)}
-            />
-            <ProductDetailCard
-              key={p.id}
-              imageSrc={p.imageSrc}
-              imageAlt={p.imageAlt}
-              name={p.name}
-              description={p.description}
-              priceCents={parseBRLToCents(p.price)}
-              id={p.id.toString()}
-              price="R$20,00"
-              allergens={p.allergens}
-              onAddToCart={(id) => console.log(`Adicionado ao carrinho: ${id}`)}
-            />
-          </>
-        );
-      })}
+const Home = () => {
+  const [drawerClose, setDrawerClose] = useState(true);
+
+  return (
+    <div className={styles.container}>
+      <h1>Página Inicial</h1>
+      <p>Bem-vindo ao site!</p>
+      <div className={styles.productCard}>
+        {products.map((p) => {
+          return (
+            <>
+              <ProductCard
+                key={p.id}
+                imageSrc={p.imageSrc}
+                imageAlt={p.imageAlt}
+                title={p.name}
+                description={p.description}
+                priceCents={parseBRLToCents(p.price)}
+              />
+              <ProductDetailCard
+                key={p.id}
+                imageSrc={p.imageSrc}
+                imageAlt={p.imageAlt}
+                name={p.name}
+                description={p.description}
+                priceCents={parseBRLToCents(p.price)}
+                id={p.id.toString()}
+                price="R$20,00"
+                allergens={p.allergens}
+                onAddToCart={(id) =>
+                  console.log(`Adicionado ao carrinho: ${id}`)
+                }
+              />
+              <CartDrawerOrder
+                open={drawerClose}
+                onClose={() => setDrawerClose(false)}
+              />
+              {/*  <CartDrawerFinish
+                open={drawerClose}
+                onClose={() => setDrawerClose(false)}
+              /> */}
+            </>
+          );
+        })}
+      </div>
     </div>
-  </div>
-);
+  );
+};
 
 export default Home;
