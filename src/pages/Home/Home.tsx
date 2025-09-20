@@ -8,11 +8,11 @@ import bannerMobile from '../../assets/images/banner-mobile.png';
 import ProductList from '../../components/ProductList';
 
 const Home = () => {
-  const [drawerClose, setDrawerClose] = useState(true);
+  const [isDrawerOpened, setIsDrawerOpened] = useState(true);
   return (
     <div className={styles.container}>
       <div className={styles.top}>
-        <NavBar />
+        <NavBar onCartClick={() => setIsDrawerOpened(true)} />
         <img
           src={bannerDesktop}
           alt="Banner promocional da loja Se Doce Fosse"
@@ -68,12 +68,12 @@ const Home = () => {
         }}
       />
       <CartDrawerOrder
-        open={drawerClose}
-        onClose={() => setDrawerClose(false)}
+        open={isDrawerOpened}
+        onClose={() => setIsDrawerOpened(false)}
       />
       {/*  <CartDrawerFinish
-                open={drawerClose}
-                onClose={() => setDrawerClose(false)}
+                open={isDrawerOpened}
+                onClose={() => setIsDrawerOpened(false)}
               /> */}
       <Footer />
     </div>
