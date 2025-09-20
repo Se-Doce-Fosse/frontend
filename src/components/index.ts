@@ -11,3 +11,4 @@ export * from './Button';
 export * from './NavBar';
 export * from './ProductCard';
 export * from './Cart';
+export * from './Cart/CartItem';
