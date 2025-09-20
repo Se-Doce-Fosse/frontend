@@ -16,9 +16,18 @@ describe('CartDrawer', () => {
     jest.clearAllMocks();
   });
 
-  it('deve renderizar o drawer quando open é true', () => {
-    render(<CartDrawer open={true} onClose={mockOnClose} />);
-
+  it('deve renderizar o drawer com ícone, título e children', () => {
+    render(
+      <CartDrawer
+        open={true}
+        onClose={mockOnClose}
+        icon={<div data-testid="shopping-cart-icon">🛒</div>}
+        title="Meu carrinho"
+      >
+        <div>Seu carrinho está vazio</div>
+        <button>Continuar</button>
+      </CartDrawer>
+    );
     expect(screen.getByText('Meu carrinho')).toBeInTheDocument();
     expect(screen.getByTestId('shopping-cart-icon')).toBeInTheDocument();
     expect(screen.getByText('Seu carrinho está vazio')).toBeInTheDocument();
@@ -26,79 +35,57 @@ describe('CartDrawer', () => {
   });
 
   it('não deve renderizar o drawer quando open é false', () => {
-    render(<CartDrawer open={false} onClose={mockOnClose} />);
-
+    render(
+      <CartDrawer
+        open={false}
+        onClose={mockOnClose}
+        icon={<div data-testid="shopping-cart-icon">🛒</div>}
+        title="Meu carrinho"
+      >
+        <div>Seu carrinho está vazio</div>
+      </CartDrawer>
+    );
     expect(screen.queryByText('Meu carrinho')).not.toBeInTheDocument();
   });
 
   it('deve chamar onClose quando o botão de fechar é clicado', () => {
-    render(<CartDrawer open={true} onClose={mockOnClose} />);
-
+    render(
+      <CartDrawer
+        open={true}
+        onClose={mockOnClose}
+        icon={<div data-testid="shopping-cart-icon">🛒</div>}
+        title="Meu carrinho"
+      />
+    );
     const closeButton = screen.getByTestId('times-icon').parentElement;
     fireEvent.click(closeButton!);
-
     expect(mockOnClose).toHaveBeenCalledTimes(1);
   });
 
   it('deve aplicar a classe open quando o drawer está aberto', () => {
     const { container } = render(
-      <CartDrawer open={true} onClose={mockOnClose} />
+      <CartDrawer
+        open={true}
+        onClose={mockOnClose}
+        icon={<div data-testid="shopping-cart-icon">🛒</div>}
+        title="Meu carrinho"
+      />
     );
-
     const drawer = container.querySelector('[class*="drawer"]');
     expect(drawer).toHaveClass('open');
   });
 
-  it('deve chamar onClose quando o botão Continuar é clicado', () => {
-    render(<CartDrawer open={true} onClose={mockOnClose} />);
-
-    const continueButton = screen.getByText('Continuar');
-    fireEvent.click(continueButton);
-
-    expect(mockOnClose).toHaveBeenCalledTimes(1);
-  });
-
-  it('deve exibir a lista de itens quando há itens no carrinho', () => {
-    render(<CartDrawer open={true} onClose={mockOnClose} />);
-
-    expect(screen.getByText('Cookie de Chocolate')).toBeInTheDocument();
-    expect(screen.getByText('Brigadeiro')).toBeInTheDocument();
-    expect(screen.getByText('R$ 5,00')).toBeInTheDocument();
-    expect(screen.getByText('R$ 3,50')).toBeInTheDocument();
-    expect(screen.getByText('2')).toBeInTheDocument();
-    expect(screen.getByText('1')).toBeInTheDocument();
-  });
-
-  it('deve calcular e exibir o subtotal corretamente', () => {
-    render(<CartDrawer open={true} onClose={mockOnClose} />);
-
-    // Subtotal: (5.00 * 2) + (3.50 * 1) = 10.00 + 3.50 = 13.50
-    expect(screen.getByText('R$ 13,50')).toBeInTheDocument();
-  });
-
-  it('deve desabilitar o botão Continuar quando o carrinho está vazio', () => {
-    render(<CartDrawer open={true} onClose={mockOnClose} />);
-
-    const continueButton = screen.getByText('Continuar');
-    expect(continueButton).toBeDisabled();
-  });
-
-  it('deve habilitar o botão Continuar quando há itens no carrinho', () => {
-    render(<CartDrawer open={true} onClose={mockOnClose} />);
-
-    const continueButton = screen.getByText('Continuar');
-    expect(continueButton).not.toBeDisabled();
-  });
-
-  it('deve exibir os controles de quantidade para cada item', () => {
-    render(<CartDrawer open={true} onClose={mockOnClose} />);
-
-    const plusButtons = screen.getAllByTestId('plus-icon');
-    const minusButtons = screen.getAllByTestId('minus-icon');
-    const trashButtons = screen.getAllByTestId('trash-icon');
-
-    expect(plusButtons).toHaveLength(2);
-    expect(minusButtons).toHaveLength(2);
-    expect(trashButtons).toHaveLength(2);
+  it('deve renderizar children corretamente', () => {
+    render(
+      <CartDrawer
+        open={true}
+        onClose={mockOnClose}
+        icon={<div data-testid="shopping-cart-icon">🛒</div>}
+        title="Meu carrinho"
+      >
+        <div>Conteúdo do carrinho</div>
+      </CartDrawer>
+    );
+    expect(screen.getByText('Conteúdo do carrinho')).toBeInTheDocument();
   });
 });
