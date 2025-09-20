@@ -1,7 +1,6 @@
 import { render, screen, fireEvent } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import CartDrawer from './CartDrawer';
-import type { CartItem } from '../../types/api';
 
 jest.mock('react-icons/fa', () => ({
   FaShoppingCart: () => <div data-testid="shopping-cart-icon">🛒</div>,
@@ -13,31 +12,12 @@ jest.mock('react-icons/fa', () => ({
 
 describe('CartDrawer', () => {
   const mockOnClose = jest.fn();
-  const mockItems: CartItem[] = [
-    {
-      id: '1',
-      name: 'Cookie de Chocolate',
-      price: 'R$ 5,00',
-      imageSrc: '/cookie.png',
-      imageAlt: 'Cookie de chocolate',
-      quantity: 2,
-    },
-    {
-      id: '2',
-      name: 'Brigadeiro',
-      price: 'R$ 3,50',
-      imageSrc: '/brigadeiro.png',
-      imageAlt: 'Brigadeiro',
-      quantity: 1,
-    },
-  ];
-
   beforeEach(() => {
     jest.clearAllMocks();
   });
 
   it('deve renderizar o drawer quando open é true', () => {
-    render(<CartDrawer open={true} onClose={mockOnClose} items={[]} />);
+    render(<CartDrawer open={true} onClose={mockOnClose} />);
 
     expect(screen.getByText('Meu carrinho')).toBeInTheDocument();
     expect(screen.getByTestId('shopping-cart-icon')).toBeInTheDocument();
@@ -46,13 +26,13 @@ describe('CartDrawer', () => {
   });
 
   it('não deve renderizar o drawer quando open é false', () => {
-    render(<CartDrawer open={false} onClose={mockOnClose} items={[]} />);
+    render(<CartDrawer open={false} onClose={mockOnClose} />);
 
     expect(screen.queryByText('Meu carrinho')).not.toBeInTheDocument();
   });
 
   it('deve chamar onClose quando o botão de fechar é clicado', () => {
-    render(<CartDrawer open={true} onClose={mockOnClose} items={[]} />);
+    render(<CartDrawer open={true} onClose={mockOnClose} />);
 
     const closeButton = screen.getByTestId('times-icon').parentElement;
     fireEvent.click(closeButton!);
@@ -62,7 +42,7 @@ describe('CartDrawer', () => {
 
   it('deve aplicar a classe open quando o drawer está aberto', () => {
     const { container } = render(
-      <CartDrawer open={true} onClose={mockOnClose} items={[]} />
+      <CartDrawer open={true} onClose={mockOnClose} />
     );
 
     const drawer = container.querySelector('[class*="drawer"]');
@@ -70,7 +50,7 @@ describe('CartDrawer', () => {
   });
 
   it('deve chamar onClose quando o botão Continuar é clicado', () => {
-    render(<CartDrawer open={true} onClose={mockOnClose} items={mockItems} />);
+    render(<CartDrawer open={true} onClose={mockOnClose} />);
 
     const continueButton = screen.getByText('Continuar');
     fireEvent.click(continueButton);
@@ -79,7 +59,7 @@ describe('CartDrawer', () => {
   });
 
   it('deve exibir a lista de itens quando há itens no carrinho', () => {
-    render(<CartDrawer open={true} onClose={mockOnClose} items={mockItems} />);
+    render(<CartDrawer open={true} onClose={mockOnClose} />);
 
     expect(screen.getByText('Cookie de Chocolate')).toBeInTheDocument();
     expect(screen.getByText('Brigadeiro')).toBeInTheDocument();
@@ -90,28 +70,28 @@ describe('CartDrawer', () => {
   });
 
   it('deve calcular e exibir o subtotal corretamente', () => {
-    render(<CartDrawer open={true} onClose={mockOnClose} items={mockItems} />);
+    render(<CartDrawer open={true} onClose={mockOnClose} />);
 
     // Subtotal: (5.00 * 2) + (3.50 * 1) = 10.00 + 3.50 = 13.50
     expect(screen.getByText('R$ 13,50')).toBeInTheDocument();
   });
 
   it('deve desabilitar o botão Continuar quando o carrinho está vazio', () => {
-    render(<CartDrawer open={true} onClose={mockOnClose} items={[]} />);
+    render(<CartDrawer open={true} onClose={mockOnClose} />);
 
     const continueButton = screen.getByText('Continuar');
     expect(continueButton).toBeDisabled();
   });
 
   it('deve habilitar o botão Continuar quando há itens no carrinho', () => {
-    render(<CartDrawer open={true} onClose={mockOnClose} items={mockItems} />);
+    render(<CartDrawer open={true} onClose={mockOnClose} />);
 
     const continueButton = screen.getByText('Continuar');
     expect(continueButton).not.toBeDisabled();
   });
 
   it('deve exibir os controles de quantidade para cada item', () => {
-    render(<CartDrawer open={true} onClose={mockOnClose} items={mockItems} />);
+    render(<CartDrawer open={true} onClose={mockOnClose} />);
 
     const plusButtons = screen.getAllByTestId('plus-icon');
     const minusButtons = screen.getAllByTestId('minus-icon');
