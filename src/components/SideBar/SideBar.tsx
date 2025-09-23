@@ -10,17 +10,19 @@ import {
 } from 'react-icons/ai';
 import { FaSignOutAlt } from 'react-icons/fa';
 import logoImage from '../../assets//images/logo-se-doce-fosse.png';
+import { useUser } from '../../context/UserContext';
 
 export default function SideBar() {
   const navigate = useNavigate();
   const location = useLocation();
+  const { logout } = useUser();
 
   const handleNavigation = (path: string) => {
     navigate(path);
   };
 
   const handleLogout = () => {
-    //TODO: Implementar logout;
+    logout();
     navigate('/login');
   };
 
@@ -28,32 +30,32 @@ export default function SideBar() {
     {
       icon: <GoGraph size={24} />,
       label: 'Dashboard',
-      path: '/dashboard',
+      path: '/admin/dashboard',
     },
     {
       icon: <AiOutlineShop size={24} />,
       label: 'Estoque',
-      path: '/estoque',
+      path: '/admin/estoque',
     },
     {
       icon: <AiOutlineTags size={24} />,
       label: 'Produtos',
-      path: '/produtos',
+      path: '/admin/produtos',
     },
     {
       icon: <AiOutlineShoppingCart size={24} />,
       label: 'Pedidos',
-      path: '/pedidos',
+      path: '/admin/pedidos',
     },
     {
       icon: <AiOutlineComment size={24} />,
       label: 'Comentários',
-      path: '/comentarios',
+      path: '/admin/comentarios',
     },
     {
       icon: <IoSettingsOutline size={24} />,
       label: 'Configurações',
-      path: '/configuracoes',
+      path: '/admin/configuracoes',
     },
   ];
 
