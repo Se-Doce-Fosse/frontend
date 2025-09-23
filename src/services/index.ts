@@ -1,4 +1,6 @@
-const URL = import.meta.env.VITE_BACKEND_URL;
+import { env } from '../config/env';
+
+const URL = env.backendUrl;
 
 export const api = async (
   path: string,
