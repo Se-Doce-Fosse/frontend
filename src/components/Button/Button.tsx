@@ -9,6 +9,7 @@ export interface ButtonProps
   icon?: IconType;
   onClick?: (event: React.MouseEvent<HTMLButtonElement>) => void;
   className?: string;
+  loading?: boolean;
 }
 
 export const Button = ({
@@ -18,12 +19,13 @@ export const Button = ({
   onClick,
   className = '',
   disabled = false,
+  loading = false,
   ...buttonProps
 }: ButtonProps) => {
   const buttonClasses = [
     styles.button,
     styles[variant],
-    disabled ? styles.disabled : '',
+    disabled || loading ? styles.disabled : '',
     className,
   ]
     .filter(Boolean)
@@ -33,11 +35,15 @@ export const Button = ({
     <button
       className={buttonClasses}
       onClick={onClick}
-      disabled={disabled}
+      disabled={disabled || loading}
       {...buttonProps}
     >
       {Icon && <Icon className={styles.icon} />}
-      <span className={styles.label}>{label}</span>
+      {loading ? (
+        <span>Carregando...</span>
+      ) : (
+        <span className={styles.label}>{label}</span>
+      )}
     </button>
   );
 };
