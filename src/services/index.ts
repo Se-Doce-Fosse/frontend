@@ -1,4 +1,4 @@
-const URL = process.env.BACKEND_URL;
+const URL = import.meta.env.VITE_BACKEND_URL;
 
 export const api = async (
   path: string,
