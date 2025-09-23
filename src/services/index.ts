@@ -1,6 +1,4 @@
-import { env } from '../config/env';
-
-const URL = env.backendUrl;
+const URL = 'http://localhost:8081';
 
 export const api = async (
   path: string,
