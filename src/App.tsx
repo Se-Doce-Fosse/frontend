@@ -6,16 +6,28 @@ import {
   Pedidos,
   Comentarios,
   Configuracoes,
-  Home,
+  // Home, // Temporariamente desabilitado para visualização
   Login,
 } from '@pages';
+import { AdressCard } from './components/AdressCard';
+import './App.css';
 
 function App() {
   return (
     <main>
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<Home />} />
+          {/* Rota principal exibindo o AdressCard para visualização */}
+          <Route
+            path="/"
+            element={
+              <div className="component-viewer">
+                <AdressCard
+                  onSubmit={(data) => console.log('Dados do Endereço:', data)}
+                />
+              </div>
+            }
+          />
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/estoque" element={<Estoque />} />
           <Route path="/produtos" element={<Produtos />} />
