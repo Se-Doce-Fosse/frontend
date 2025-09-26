@@ -1,0 +1,66 @@
+@use '../../styles/variables.scss' as *;
+
+.overlay {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.45);
+  animation: fadeIn 0.2s ease-in-out;
+  z-index: 1000;
+}
+
+.content {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: $branco;
+  border-radius: 10px;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.2);
+  width: min(90vw, 400px);
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: $space-md;
+  z-index: 1001;
+  animation: scaleIn 0.25s ease-in-out;
+}
+
+.title {
+  font-size: $font-lg;
+  font-weight: 700;
+  text-align: center;
+}
+
+.description {
+  font-size: $font-md;
+  text-align: center;
+  color: $preto
+}
+
+.actions {
+  display: flex;
+  justify-content: space-around;
+  margin-top: $space-md;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.95);
+  }
+
+  to {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+}
