@@ -44,8 +44,13 @@
 
 .secondary {
   background-color: $verde-pistache;
-  color: $marrom-gourmet;
+  color: $cacau-intenso;
   border: none;
+  font-size: $font-lg;
+  font-family: 'Roboto', sans-serif;
+  font-weight: 400;
+  width: $space-xxxxll;
+  height: $space-xl + $space-xs;
 
   &:hover:not(:disabled) {
     background-color: $marrom-gourmet;

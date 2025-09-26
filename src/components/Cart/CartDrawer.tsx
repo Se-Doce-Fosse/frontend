@@ -62,6 +62,7 @@ export default function CartDrawer({
                 {icon && icon}
                 {title && <h2 className={styles.title}>{title}</h2>}
               </div>
+
               <button
                 className={styles.closeButton}
                 onClick={() => onClose()}

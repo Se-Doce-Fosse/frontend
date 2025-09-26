@@ -1,0 +1,22 @@
+@use '../../../styles/variables.scss' as *;
+
+.cartHeader {
+  padding: 1rem;
+}
+.cartFooter {
+  display: flex;
+  align-items: center;
+  width: 25.125rem;
+  height: 7.125rem;
+  border-top: 1px solid $cacau-intenso;
+  padding: 1rem;
+}
+
+@media (min-width: 64rem) {
+  .cartHeader {
+    padding: 2.5rem;
+  }
+  .cartFooter {
+    padding: 2.5rem;
+  }
+}

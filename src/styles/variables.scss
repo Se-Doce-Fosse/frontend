@@ -44,12 +44,15 @@ $space-xl: 2rem; // 32px
 $space-xxl: 3rem; // 64px
 $space-xxxl: 4rem; // 48px
 $space-xxxxl: 6rem; // 96px
+$space-xxxxll: 20rem; // 311px
 
 $container-max: 1200px;
 $semi-bold: 600;
 $bold: 700;
 
 $breakpoint-desktop: 1024px;
+
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
 
 // Mixin para usar media queries de desktop
 @mixin desktop {
