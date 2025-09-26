@@ -9,7 +9,12 @@ export interface DeleteModalProps {
   onOpenChange: (open: boolean) => void;
 }
 
-export const DeleteModal = ({ item, onClickConfirm, open, onOpenChange }: DeleteModalProps) => {
+export const DeleteModal = ({
+  item,
+  onClickConfirm,
+  open,
+  onOpenChange,
+}: DeleteModalProps) => {
   return (
     <Dialog.Root open={open} onOpenChange={onOpenChange}>
       <Dialog.Portal>
@@ -24,12 +29,18 @@ export const DeleteModal = ({ item, onClickConfirm, open, onOpenChange }: Delete
 
           <div className={styles.actions}>
             <Dialog.Close asChild>
-              <Button label='Cancelar' variant='outlined' />
+              <Button label="Cancelar" variant="outlined" />
             </Dialog.Close>
-            <Button label='Confirmar' onClick={() => { onClickConfirm(); onOpenChange(false); }} />
+            <Button
+              label="Confirmar"
+              onClick={() => {
+                onClickConfirm();
+                onOpenChange(false);
+              }}
+            />
           </div>
         </Dialog.Content>
       </Dialog.Portal>
     </Dialog.Root>
-  )
-}
+  );
+};
