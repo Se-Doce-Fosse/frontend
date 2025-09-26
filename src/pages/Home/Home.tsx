@@ -1,14 +1,32 @@
 import styles from './Home.module.scss';
 import { NavBar, Footer } from '../../components';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import CartDrawerOrder from '../../components/Cart/CartDrawerOrder/CartDrawerOrder';
 //import CartDrawerFinish from '../../components/Cart/CartDrawerFinish/CartDrawerFinish';
 import bannerDesktop from '../../assets/images/banner-desktop.png';
 import bannerMobile from '../../assets/images/banner-mobile.png';
 import ProductList from '../../components/ProductList';
+import { fetchProducts } from '../../services/product/productService';
+import type { Category } from '../../types/api';
 
 const Home = () => {
   const [isDrawerOpened, setIsDrawerOpened] = useState(true);
+  const [data, setData] = useState<Category[]>();
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    fetchProducts()
+      .then((data) => {
+        setData(data.categories);
+        setLoading(false);
+      })
+      .catch(() => {
+        setError('Erro ao carregar produtos');
+        setLoading(false);
+      });
+  }, []);
+
   return (
     <div className={styles.container}>
       <div className={styles.top}>
@@ -26,47 +44,24 @@ const Home = () => {
         />
       </div>
 
-      <ProductList
-        title="Produtos em Destaque"
-        products={[
-          {
-            id: '3',
-            name: 'Cookie Oreo com Nutella',
-            price: 'R$20,00',
-            imageSrc: '/images/cookie.png',
-            imageAlt: 'Cookie Oreo com Nutella',
-            description: 'Delicioso cookie recheado com Nutella cremosa.',
-          },
-          {
-            id: '4',
-            name: 'Cookie Oreo com Nutella',
-            price: 'R$20,00',
-            imageSrc: '/images/cookie.png',
-            imageAlt: 'Cookie Oreo com Nutella',
-            description: 'Delicioso cookie recheado com Nutella cremosa.',
-          },
-          {
-            id: '5',
-            name: 'Cookie Oreo com Nutella',
-            price: 'R$20,00',
-            imageSrc: '/images/cookie.png',
-            imageAlt: 'Cookie Oreo com Nutella',
-            description: 'Delicioso cookie recheado com Nutella cremosa.',
-          },
-          {
-            id: '6',
-            name: 'Cookie Oreo com Nutella',
-            price: 'R$20,00',
-            imageSrc: '/images/cookie.png',
-            imageAlt: 'Cookie Oreo com Nutella',
-            description: 'Delicioso cookie recheado com Nutella cremosa.',
-          },
-        ]}
-        showMore={true}
-        onShowMoreClick={() => {
-          console.log('Mostrar mais produtos');
-        }}
-      />
+      {loading ? (
+        <div>Carregando produtos...</div>
+      ) : error ? (
+        <div>error</div>
+      ) : (
+        data &&
+        data.map((category) => (
+          <ProductList
+            key={category.id}
+            title={category.name}
+            products={category.products}
+            showMore={true}
+            onShowMoreClick={() => {
+              console.log('Mostrar mais produtos');
+            }}
+          />
+        ))
+      )}
       <CartDrawerOrder
         open={isDrawerOpened}
         onClose={() => setIsDrawerOpened(false)}

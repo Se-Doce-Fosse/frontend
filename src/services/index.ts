@@ -1,4 +1,4 @@
-const URL = process.env.BACKEND_URL;
+const URL = 'http://localhost:8081';
 
 export const api = async (
   path: string,
