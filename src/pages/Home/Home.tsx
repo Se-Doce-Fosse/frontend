@@ -1,6 +1,7 @@
 import styles from './Home.module.scss';
 import { NavBar, Footer } from '../../components';
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import CartDrawerOrder from '../../components/Cart/CartDrawerOrder/CartDrawerOrder';
 //import CartDrawerFinish from '../../components/Cart/CartDrawerFinish/CartDrawerFinish';
 import bannerDesktop from '../../assets/images/banner-desktop.png';
@@ -9,6 +10,7 @@ import ProductList from '../../components/ProductList';
 
 const Home = () => {
   const [isDrawerOpened, setIsDrawerOpened] = useState(true);
+  const navigate = useNavigate();
   return (
     <div className={styles.container}>
       <div className={styles.top}>
@@ -64,7 +66,8 @@ const Home = () => {
         ]}
         showMore={true}
         onShowMoreClick={() => {
-          console.log('Mostrar mais produtos');
+          navigate('/produtos');
+          window.scrollTo(0, 0);
         }}
       />
       <CartDrawerOrder
