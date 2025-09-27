@@ -1,6 +1,7 @@
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import Login from './Login';
+import { UserProvider } from '../../context/UserContext';
 
 const submit = async () => {
   const btn = screen.getByRole('button', { name: /entrar/i });
@@ -15,9 +16,13 @@ jest.mock('react-router-dom', () => {
   };
 });
 
+function renderWithProvider(ui: React.ReactElement) {
+  return render(<UserProvider>{ui}</UserProvider>);
+}
+
 describe('Login page', () => {
   test('renderiza títulos e campos', () => {
-    render(<Login />);
+    renderWithProvider(<Login />);
 
     expect(
       screen.getByRole('heading', { name: /se doce fosse/i })
@@ -35,7 +40,7 @@ describe('Login page', () => {
   });
 
   test('mostra erro quando email é inválido', async () => {
-    render(<Login />);
+    renderWithProvider(<Login />);
 
     await userEvent.type(screen.getByLabelText(/email/i), 'invalido@sem-tld');
     await userEvent.type(screen.getByLabelText(/senha/i), 'qualquer');
@@ -45,7 +50,7 @@ describe('Login page', () => {
   });
 
   test('mostra erro quando senha está vazia', async () => {
-    render(<Login />);
+    renderWithProvider(<Login />);
 
     await userEvent.type(screen.getByLabelText(/email/i), 'user@dominio.com');
     await submit();
@@ -56,7 +61,7 @@ describe('Login page', () => {
   });
 
   test('remove os erros quando o usuário corrige os campos e submete', async () => {
-    render(<Login />);
+    renderWithProvider(<Login />);
 
     await userEvent.type(screen.getByLabelText(/email/i), 'x@sem-tld');
     await submit();
@@ -81,7 +86,7 @@ describe('Login page', () => {
   });
 
   test('aceita emails válidos de forma case-insensitive (regex com /i)', async () => {
-    render(<Login />);
+    renderWithProvider(<Login />);
     await userEvent.type(
       screen.getByLabelText(/email/i),
       'USER+tag@EXAMPLE-CO.com.br'

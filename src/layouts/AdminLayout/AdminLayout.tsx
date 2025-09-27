@@ -1,4 +1,4 @@
-import { SideBar } from '@components';
+import { SideBar, ProtectedRoute } from '@components';
 import styles from './AdminLayout.module.scss';
 
 export default function AdminLayout({
@@ -7,9 +7,11 @@ export default function AdminLayout({
   children: React.ReactNode;
 }) {
   return (
-    <div className={styles.layout}>
-      <SideBar />
-      <main className={styles.content}>{children}</main>
-    </div>
+    <ProtectedRoute>
+      <div className={styles.layout}>
+        <SideBar />
+        <main className={styles.content}>{children}</main>
+      </div>
+    </ProtectedRoute>
   );
 }
