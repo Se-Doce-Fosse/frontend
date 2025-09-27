@@ -12,3 +12,5 @@ export * from './NavBar';
 export * from './ProductCard';
 export * from './Cart';
 export * from './Cart/CartItem';
+export * from './ProtectedRoute';
+export * from './Loading';
