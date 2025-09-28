@@ -1,9 +1,11 @@
 import { render, screen } from '@testing-library/react';
+import { MemoryRouter } from 'react-router-dom';
 import Home from './Home';
+import { CartProvider } from '../../context/CartContext';
 
 // Mock das imagens
-jest.mock('../../assets/images/bannerDesktop.png', () => 'bannerDesktop.png');
-jest.mock('../../assets/images/bannerMobile.png', () => 'bannerMobile.png');
+jest.mock('../../assets/images/banner-desktop.png', () => 'bannerDesktop.png');
+jest.mock('../../assets/images/banner-mobile.png', () => 'bannerMobile.png');
 
 // Mock do CSS Module
 jest.mock('./Home.module.scss', () => ({
@@ -19,15 +21,45 @@ jest.mock('../../components', () => ({
   Footer: () => <footer data-testid="footer">Footer</footer>,
 }));
 
+jest.mock('../../components/Cart/CartDrawerOrder/CartDrawerOrder', () => ({
+  __esModule: true,
+  default: () => <div data-testid="cart-drawer-order" />,
+}));
+
+jest.mock('../../components/Cart/CartDrawerFinish/CartDrawerFinish', () => ({
+  __esModule: true,
+  default: () => <div data-testid="cart-drawer-finish" />,
+}));
+
+jest.mock('../../components/ProductList', () => ({
+  __esModule: true,
+  default: ({ title }: { title: string }) => (
+    <section data-testid="product-list">{title}</section>
+  ),
+}));
+
+const renderHome = () =>
+  render(
+    <MemoryRouter>
+      <CartProvider>
+        <Home />
+      </CartProvider>
+    </MemoryRouter>
+  );
+
 describe('Home', () => {
+  beforeEach(() => {
+    window.localStorage.clear();
+  });
+
   it('renderiza o Header (NavBar) e o Footer', () => {
-    render(<Home />);
+    renderHome();
     expect(screen.getByTestId('navbar')).toBeInTheDocument();
     expect(screen.getByTestId('footer')).toBeInTheDocument();
   });
 
   it('renderiza os banners com o alt correto', () => {
-    render(<Home />);
+    renderHome();
     const banners = screen.getAllByAltText(
       'Banner promocional da loja Se Doce Fosse'
     );
