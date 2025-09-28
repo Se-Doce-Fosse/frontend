@@ -1,4 +1,5 @@
 import { render, screen } from '@testing-library/react';
+import { MemoryRouter } from 'react-router-dom';
 import Home from './Home';
 
 // Mock das imagens
@@ -21,13 +22,21 @@ jest.mock('../../components', () => ({
 
 describe('Home', () => {
   it('renderiza o Header (NavBar) e o Footer', () => {
-    render(<Home />);
+    render(
+      <MemoryRouter>
+        <Home />
+      </MemoryRouter>
+    );
     expect(screen.getByTestId('navbar')).toBeInTheDocument();
     expect(screen.getByTestId('footer')).toBeInTheDocument();
   });
 
   it('renderiza os banners com o alt correto', () => {
-    render(<Home />);
+    render(
+      <MemoryRouter>
+        <Home />
+      </MemoryRouter>
+    );
     const banners = screen.getAllByAltText(
       'Banner promocional da loja Se Doce Fosse'
     );
