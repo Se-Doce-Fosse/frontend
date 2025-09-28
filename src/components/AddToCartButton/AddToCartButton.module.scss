@@ -79,6 +79,7 @@
   line-height: 1;
 }
 
+//esse @media quebra o botão em 480px rever ele
 @media (max-width: 480px) {
   .addButton {
     width: 97%;
