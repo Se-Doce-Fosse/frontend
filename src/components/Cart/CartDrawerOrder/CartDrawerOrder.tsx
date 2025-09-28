@@ -1,48 +1,29 @@
-import { useMemo, useState } from 'react';
+import { useMemo } from 'react';
 import { FaShoppingCart } from 'react-icons/fa';
 import CartDrawer from '../CartDrawer';
 import styles from '../CartDrawer.module.scss';
 import { CartItem } from '../CartItem';
 import { Button } from '../../Button';
 
-interface CartDrawerOrderProps {
-  open: boolean;
-  onClose: () => void;
-  onContinue: () => void;
-}
-
-type DrawerItem = {
+export type CartDrawerOrderItem = {
   id: string;
   name: string;
-  description: string;
+  description?: string;
   imageSrc: string;
   imageAlt: string;
   unitPrice: number;
   quantity: number;
 };
 
-const INITIAL_ITEMS: DrawerItem[] = [
-  {
-    id: 'cookie-nutella',
-    name: 'Cookie Oreo com Nutella',
-    description:
-      'Lorem ipsum dolor sit amet. Eum amet culpa aut commodi accusamus vel culpa suscipit!',
-    imageSrc: '/images/cookie.png',
-    imageAlt: 'Cookie Oreo com Nutella',
-    unitPrice: 20,
-    quantity: 2,
-  },
-  {
-    id: 'cookie-oreo',
-    name: 'Cookie Oreo',
-    description:
-      'Lorem ipsum dolor sit amet. Eum amet culpa aut commodi accusamus vel culpa suscipit!',
-    imageSrc: '/images/cookie.png',
-    imageAlt: 'Cookie Oreo',
-    unitPrice: 20.6,
-    quantity: 1,
-  },
-];
+interface CartDrawerOrderProps {
+  open: boolean;
+  onClose: () => void;
+  onContinue: () => void;
+  items: CartDrawerOrderItem[];
+  onIncrement: (id: string) => void;
+  onDecrement: (id: string) => void;
+  onRemove: (id: string) => void;
+}
 
 const currencyFormatter = new Intl.NumberFormat('pt-BR', {
   style: 'currency',
@@ -57,39 +38,11 @@ export default function CartDrawerOrder({
   open,
   onClose,
   onContinue,
+  items,
+  onIncrement,
+  onDecrement,
+  onRemove,
 }: CartDrawerOrderProps) {
-  const [items, setItems] = useState<DrawerItem[]>(INITIAL_ITEMS);
-
-  const handleIncrement = (id: string) => {
-    setItems((prevItems) =>
-      prevItems.map((item) =>
-        item.id === id
-          ? {
-              ...item,
-              quantity: item.quantity + 1,
-            }
-          : item
-      )
-    );
-  };
-
-  const handleDecrement = (id: string) => {
-    setItems((prevItems) =>
-      prevItems.map((item) =>
-        item.id === id && item.quantity > 1
-          ? {
-              ...item,
-              quantity: item.quantity - 1,
-            }
-          : item
-      )
-    );
-  };
-
-  const handleRemove = (id: string) => {
-    setItems((prevItems) => prevItems.filter((item) => item.id !== id));
-  };
-
   const totalAmount = useMemo(
     () =>
       items.reduce((total, item) => total + item.unitPrice * item.quantity, 0),
@@ -132,9 +85,9 @@ export default function CartDrawerOrder({
                   imageSrc={item.imageSrc}
                   imageAlt={item.imageAlt}
                   quantity={item.quantity}
-                  onIncrement={handleIncrement}
-                  onDecrement={handleDecrement}
-                  onRemove={handleRemove}
+                  onIncrement={onIncrement}
+                  onDecrement={onDecrement}
+                  onRemove={onRemove}
                 />
               ))}
             </div>
