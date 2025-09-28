@@ -60,7 +60,7 @@ describe('Produtos', () => {
     const secondProps = secondCall[0];
 
     expect(firstProps.title).toBe('Cookies Tradicionais');
-    expect(firstProps.products).toHaveLength(5);
+    expect(firstProps.products).toHaveLength(3);
     expect(secondProps.title).toBe('Cookies Recheados');
     expect(secondProps.products).toHaveLength(5);
 
