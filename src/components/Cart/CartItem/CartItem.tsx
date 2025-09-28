@@ -52,9 +52,9 @@ export const CartItem: React.FC<CartItemProps> = ({
         <div className={styles.priceRow}>
           <p className={styles.price}>{price}</p>
           <div className={styles.quantityControls}>
-            <button onClick={() => onIncrement(id)}>+</button>
-            <span>{quantity}</span>
             <button onClick={handleDecrement}>-</button>
+            <span>{quantity}</span>
+            <button onClick={() => onIncrement(id)}>+</button>
           </div>
         </div>
       </div>

@@ -2,17 +2,19 @@ import styles from './Home.module.scss';
 import { NavBar, Footer } from '../../components';
 import { useState } from 'react';
 import CartDrawerOrder from '../../components/Cart/CartDrawerOrder/CartDrawerOrder';
-//import CartDrawerFinish from '../../components/Cart/CartDrawerFinish/CartDrawerFinish';
+import CartDrawerFinish from '../../components/Cart/CartDrawerFinish/CartDrawerFinish';
 import bannerDesktop from '../../assets/images/banner-desktop.png';
 import bannerMobile from '../../assets/images/banner-mobile.png';
 import ProductList from '../../components/ProductList';
 
 const Home = () => {
-  const [isDrawerOpened, setIsDrawerOpened] = useState(true);
+  const [activeDrawer, setActiveDrawer] = useState<'order' | 'finish' | null>(
+    'order'
+  );
   return (
     <div className={styles.container}>
       <div className={styles.top}>
-        <NavBar onCartClick={() => setIsDrawerOpened(true)} />
+        <NavBar onCartClick={() => setActiveDrawer('order')} />
         <img
           src={bannerDesktop}
           alt="Banner promocional da loja Se Doce Fosse"
@@ -68,13 +70,14 @@ const Home = () => {
         }}
       />
       <CartDrawerOrder
-        open={isDrawerOpened}
-        onClose={() => setIsDrawerOpened(false)}
+        open={activeDrawer === 'order'}
+        onClose={() => setActiveDrawer(null)}
+        onContinue={() => setActiveDrawer('finish')}
       />
-      {/*  <CartDrawerFinish
-                open={isDrawerOpened}
-                onClose={() => setIsDrawerOpened(false)}
-              /> */}
+      <CartDrawerFinish
+        open={activeDrawer === 'finish'}
+        onClose={() => setActiveDrawer(null)}
+      />
       <Footer />
     </div>
   );
