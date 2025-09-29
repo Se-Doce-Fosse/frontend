@@ -81,18 +81,12 @@
 
 @media (max-width: 480px) {
   .addButton {
-    width: 97%;
-    margin: 0 auto;
+    width: 2.5rem;
     height: 2.5rem;
-
-    .label {
-      display: inline;
-    }
   }
 
   .counterWrapper {
-    width: 97%;
-    margin: 0 auto;
+    width: 7.5rem; // Mantém a largura fixa
     height: 2.5rem;
     padding: $space-xxs $space-xs;
   }
