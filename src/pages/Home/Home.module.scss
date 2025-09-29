@@ -3,7 +3,6 @@
 .container {
   display: flex;
   flex-direction: column;
-  gap: 32.75rem;
   background-color: $branco;
 }
 
@@ -24,10 +23,6 @@
 }
 
 @media (min-width: 64rem) {
-  .container {
-    gap: 47.625rem;
-  }
-
   .bannerMobile {
     display: none;
   }
@@ -44,5 +39,10 @@
     width: 100%;
     margin: 0rem;
     height: auto;
+  }
+
+  .contentContainer {
+    width: 85rem;
+    margin: 0 auto;
   }
 }

@@ -44,24 +44,26 @@ const Home = () => {
         />
       </div>
 
-      {loading ? (
-        <div>Carregando produtos...</div>
-      ) : error ? (
-        <div>error</div>
-      ) : (
-        data &&
-        data.map((category) => (
-          <ProductList
-            key={category.id}
-            title={category.name}
-            products={category.products}
-            showMore={true}
-            onShowMoreClick={() => {
-              console.log('Mostrar mais produtos');
-            }}
-          />
-        ))
-      )}
+      <div className={styles.contentContainer}>
+        {loading ? (
+          <div>Carregando produtos...</div>
+        ) : error ? (
+          <div>Um erro ocorreu tente novamente mais tarde</div>
+        ) : (
+          data &&
+          data.map((category) => (
+            <ProductList
+              key={category.id}
+              title={category.name}
+              products={category.products}
+              showMore={true}
+              onShowMoreClick={() => {
+                console.log('Mostrar mais produtos');
+              }}
+            />
+          ))
+        )}
+      </div>
       <CartDrawerOrder
         open={isDrawerOpened}
         onClose={() => setIsDrawerOpened(false)}

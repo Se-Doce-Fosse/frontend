@@ -25,5 +25,6 @@ export const api = async (
     throw new Error(errorMessage);
   }
 
+  console.log(await res.json());
   return res.json();
 };
