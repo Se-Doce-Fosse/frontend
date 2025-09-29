@@ -3,6 +3,7 @@ import {
   Dashboard,
   Estoque,
   Produtos,
+  ProductDetail,
   Pedidos,
   Comentarios,
   Configuracoes,
@@ -21,6 +22,7 @@ function App() {
             <Route path="/admin/dashboard" element={<Dashboard />} />
             <Route path="/admin/estoque" element={<Estoque />} />
             <Route path="/admin/produtos" element={<Produtos />} />
+            <Route path="/produtos/:produtoId" element={<ProductDetail />} />
             <Route path="/admin/pedidos" element={<Pedidos />} />
             <Route path="/admin/comentarios" element={<Comentarios />} />
             <Route path="/admin/configuracoes" element={<Configuracoes />} />
