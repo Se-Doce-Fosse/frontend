@@ -1,23 +1,25 @@
-import { render, screen } from '@testing-library/react';
+import { render, screen, waitFor } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
 import Home from './Home';
 import { CartProvider } from '../../context/CartContext';
 
-// Mock das imagens
-jest.mock('../../assets/images/banner-desktop.png', () => 'bannerDesktop.png');
-jest.mock('../../assets/images/banner-mobile.png', () => 'bannerMobile.png');
+jest.mock('../../assets/images/banner-desktop.png', () => 'banner-desktop.png');
+jest.mock('../../assets/images/banner-mobile.png', () => 'banner-mobile.png');
 
-// Mock do CSS Module
 jest.mock('./Home.module.scss', () => ({
   container: 'container',
   top: 'top',
   bannerDesktop: 'bannerDesktop',
   bannerMobile: 'bannerMobile',
+  contentContainer: 'contentContainer',
 }));
 
-// Mock dos componentes compartilhados
 jest.mock('../../components', () => ({
-  NavBar: () => <nav data-testid="navbar">NavBar</nav>,
+  NavBar: ({ onCartClick }: { onCartClick: () => void }) => (
+    <nav data-testid="navbar">
+      <button onClick={onCartClick}>Cart</button>
+    </nav>
+  ),
   Footer: () => <footer data-testid="footer">Footer</footer>,
 }));
 
@@ -33,9 +35,33 @@ jest.mock('../../components/Cart/CartDrawerFinish/CartDrawerFinish', () => ({
 
 jest.mock('../../components/ProductList', () => ({
   __esModule: true,
-  default: ({ title }: { title: string }) => (
-    <section data-testid="product-list">{title}</section>
+  default: ({
+    title,
+    products,
+    showMore,
+    onShowMoreClick,
+  }: {
+    title: string;
+    products: unknown[];
+    showMore?: boolean;
+    onShowMoreClick?: () => void;
+  }) => (
+    <section data-testid="product-list">
+      <h2>{title}</h2>
+      <div>{products.length} products</div>
+      {showMore ? (
+        <button type="button" onClick={onShowMoreClick}>
+          Ver mais
+        </button>
+      ) : null}
+    </section>
   ),
+}));
+
+const mockFetchProducts = jest.fn();
+
+jest.mock('../../services/product/productService', () => ({
+  fetchProducts: () => mockFetchProducts(),
 }));
 
 const renderHome = () =>
@@ -49,20 +75,76 @@ const renderHome = () =>
 
 describe('Home', () => {
   beforeEach(() => {
+    jest.clearAllMocks();
     window.localStorage.clear();
+    mockFetchProducts.mockResolvedValue({
+      categories: [
+        {
+          id: '1',
+          name: 'Categoria Teste',
+          products: [
+            {
+              id: '1',
+              name: 'Produto Teste',
+              price: '10.00',
+              imageSrc: '/images/cookie.jpg',
+              imageAlt: 'Produto teste',
+            },
+          ],
+        },
+      ],
+    });
   });
 
-  it('renderiza o Header (NavBar) e o Footer', () => {
+  it('renderiza o Header (NavBar) e o Footer', async () => {
     renderHome();
+
     expect(screen.getByTestId('navbar')).toBeInTheDocument();
     expect(screen.getByTestId('footer')).toBeInTheDocument();
+
+    await waitFor(() => {
+      expect(screen.getByTestId('product-list')).toBeInTheDocument();
+    });
   });
 
-  it('renderiza os banners com o alt correto', () => {
+  it('renderiza os banners com o alt correto', async () => {
     renderHome();
+
     const banners = screen.getAllByAltText(
       'Banner promocional da loja Se Doce Fosse'
     );
-    expect(banners).toHaveLength(2); // desktop + mobile
+    expect(banners).toHaveLength(2);
+
+    await waitFor(() => {
+      expect(screen.getByTestId('product-list')).toBeInTheDocument();
+    });
+  });
+
+  it('exibe loading inicialmente e depois carrega os produtos', async () => {
+    renderHome();
+
+    expect(screen.getByText('Carregando produtos...')).toBeInTheDocument();
+
+    await waitFor(() => {
+      expect(
+        screen.queryByText('Carregando produtos...')
+      ).not.toBeInTheDocument();
+      expect(screen.getByTestId('product-list')).toBeInTheDocument();
+    });
+  });
+
+  it('exibe erro quando falha ao carregar produtos', async () => {
+    mockFetchProducts.mockRejectedValueOnce(new Error('Erro na API'));
+
+    renderHome();
+
+    await waitFor(() => {
+      expect(
+        screen.getByText('Um erro ocorreu tente novamente mais tarde')
+      ).toBeInTheDocument();
+      expect(
+        screen.queryByText('Carregando produtos...')
+      ).not.toBeInTheDocument();
+    });
   });
 });

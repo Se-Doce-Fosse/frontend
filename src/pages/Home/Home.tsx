@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styles from './Home.module.scss';
 import { NavBar, Footer } from '../../components';
@@ -8,6 +9,8 @@ import bannerMobile from '../../assets/images/banner-mobile.png';
 import ProductList from '../../components/ProductList';
 import { FEATURED_PRODUCTS } from '../../data/products';
 import { useCart } from '../../context/CartContext';
+import { fetchProducts } from '../../services/product/productService';
+import type { Category } from '../../types/api';
 
 const Home = () => {
   const {
@@ -21,6 +24,75 @@ const Home = () => {
     quantitiesByProductId,
   } = useCart();
   const navigate = useNavigate();
+
+  const [categories, setCategories] = useState<Category[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    let isSubscribed = true;
+
+    fetchProducts()
+      .then((data) => {
+        if (!isSubscribed) {
+          return;
+        }
+
+        setCategories(data.categories);
+        setLoading(false);
+      })
+      .catch(() => {
+        if (!isSubscribed) {
+          return;
+        }
+
+        setError('Um erro ocorreu tente novamente mais tarde');
+        setLoading(false);
+      });
+
+    return () => {
+      isSubscribed = false;
+    };
+  }, []);
+
+  const handleShowMoreClick = () => {
+    navigate('/produtos');
+  };
+
+  const renderProductSections = () => {
+    if (loading) {
+      return <div>Carregando produtos...</div>;
+    }
+
+    if (error) {
+      return <div>{error}</div>;
+    }
+
+    if (categories.length === 0) {
+      return (
+        <ProductList
+          title="Produtos em Destaque"
+          products={FEATURED_PRODUCTS}
+          showMore
+          onShowMoreClick={handleShowMoreClick}
+          onProductQuantityChange={updateProductQuantity}
+          productQuantities={quantitiesByProductId}
+        />
+      );
+    }
+
+    return categories.map((category) => (
+      <ProductList
+        key={category.id}
+        title={category.name}
+        products={category.products}
+        showMore
+        onShowMoreClick={handleShowMoreClick}
+        onProductQuantityChange={updateProductQuantity}
+        productQuantities={quantitiesByProductId}
+      />
+    ));
+  };
 
   return (
     <div className={styles.container}>
@@ -39,14 +111,8 @@ const Home = () => {
         />
       </div>
 
-      <ProductList
-        title="Produtos em Destaque"
-        products={FEATURED_PRODUCTS}
-        showMore
-        onShowMoreClick={() => navigate('/produtos')}
-        onProductQuantityChange={updateProductQuantity}
-        productQuantities={quantitiesByProductId}
-      />
+      <div className={styles.contentContainer}>{renderProductSections()}</div>
+
       <CartDrawerOrder
         open={activeDrawer === 'order'}
         onClose={() => setActiveDrawer(null)}
