@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { AiOutlinePushpin } from 'react-icons/ai';
-import styles from './AdressCard.module.scss';
+import styles from './AddressCard.module.scss';
 import { Textarea as TextArea } from '../Textarea/Textarea';
 
 export interface AddressData {

@@ -1,5 +1,5 @@
 import { render, screen, fireEvent } from '@testing-library/react';
-import { AdressCard } from './AdressCard';
+import { AdressCard } from './AddressCard';
 
 describe('AdressCard component', () => {
   it('renders with title and all form fields', () => {
