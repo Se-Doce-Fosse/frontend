@@ -1,52 +1,63 @@
 import { useState } from 'react';
-import { HeaderTableAdmin } from '../../ProdutoTable/HeaderTableAdminProduto/HeaderTableAdminProduto';
-import type { ProdutoRow } from '../../ProdutoTable/HeaderTableAdminProduto/HeaderTableAdminProduto';
-import { TempModalComponent } from '../../../TempModalComponent/TempModalComponent';
+import { HeaderTableAdminEstoque } from '../HeaderTableAdminEstoque/HeaderTableAdminEstoque';
+import type { EstoqueRow } from '../HeaderTableAdminEstoque/HeaderTableAdminEstoque';
+//import { TempModalComponent } from '../../../TempModalComponent/TempModalComponent';
 import { BsPlus } from 'react-icons/bs';
 import { Button } from '../../../Button/Button';
 import styles from './TableAdminEstoqueComponent.module.scss';
 
 function TableAdminEstoqueComponent() {
-  const [modalOpen, setModalOpen] = useState<boolean>(false);
-  const [produtos, setProdutos] = useState<ProdutoRow[]>([
+  //const [modalOpen, setModalOpen] = useState<boolean>(false);
+  const [estoques, setEstoques] = useState<EstoqueRow[]>([
     {
-      produto: 'Cookie Vegano',
-      categoria: 'Vegano',
-      preco: 35.99,
-      estoque: 10,
-      status: 'ativo',
+      item: 'manteiga',
+      quantidade: 10,
+      uniMedida: 'kg',
+      preco: 10,
+      categoria: 'ativo',
     },
     {
-      produto: 'Cookie',
-      categoria: 'Cookie',
-      preco: 19.99,
-      estoque: 5,
-      status: 'inativo',
+      item: 'farinha',
+      quantidade: 20,
+      uniMedida: 'pacote',
+      preco: 1000.0,
+      categoria: 'ativo',
     },
   ]);
-  const [rowToEdit, setRowToEdit] = useState<number | null>(null);
 
   const handleDeleteRow = (targetIndex: number) => {
-    setProdutos(produtos.filter((_, idx) => idx !== targetIndex));
+    setEstoques(estoques.filter((_, idx) => idx !== targetIndex));
   };
 
-  const handleEditRow = (idx: number) => {
+  const tempHandleEditRow = (idx: number) => {
     setRowToEdit(idx);
-    setModalOpen(true);
+    console.log(rowToEdit);
+    console.log('not done');
   };
 
-  const handleSubmit = (newRow: ProdutoRow) => {
-    if (rowToEdit === null) {
-      setProdutos([...produtos, newRow]);
-    } else {
-      setProdutos(
-        produtos.map((currRow, idx) => {
-          if (idx !== rowToEdit) return currRow;
-          return newRow;
-        })
-      );
-    }
-  };
+  // Precisa do modal
+
+  const [rowToEdit, setRowToEdit] = useState<number | null>(null);
+
+  // const handleEditRow = (idx: number) => {
+  //   setRowToEdit(idx);
+  //   setModalOpen(true);
+  // };
+
+  //Precisa fazer o modal, mas o submit ja ta pronto
+
+  // const handleSubmit = (newRow: EstoqueRow) => {
+  //   if (rowToEdit === null) {
+  //     setEstoques([...estoques, newRow]);
+  //   } else {
+  //     setEstoques(
+  //       estoques.map((currRow, idx) => {
+  //         if (idx !== rowToEdit) return currRow;
+  //         return newRow;
+  //       })
+  //     );
+  //   }
+  // };
 
   return (
     <div className={styles.TableAdminComponent}>
@@ -56,29 +67,32 @@ function TableAdminEstoqueComponent() {
           <Button
             label="Adicionar"
             icon={BsPlus}
-            onClick={() => setModalOpen(true)}
+            //onClick={() => setModalOpen(true)}
             variant="primary"
             className={styles.btn}
           />
         </div>
       </div>
       <div>
-        <HeaderTableAdmin
-          produtos={produtos}
+        <HeaderTableAdminEstoque
+          estoque={estoques}
           deleteRow={handleDeleteRow}
-          editRow={handleEditRow}
+          editRow={tempHandleEditRow}
         />
       </div>
-      {modalOpen && (
+      {
+        //Precisa fazer o modal, mas essa parte ja esta pronta.
+        /* {modalOpen && (
         <TempModalComponent
           closeModal={() => {
             setModalOpen(false);
             setRowToEdit(null);
           }}
           onSubmit={handleSubmit}
-          defaultValue={rowToEdit !== null ? produtos[rowToEdit] : undefined}
+          defaultValue={rowToEdit !== null ? estoques[rowToEdit] : undefined}
         />
-      )}
+      )} */
+      }
     </div>
   );
 }

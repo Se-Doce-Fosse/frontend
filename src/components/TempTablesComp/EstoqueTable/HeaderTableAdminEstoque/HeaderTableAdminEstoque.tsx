@@ -1,25 +1,24 @@
 import React from 'react';
 import { BsFillTrashFill, BsFillPencilFill } from 'react-icons/bs';
-import styles from './HeaderTableAdmin.module.scss';
+import styles from './HeaderTableAdminEstoque.module.scss';
 import { StatusBadge } from '../../../StatusBadge/StatusBadge';
 
-export type ProdutoRow = {
+export type EstoqueRow = {
   item: string;
   quantidade: number;
   uniMedida: string;
   preco: number;
   categoria: 'ativo' | 'inativo';
-  atualizadoEm: Date;
 };
 
 type TableProps = {
-  produtos: ProdutoRow[];
+  estoque: EstoqueRow[];
   deleteRow: (idx: number) => void;
   editRow: (idx: number) => void;
 };
 
-export const HeaderTableAdmin: React.FC<TableProps> = ({
-  produtos,
+export const HeaderTableAdminEstoque: React.FC<TableProps> = ({
+  estoque,
   deleteRow,
   editRow,
 }) => {
@@ -38,16 +37,17 @@ export const HeaderTableAdmin: React.FC<TableProps> = ({
           </tr>
         </thead>
         <tbody>
-          {produtos.map((row, idx) => {
+          {estoque.map((row, idx) => {
             return (
               <tr key={idx}>
                 <td>{row.item}</td>
-                <td>{row.categoria}</td>
-                <td>{row.preco}</td>
+                <td>{row.quantidade}</td>
                 <td>{row.uniMedida}</td>
+                <td>{row.preco}</td>
                 <td>
                   <StatusBadge status={row.categoria} />
                 </td>
+                <td>atualizadoEm.toLocaleDateString()</td>
                 <td>
                   <span className={styles.actions}>
                     <BsFillPencilFill

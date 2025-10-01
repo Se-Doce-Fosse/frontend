@@ -1,24 +1,23 @@
 import React from 'react';
 import { BsFillTrashFill, BsFillPencilFill } from 'react-icons/bs';
-import styles from './HeaderTableAdminProduto.module.scss';
+import styles from './HeaderTableAdminCupom.module.scss';
 import { StatusBadge } from '../../../StatusBadge/StatusBadge';
 
-export type ProdutoRow = {
-  produto: string;
-  categoria: string;
-  preco: number;
+export type CupomRow = {
+  cupom: string;
+  desconto: string;
   status: 'ativo' | 'inativo';
-  estoque: number;
+  unico: boolean;
 };
 
 type TableProps = {
-  produtos: ProdutoRow[];
+  cupons: CupomRow[];
   deleteRow: (idx: number) => void;
   editRow: (idx: number) => void;
 };
 
-export const HeaderTableAdminProduto: React.FC<TableProps> = ({
-  produtos,
+export const HeaderTableAdminCupom: React.FC<TableProps> = ({
+  cupons,
   deleteRow,
   editRow,
 }) => {
@@ -27,25 +26,25 @@ export const HeaderTableAdminProduto: React.FC<TableProps> = ({
       <table className={styles.table}>
         <thead>
           <tr>
-            <th>Produto</th>
-            <th>Categoria</th>
-            <th>Preço</th>
-            <th>Estoque</th>
+            <th>Cupons</th>
+            <th>Desconto</th>
+            <th>Validade</th>
             <th>Status</th>
+            <th>Unico</th>
             <th>Ações</th>
           </tr>
         </thead>
         <tbody>
-          {produtos.map((row, idx) => {
+          {cupons.map((row, idx) => {
             return (
               <tr key={idx}>
-                <td>{row.produto}</td>
-                <td>{row.categoria}</td>
-                <td>{row.preco}</td>
-                <td>{row.estoque}</td>
+                <td>{row.cupom}</td>
+                <td>{row.desconto}</td>
+                <td>Validade</td>
                 <td>
                   <StatusBadge status={row.status} />
                 </td>
+                <td>{row.unico}</td>
                 <td>
                   <span className={styles.actions}>
                     <BsFillPencilFill

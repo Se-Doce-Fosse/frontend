@@ -1,16 +1,16 @@
 import { useState } from 'react';
-import { HeaderTableAdminProduto } from '../HeaderTableAdminProduto/HeaderTableAdminProduto';
-import type { ProdutoRow } from '../HeaderTableAdminProduto/HeaderTableAdminProduto';
+import { HeaderTableAdminCupom } from '../HeaderTableAdminCupom/HeaderTableAdminCupom';
+import type { CupomRow } from '../HeaderTableAdminCupom/HeaderTableAdminCupom';
 import { TempModalComponent } from '../../../TempModalComponent/TempModalComponent';
 import { BsPlus } from 'react-icons/bs';
 import { Button } from '../../../Button/Button';
-import styles from './TableAdminProdutoComponent.module.scss';
+import styles from './TableAdminCupomComponent.module.scss';
 
-function TabelAdminProdutoComponent() {
+function TabelAdminCupomComponent() {
   const [modalOpen, setModalOpen] = useState<boolean>(false);
-  const [produtos, setProdutos] = useState<ProdutoRow[]>([
+  const [cupons, setCupoms] = useState<CupomRow[]>([
     {
-      produto: 'Cookie Vegano',
+      cupom: 'Cookie Vegano',
       categoria: 'Vegano',
       preco: 35.99,
       estoque: 10,
@@ -27,7 +27,7 @@ function TabelAdminProdutoComponent() {
   const [rowToEdit, setRowToEdit] = useState<number | null>(null);
 
   const handleDeleteRow = (targetIndex: number) => {
-    setProdutos(produtos.filter((_, idx) => idx !== targetIndex));
+    setCupoms(cupons.filter((_, idx) => idx !== targetIndex));
   };
 
   const handleEditRow = (idx: number) => {
@@ -35,12 +35,12 @@ function TabelAdminProdutoComponent() {
     setModalOpen(true);
   };
 
-  const handleSubmit = (newRow: ProdutoRow) => {
+  const handleSubmit = (newRow: CupomRow) => {
     if (rowToEdit === null) {
-      setProdutos([...produtos, newRow]);
+      setCupoms([...cupons, newRow]);
     } else {
-      setProdutos(
-        produtos.map((currRow, idx) => {
+      setCupoms(
+        cupons.map((currRow, idx) => {
           if (idx !== rowToEdit) return currRow;
           return newRow;
         })
@@ -49,9 +49,9 @@ function TabelAdminProdutoComponent() {
   };
 
   return (
-    <div className={styles.TabelAdminProdutoComponent}>
+    <div className={styles.TabelAdminCupomComponent}>
       <div className={styles.header}>
-        <h2 className={styles.headerTitle}>Lista de Produtos</h2>
+        <h2 className={styles.headerTitle}>Lista de Cupoms</h2>
         <div className={styles.btnWrapper}>
           <Button
             label="Adicionar"
@@ -63,8 +63,8 @@ function TabelAdminProdutoComponent() {
         </div>
       </div>
       <div>
-        <HeaderTableAdminProduto
-          produtos={produtos}
+        <HeaderTableAdminCupom
+          cupons={cupons}
           deleteRow={handleDeleteRow}
           editRow={handleEditRow}
         />
@@ -76,11 +76,11 @@ function TabelAdminProdutoComponent() {
             setRowToEdit(null);
           }}
           onSubmit={handleSubmit}
-          defaultValue={rowToEdit !== null ? produtos[rowToEdit] : undefined}
+          defaultValue={rowToEdit !== null ? cupons[rowToEdit] : undefined}
         />
       )}
     </div>
   );
 }
 
-export default TabelAdminProdutoComponent;
+export default TabelAdminCupomComponent;
