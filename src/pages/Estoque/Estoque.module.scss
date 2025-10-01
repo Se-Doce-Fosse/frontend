@@ -1,8 +1,7 @@
-.estoque {
-  padding: 2rem;
+@use './../../styles/variables.scss' as *;
 
-  h1 {
-    color: #333;
-    margin-bottom: 1rem;
-  }
+.estoque {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
 }
