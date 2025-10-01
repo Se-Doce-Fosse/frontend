@@ -1,10 +1,29 @@
 import styles from './Home.module.scss';
+import { NavBar, Footer } from '../../components';
+import bannerDesktop from '../../assets/images/banner-desktop.png';
+import bannerMobile from '../../assets/images/banner-mobile.png';
 
-const Home = () => (
-  <div className={styles.container}>
-    <h1>Página Inicial</h1>
-    <p>Bem-vindo ao site!</p>
-  </div>
-);
+const Home = () => {
+  return (
+    <div className={styles.container}>
+      <div className={styles.top}>
+        <NavBar />
+        <img
+          src={bannerDesktop}
+          alt="Banner promocional da loja Se Doce Fosse"
+          className={styles.bannerDesktop || ''}
+        />
+
+        <img
+          src={bannerMobile}
+          alt="Banner promocional da loja Se Doce Fosse"
+          className={styles.bannerMobile || ''}
+        />
+      </div>
+
+      <Footer />
+    </div>
+  );
+};
 
 export default Home;

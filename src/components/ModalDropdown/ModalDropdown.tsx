@@ -2,7 +2,7 @@ import { useId } from 'react';
 import styles from './ModalDropdown.module.scss';
 
 export interface ModalDropdownProps {
-  label: string; // Adicione a propriedade 'label'
+  label: string;
   options: string[];
 }
 
@@ -11,7 +11,7 @@ export const ModalDropdown = ({ label, options }: ModalDropdownProps) => {
 
   return (
     <div className={styles.dropdownContainer}>
-      {/* O novo label */}
+      {}
       <label htmlFor={generatedId} className={styles.dropdownLabel}>
         {label}
       </label>

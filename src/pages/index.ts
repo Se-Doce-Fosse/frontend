@@ -5,4 +5,4 @@ export { Produtos } from './Produtos';
 export { Pedidos } from './Pedidos';
 export { Comentarios } from './Comentarios';
 export { Configuracoes } from './Configuracoes';
-export { AdicionarProduto } from './AdicionarProduto';
+export { Login } from './Login';

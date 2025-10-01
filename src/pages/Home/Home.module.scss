@@ -1,3 +1,48 @@
+@use '../../styles/variables.scss' as *;
+
 .container {
-  // adicionar estilos específicos para a página Home aqui, cuidando para não deformar outros componentes da página
+  display: flex;
+  flex-direction: column;
+  gap: 32.75rem;
+  background-color: $branco;
+}
+
+.top {
+  display: flex;
+  flex-direction: column;
+  gap: 0rem;
+}
+
+.bannerMobile {
+  margin-top: 0rem;
+  padding: 0;
+  width: 100vw;
+}
+
+.bannerDesktop {
+  display: none;
+}
+
+@media (min-width: 64rem) {
+  .container {
+    gap: 47.625rem;
+  }
+
+  .bannerMobile {
+    display: none;
+  }
+
+  .top {
+    display: flex;
+    flex-direction: column;
+    gap: 0rem;
+  }
+
+  .bannerDesktop {
+    display: block;
+    padding: 0;
+    width: 100%;
+    margin: 0rem;
+    height: auto;
+  }
 }

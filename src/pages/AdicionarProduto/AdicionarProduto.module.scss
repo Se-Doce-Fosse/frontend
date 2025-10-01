@@ -66,6 +66,7 @@
     font-size: $font-md;
     border: 0.125rem solid transparent;
     resize: vertical;
+    min-height: 6rem;
 
     &:focus {
       outline: 0.125rem solid $marrom-gourmet;
@@ -73,14 +74,73 @@
     }
   }
 
-  .extraContainer {
-    grid-column: 1 / -1; // ocupa toda a largura
+  .ingredientsLabel {
+    grid-column: 1 / -1;
+    text-align: left;
+    margin-bottom: $space-lg;
+    font-size: $font-lg;
+    font-weight: 600;
+    color: $marrom-gourmet;
+  }
+
+  .ingredientsContainer {
+    grid-column: 1 / -1;
     display: flex;
-    flex-direction: column;
-    gap: $space-sm;
-    margin-top: $space-md; // dá espaço do textarea para o novo container
+    justify-content: space-between;
+    align-items: center;
+    gap: $space-md;
     padding: $space-md;
-    background-color: $gray-light;
-    border-radius: $border-radius-md;
+    background: white;
+    border-radius: $border-radius-lg;
+    box-shadow: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.1);
+
+    .chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: $space-sm;
+
+      .tag {
+        flex: 0 1 auto;
+      }
+    }
+
+    .buttonWrapper {
+      display: flex;
+      justify-content: flex-end;
+
+      button {
+        flex-shrink: 0;
+        flex-grow: 0;
+        background-color: $marrom-gourmet;
+        color: white;
+        padding: 0.5rem 1rem;
+        border-radius: $border-radius-md;
+        border: none;
+        font-size: $font-md;
+        font-weight: 500;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        box-shadow: 0 0.25rem 0.25rem rgba(0, 0, 0, 0.1);
+        transition: background-color 0.2s ease-in-out;
+
+        &:hover {
+          background-color: darken($marrom-gourmet, 5%);
+        }
+      }
+    }
+  }
+
+  .nutritionFactsLabel {
+    grid-column: 1 / -1;
+    text-align: left;
+    margin-bottom: $space-lg;
+    font-size: $font-lg;
+    font-weight: 600;
+    color: $marrom-gourmet;
+  }
+
+  .ingredientsContainer {
   }
 }

@@ -1,159 +1,161 @@
-$navbar-bg: #e8d1a7;
-$text-primary: #743014;
-$active-bg: #743014;
-$active-text: #e8d1a7;
+@use '../../styles/variables.scss' as *;
+@use 'sass:color';
 
-.navBar {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 16rem;
-  height: 100vh;
-  background-color: $navbar-bg;
+.navbar {
+  background-color: $cacau-intenso;
+  color: $creme-caramelo;
+  padding: $space-md $space-xl;
+  position: relative;
+  box-shadow: 0 2px 4px $light-shadow;
   z-index: 1000;
-  display: flex;
-  flex-direction: column;
-  color: $text-primary;
-  font-family: Arial, sans-serif;
-  box-shadow: 0.125rem 0 0.625rem rgba(0, 0, 0, 0.1);
 }
 
-.navHeader {
+.navbarContainer {
   display: flex;
+  justify-content: space-between;
   align-items: center;
-  justify-content: center;
-  padding: 1rem;
-  min-height: 3.75rem;
-  border-bottom: 1px solid rgba($text-primary, 0.1);
+  max-width: $container-max;
+  margin: 0 auto;
 }
 
-.navLogo {
+.logoLink {
   display: flex;
   align-items: center;
-  justify-content: center;
 }
 
 .logoImage {
-  max-width: 10rem;
-  height: auto;
-  object-fit: contain;
-  max-height: 2rem;
+  height: 2.625rem;
+  width: auto;
 }
 
-.navList {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-  flex: 1;
-  overflow-y: auto;
-  padding: 1rem 0;
+.navLinks,
+.navIcons {
+  display: none;
 }
 
-.navItem {
+.hamburger {
+  display: block;
+  cursor: pointer;
+  font-size: $font-xl;
+}
+
+.iconButton {
+  background: none;
+  border: 1px solid transparent;
+  border-radius: 6px;
+  color: $creme-caramelo;
+  cursor: pointer;
   display: flex;
   align-items: center;
-  padding: 1.25rem 2rem;
-  cursor: pointer;
+  gap: $space-xs;
+  font-size: $font-md;
   transition: all 0.3s ease;
-  color: $text-primary;
-  margin: 0 0.75rem 0.75rem 0.75rem;
-  border-radius: 1.25rem;
 
-  &:hover {
-    background-color: rgba($text-primary, 0.1);
+  span {
+    display: none;
   }
 
-  &.active {
-    background-color: $active-bg;
-    color: $active-text;
+  svg {
+    font-size: $font-lg;
+  }
+
+  &:hover {
+    color: color.scale($creme-caramelo, $lightness: -15%);
+  }
+}
+
+.active {
+  border-color: $creme-caramelo;
+
+  &:hover {
+    background-color: rgba(232, 209, 167, 0.1);
+    color: $creme-caramelo;
+  }
+}
+
+.mobileMenu {
+  display: flex;
+  flex-direction: column;
+  list-style: none;
+  padding: $space-md 0;
+  margin: 0;
+  background-color: $cacau-intenso;
+  position: absolute;
+  top: 100%;
+  right: 0;
+  width: 14rem;
+  height: 34rem;
+  box-shadow: 0 2px 4px $light-shadow;
+  text-align: right;
+
+  li {
+    padding: $space-sm $space-xl;
+
+    .iconButton {
+      justify-content: center;
+      font-size: $font-xl;
+
+      span {
+        display: inline;
+      }
+    }
+  }
+
+  a {
+    color: $creme-caramelo;
+    text-decoration: none;
+    font-size: $font-xl;
+    width: 100%;
+    display: block;
 
     &:hover {
-      background-color: $active-bg;
-      color: $active-text;
+      background-color: color.scale($cacau-intenso, $lightness: -5%);
     }
   }
 }
 
-.navIcon {
+.mobileActionsSeparator {
+  height: 0.0625rem;
+  background-color: rgba(232, 209, 167, 0.2);
+  margin: $space-xs $space-xl;
+}
+
+.mobileActionItem {
   display: flex;
-  align-items: center;
-  justify-content: center;
-  min-width: 1.5rem;
-  margin-right: 1rem;
+  justify-content: flex-end;
+  padding: $space-xs 0;
 }
 
-.navLabel {
-  display: block;
-  font-size: 0.9rem;
-  font-weight: 500;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
+@include desktop {
+  .navLinks {
+    display: flex;
+    gap: $space-xl;
+    list-style: none;
+    font-size: $font-lg;
+  }
 
-.navFooter {
-  padding: 1rem;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  min-height: 5rem;
-  border-top: 1px solid rgba($text-primary, 0.1);
-}
+  .navIcons {
+    display: flex;
+    gap: $space-lg;
+  }
 
-.adminInfo {
-  display: flex;
-  align-items: center;
-  flex: 1;
-}
+  .iconButton {
+    padding: 0.5rem;
+    span {
+      display: inline;
+    }
+  }
 
-.adminAvatar {
-  width: 2.5rem;
-  height: 2.5rem;
-  border-radius: 50%;
-  background-color: $text-primary;
-  color: $navbar-bg;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-right: 0.75rem;
-}
+  .hamburger {
+    display: none;
+  }
 
-.avatarText {
-  font-size: 1rem;
-  font-weight: 600;
-  color: $navbar-bg;
-}
+  .mobileMenu {
+    display: none;
+  }
 
-.adminDetails {
-  display: flex;
-  flex-direction: column;
-}
-
-.adminName {
-  font-size: 0.9rem;
-  font-weight: 600;
-  color: $text-primary;
-  line-height: 1.2;
-}
-
-.adminEmail {
-  font-size: 0.8rem;
-  color: $text-primary;
-  opacity: 0.8;
-  line-height: 1.2;
-}
-
-.logoutButton {
-  background: none;
-  border: none;
-  color: $text-primary;
-  cursor: pointer;
-  padding: 0.5rem;
-  border-radius: 0.25rem;
-  transition: all 0.2s ease;
-
-  &:hover {
-    background-color: rgba($text-primary, 0.1);
-    border-radius: 1.25rem;
+  .cartButton {
+    position: relative;
+    border: 1px solid $creme-caramelo;
   }
 }
