@@ -16,7 +16,7 @@
   background: $branco;
   border-radius: 10px;
   box-shadow: 0 12px 30px rgba(0, 0, 0, 0.2);
-  width: min(90vw, 800px);
+  width: auto;
   padding: 1.5rem;
   display: flex;
   flex-direction: column;
@@ -55,8 +55,10 @@
 
 .label {
   display: block;
-  font-weight: 600;
+  font-size: $font-lg;
+  font-weight: 500;
   margin-bottom: 8px;
+  color: $preto;
 }
 
 .footer {
