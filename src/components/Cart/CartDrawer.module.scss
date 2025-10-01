@@ -1,0 +1,114 @@
+@use '../../styles/variables.scss' as *;
+
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 1000;
+  display: flex;
+  justify-content: flex-end;
+  align-items: stretch;
+  animation: fadeIn 0.3s ease-out;
+}
+
+.drawer {
+  background-color: $creme-caramelo;
+  width: 100%;
+  max-width: 25rem;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  transform: translateX(100%);
+  transition: transform 0.3s ease-out;
+  box-shadow: -0.125rem 0 0.625rem rgba(0, 0, 0, 0.1);
+}
+
+.drawer.open {
+  transform: translateX(0);
+}
+
+.header {
+  padding: 1.25rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: $creme-caramelo;
+}
+
+.headerContent {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.cartIcon {
+  font-size: 1.5rem;
+  color: $cacau-intenso;
+}
+
+.title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: $cacau-intenso;
+  margin: 0;
+}
+
+.closeButton {
+  color: $cacau-intenso !important;
+  display: flex;
+  height: 2rem;
+  width: 2rem;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  font-size: 1.25rem;
+  cursor: pointer;
+  padding: 0.5rem;
+  border-radius: 0.25rem;
+  transition: background-color 0.2s ease;
+
+  &:hover {
+    background-color: $cinza-hover;
+  }
+}
+
+.content {
+  flex: 1;
+  padding: 0;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+}
+
+.contentWrapper {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  justify-content: space-between;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@media (max-width: 30rem) {
+  .drawer {
+    max-width: 100%;
+  }
+
+  .header {
+    padding: 1rem;
+  }
+
+  .content {
+    padding: 1rem;
+  }
+}
