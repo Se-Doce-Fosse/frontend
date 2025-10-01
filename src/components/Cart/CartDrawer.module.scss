@@ -90,6 +90,71 @@
   justify-content: space-between;
 }
 
+.orderContent {
+  display: flex;
+  flex-direction: column;
+  gap: $space-lg;
+  height: 100%;
+  padding: 0 $space-lg $space-lg;
+}
+
+.itemsList {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: $space-md;
+  overflow-y: auto;
+  padding-right: $space-sm;
+  flex: 1;
+}
+
+.orderFooter {
+  border-top: 0.0625rem solid $cacau-intenso;
+  margin-left: -$space-lg;
+  margin-right: -$space-lg;
+  padding: $space-md $space-lg 0;
+  display: flex;
+  flex-direction: column;
+  gap: $space-md;
+}
+
+.totalRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-weight: $semi-bold;
+  color: $cacau-intenso;
+  font-size: $font-md;
+}
+
+.continueButton {
+  width: 100%;
+}
+
+.emptyState {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  gap: $space-md;
+  color: $cacau-intenso;
+  padding: 0 $space-md;
+}
+
+.emptyStateTitle {
+  font-size: $font-lg;
+  font-weight: $semi-bold;
+  margin: 0;
+}
+
+.emptyStateDescription {
+  margin: 0;
+  font-size: $font-sm;
+  color: $cinza-texto;
+}
+
 @keyframes fadeIn {
   from {
     opacity: 0;

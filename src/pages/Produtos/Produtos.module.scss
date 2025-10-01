@@ -1,5 +1,21 @@
-.produtos {
+@use '../../styles/variables.scss' as *;
+
+.page {
+  display: flex;
+  flex-direction: column;
+  background-color: $branco;
+}
+
+.content {
+  flex: 1;
+  padding: 3rem 4rem 4rem;
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
+}
+
+@media (max-width: 768px) {
+  .content {
+    padding: 2rem 1rem 3rem;
+  }
 }
