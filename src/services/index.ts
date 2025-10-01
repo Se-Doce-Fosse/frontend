@@ -1,4 +1,4 @@
-const URL = process.env.BACKEND_URL;
+const URL = 'http://localhost:8081';
 
 export const api = async (
   path: string,
@@ -14,8 +14,15 @@ export const api = async (
   });
 
   if (!res.ok) {
-    const error = await res.text();
-    throw new Error(error);
+    let errorMessage = 'Erro';
+
+    try {
+      const data = await res.json();
+      errorMessage = data.message;
+    } catch {
+      errorMessage = await res.text();
+    }
+    throw new Error(errorMessage);
   }
 
   return res.json();
