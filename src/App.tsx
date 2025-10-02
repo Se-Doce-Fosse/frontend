@@ -11,25 +11,30 @@ import {
   Login,
 } from '@pages';
 import { UserProvider } from './context/UserContext';
+import { CartProvider } from './context/CartContext';
+import { ProdutosAdmin } from './pages/Admin/Produtos';
 
 function App() {
   return (
     <UserProvider>
-      <main>
-        <BrowserRouter>
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/admin/dashboard" element={<Dashboard />} />
-            <Route path="/admin/estoque" element={<Estoque />} />
-            <Route path="/admin/produtos" element={<Produtos />} />
-            <Route path="/produtos/:produtoId" element={<ProductDetail />} />
-            <Route path="/admin/pedidos" element={<Pedidos />} />
-            <Route path="/admin/comentarios" element={<Comentarios />} />
-            <Route path="/admin/configuracoes" element={<Configuracoes />} />
-            <Route path="/login/" element={<Login />} />
-          </Routes>
-        </BrowserRouter>
-      </main>
+      <CartProvider>
+        <main>
+          <BrowserRouter>
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/admin/dashboard" element={<Dashboard />} />
+              <Route path="/admin/estoque" element={<Estoque />} />
+              <Route path="/produtos" element={<Produtos />} />
+              <Route path="/produtos/:produtoId" element={<ProductDetail />} />
+              <Route path="/admin/produtos" element={<ProdutosAdmin />} />
+              <Route path="/admin/pedidos" element={<Pedidos />} />
+              <Route path="/admin/comentarios" element={<Comentarios />} />
+              <Route path="/admin/configuracoes" element={<Configuracoes />} />
+              <Route path="/login/" element={<Login />} />
+            </Routes>
+          </BrowserRouter>
+        </main>
+      </CartProvider>
     </UserProvider>
   );
 }

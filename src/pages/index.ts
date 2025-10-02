@@ -3,6 +3,7 @@ export { Dashboard } from './Dashboard';
 export { Estoque } from './Estoque';
 export { Produtos } from './Produtos';
 export { ProductDetail } from './ProductDetail';
+export { ProdutosAdmin } from './Admin/Produtos';
 export { Pedidos } from './Pedidos';
 export { Comentarios } from './Comentarios';
 export { Configuracoes } from './Configuracoes';

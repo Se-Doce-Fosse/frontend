@@ -17,6 +17,8 @@ export type ProductListProps = {
   products: Product[];
   showMore?: boolean;
   onShowMoreClick?: () => void;
+  onProductQuantityChange?: (product: Product, quantity: number) => void;
+  productQuantities?: Record<string, number>;
 };
 
 export const ProductList: React.FC<ProductListProps> = ({
@@ -24,6 +26,8 @@ export const ProductList: React.FC<ProductListProps> = ({
   products,
   showMore = false,
   onShowMoreClick,
+  onProductQuantityChange,
+  productQuantities,
 }) => {
   return (
     <section className={styles.productListContainer}>
@@ -33,8 +37,8 @@ export const ProductList: React.FC<ProductListProps> = ({
       </div>
       <div className={styles.productsRow}>
         {products.map((product) => {
-          // Extrai centavos do preço (ex: 'R$ 15,00' -> 1500)
           const priceCents = Number(product.price.replace(/[^\d]/g, ''));
+          const quantity = productQuantities?.[product.id] ?? 0;
           return (
             <ProductCard
               key={product.id}
@@ -43,6 +47,10 @@ export const ProductList: React.FC<ProductListProps> = ({
               title={product.name}
               description={product.description || ''}
               priceCents={priceCents}
+              quantity={quantity}
+              onQuantityChange={(qty) =>
+                onProductQuantityChange?.(product, qty)
+              }
             />
           );
         })}
