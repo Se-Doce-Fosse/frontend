@@ -8,6 +8,7 @@ import {
   Configuracoes,
   Home,
   Login,
+  SobreNos,
 } from '@pages';
 import { UserProvider } from './context/UserContext';
 
@@ -25,6 +26,7 @@ function App() {
             <Route path="/admin/comentarios" element={<Comentarios />} />
             <Route path="/admin/configuracoes" element={<Configuracoes />} />
             <Route path="/login/" element={<Login />} />
+            <Route path="/sobre-nos" element={<SobreNos />} />
           </Routes>
         </BrowserRouter>
       </main>
