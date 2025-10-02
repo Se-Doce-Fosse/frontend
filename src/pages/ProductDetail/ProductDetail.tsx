@@ -5,138 +5,18 @@ import { ProductDetailCard } from '../../components/ProductDetailCard';
 import { ProductList } from '../../components/ProductList';
 import { NavBar } from '../../components/NavBar';
 import { Footer } from '../../components/Footer';
-import type { ApiProduct } from '../../types/api';
-
-const mockProducts: ApiProduct[] = [
-  {
-    id: '1',
-    name: 'Cookie Oreo com Nutella',
-    price: 'R$ 15,00',
-    imageSrc: '/images/brownie-com-sorvete.png',
-    imageAlt: 'Cookie Oreo com Nutella',
-  },
-  {
-    id: '2',
-    name: 'Cookie Chocolate Branco',
-    price: 'R$ 15,00',
-    imageSrc: '/images/bolo.png',
-    imageAlt: 'Cookie Chocolate Branco',
-  },
-  {
-    id: '3',
-    name: 'Cookie de Amendoim',
-    price: 'R$ 16,00',
-    imageSrc: '/images/brownie-com-sorvete.png',
-    imageAlt: 'Cookie de Amendoim',
-  },
-  {
-    id: '4',
-    name: 'Cookie de Chocolate ao Leite',
-    price: 'R$ 16,00',
-    imageSrc: '/images/bolinho-de-cookie.png',
-    imageAlt: 'Cookie de Chocolate ao Leite',
-  },
-  {
-    id: '10',
-    name: 'Bolo Red Velvet',
-    price: 'R$ 35,00',
-    imageSrc: '/images/brownie-red-velvet.png',
-    imageAlt: 'Bolo Red Velvet',
-  },
-];
-
-type ProductDetail = ApiProduct & {
-  description: string;
-  allergens?: string[];
-  relatedProducts?: ApiProduct[];
-};
-
-const mockProductDetails: ProductDetail[] = [
-  {
-    id: '1',
-    name: 'Cookie Oreo com Nutella',
-    price: 'R$ 15,00',
-    imageSrc: '/images/cookie-oreo.jpg',
-    imageAlt: 'Cookie Oreo com Nutella',
-    description:
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris.',
-    allergens: ['contém glúten', 'contém lactose'],
-  },
-  {
-    id: '2',
-    name: 'Cookie Chocolate Branco',
-    price: 'R$ 15,00',
-    imageSrc: '/images/cookie-branco.jpg',
-    imageAlt: 'Cookie Chocolate Branco',
-    description:
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris.',
-    allergens: ['contém glúten', 'contém lactose'],
-  },
-  {
-    id: '3',
-    name: 'Cookie de Amendoim',
-    price: 'R$ 16,00',
-    imageSrc: '/images/cookie-amendoim.jpg',
-    imageAlt: 'Cookie de Amendoim',
-    description:
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris.',
-    allergens: ['contém glúten', 'contém amendoim'],
-  },
-  {
-    id: '4',
-    name: 'Cookie de Chocolate ao Leite',
-    price: 'R$ 16,00',
-    imageSrc: '/images/cookie-chocolate.jpg',
-    imageAlt: 'Cookie de Chocolate ao Leite',
-    description:
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris.',
-    allergens: ['contém glúten', 'contém lactose'],
-  },
-  {
-    id: '10',
-    name: 'Bolo Red Velvet',
-    price: 'R$ 35,00',
-    imageSrc: '/images/bolo-red-velvet.jpg',
-    imageAlt: 'Bolo Red Velvet',
-    description:
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris.',
-    allergens: ['Sem Glúten', 'Sem Lactose', 'Vegan'],
-    relatedProducts: [
-      {
-        id: '1',
-        name: 'Cookie Oreo com Nutella',
-        price: 'R$ 15,00',
-        imageSrc: '/images/cookie-oreo.jpg',
-        imageAlt: 'Cookie Oreo com Nutella',
-      },
-      {
-        id: '2',
-        name: 'Cookie Chocolate Branco',
-        price: 'R$ 15,00',
-        imageSrc: '/images/cookie-branco.jpg',
-        imageAlt: 'Cookie Chocolate Branco',
-      },
-      {
-        id: '3',
-        name: 'Cookie de Amendoim',
-        price: 'R$ 16,00',
-        imageSrc: '/images/cookie-amendoim.jpg',
-        imageAlt: 'Cookie de Amendoim',
-      },
-      {
-        id: '4',
-        name: 'Cookie de Chocolate ao Leite',
-        price: 'R$ 16,00',
-        imageSrc: '/images/cookie-chocolate.jpg',
-        imageAlt: 'Cookie de Chocolate ao Leite',
-      },
-    ],
-  },
-];
+import {
+  fetchProductById,
+  fetchProducts,
+} from '../../services/product/productService';
+import type {
+  ApiProduct,
+  ProductDetail as ProductDetailType,
+} from '../../types/api';
 
 export const ProductDetail: React.FC = () => {
   const { produtoId } = useParams<{ produtoId: string }>();
-  const [product, setProduct] = useState<ProductDetail | null>(null);
+  const [product, setProduct] = useState<ProductDetailType | null>(null);
   const [relatedProducts, setRelatedProducts] = useState<ApiProduct[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -147,22 +27,35 @@ export const ProductDetail: React.FC = () => {
         setLoading(true);
         setError(null);
 
-        const foundProduct = mockProductDetails.find((p) => p.id === produtoId);
-
-        if (!foundProduct) {
-          setError('Produto não encontrado');
+        if (!produtoId) {
+          setError('ID do produto não fornecido');
           return;
         }
 
-        setProduct(foundProduct);
+        const productData = await fetchProductById(produtoId);
+        setProduct(productData as ProductDetailType);
 
         if (
-          foundProduct.relatedProducts &&
-          foundProduct.relatedProducts.length > 0
+          productData.relatedProducts &&
+          productData.relatedProducts.length > 0
         ) {
-          setRelatedProducts(foundProduct.relatedProducts);
+          const relatedProductsData = productData.relatedProducts;
+          setRelatedProducts(relatedProductsData);
         } else {
-          const related = mockProducts.filter((p) => p.id !== produtoId);
+          // Se não temos produtos relacionados, pegar a lista de produtos e usar os primeiros 4.
+          const allProducts = await fetchProducts();
+          const allProductsFlat = allProducts.categories.flatMap((category) =>
+            category.products.map((product) => ({
+              id: product.id,
+              name: product.name,
+              price: product.price,
+              imageSrc: product.imageSrc,
+              imageAlt: product.imageAlt,
+            }))
+          );
+
+          console.log(allProductsFlat);
+          const related = allProductsFlat.filter((p) => p.id !== produtoId);
           setRelatedProducts(related.slice(0, 4));
         }
       } catch (err) {
@@ -234,7 +127,7 @@ export const ProductDetail: React.FC = () => {
             description={product.description}
             imageSrc={product.imageSrc}
             imageAlt={product.imageAlt}
-            allergens={product.allergens}
+            allergens={product.allergens || undefined}
             priceCents={Number(product.price.replace(/[^\d]/g, ''))}
             onAddToCart={handleAddToCart}
             onQuantityChange={handleQuantityChange}
