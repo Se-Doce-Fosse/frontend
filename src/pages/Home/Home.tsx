@@ -127,9 +127,6 @@ const Home = () => {
         onClose={() => setActiveDrawer(null)}
       />
       <Footer />
-      <div>
-        <TableAdminCupomComponent />
-      </div>
     </div>
   );
 };

@@ -1,7 +1,7 @@
 import style from '../../Produtos/Produtos.module.scss';
 import AdminLayout from '../../../layouts/AdminLayout/AdminLayout';
 import { Filter } from '../../../components/Filter';
-import TableAdminComponent from '../../../components/TableAdminComponent/TableAdminComponent';
+import TableAdminProdutoComponent from '../../../components/TempTablesComp/ProdutoTable/TableAdminComponent/TableAdminProdutoComponent';
 
 const status = [
   { label: 'Todos os status', value: 'todos' },
@@ -20,7 +20,7 @@ const ProdutosAdmin: React.FC = () => {
           selectPlaceholder="Todos os status"
           selectOptions={status}
         />
-        <TableAdminComponent />
+        <TableAdminProdutoComponent />
       </div>
     </AdminLayout>
   );
