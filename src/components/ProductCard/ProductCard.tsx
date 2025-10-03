@@ -10,6 +10,7 @@ export type ProductCardProps = {
   priceCents: number;
   onQuantityChange?: AddToCartButtonProps['onQuantityChange'];
   className?: string;
+  quantity?: number;
 };
 
 export const ProductCard: React.FC<ProductCardProps> = ({
@@ -20,8 +21,11 @@ export const ProductCard: React.FC<ProductCardProps> = ({
   priceCents,
   onQuantityChange,
   className,
+  quantity,
 }) => {
-  const [quantity, setQuantity] = useState(0);
+  const [internalQuantity, setInternalQuantity] = useState(0);
+  const isControlled = typeof quantity === 'number';
+  const currentQuantity = isControlled ? quantity : internalQuantity;
   const priceBRL = (priceCents / 100).toLocaleString('pt-BR', {
     style: 'currency',
     currency: 'BRL',
@@ -29,7 +33,9 @@ export const ProductCard: React.FC<ProductCardProps> = ({
   });
 
   const handleQuantityChange = (qty: number) => {
-    setQuantity(qty);
+    if (!isControlled) {
+      setInternalQuantity(qty);
+    }
     onQuantityChange?.(qty);
   };
 
@@ -51,7 +57,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({
           <strong className={styles.price}>{priceBRL}</strong>
 
           <AddToCartButton
-            quantity={quantity}
+            quantity={currentQuantity}
             onQuantityChange={handleQuantityChange}
           />
         </div>
