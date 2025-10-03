@@ -1,0 +1,75 @@
+@use '../../styles/variables.scss' as *;
+
+.container {
+  display: flex;
+  flex-direction: column;
+  background-color: $branco;
+}
+.bannerMobile {
+  margin-top: 0rem;
+  padding: 0;
+  width: 100vw;
+}
+
+.bannerDesktop {
+  display: none;
+}
+
+.bodyContainer {
+  display: flex;
+  flex-direction: column;
+  padding: $space-xl + $space-xs;
+
+  img {
+    display: none;
+  }
+
+  h1 {
+    font-family: 'Roboto', sans-serif;
+    color: $cacau-intenso;
+    margin-bottom: $space-lg;
+  }
+
+  p {
+    font-family: 'Roboto', sans-serif;
+    color: $cacau-intenso;
+    line-height: 1.6;
+    margin-bottom: $space-xxl;
+  }
+}
+
+@media (min-width: 64rem) {
+  .bannerMobile {
+    display: none;
+  }
+
+  .bannerDesktop {
+    display: block;
+    padding: 0;
+    width: 100%;
+    margin: 0rem;
+    height: auto;
+  }
+
+  .textContainer {
+    display: flex;
+    flex-direction: column;
+    gap: $space-lg;
+  }
+
+  .bodyContainer {
+    display: flex;
+    flex-direction: row;
+    padding: $space-xxxxl;
+
+    img {
+      display: block;
+      margin-left: 9rem;
+      margin-top: $space-xxxl;
+    }
+  }
+
+  .footerContainer {
+    margin-top: $space-md;
+  }
+}
