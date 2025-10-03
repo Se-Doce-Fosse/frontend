@@ -15,6 +15,7 @@ function TableAdminEstoqueComponent() {
       uniMedida: 'kg',
       preco: 10,
       categoria: 'ativo',
+      atualizadoEm: new Date(),
     },
     {
       item: 'farinha',
@@ -22,6 +23,7 @@ function TableAdminEstoqueComponent() {
       uniMedida: 'pacote',
       preco: 1000.0,
       categoria: 'ativo',
+      atualizadoEm: new Date(),
     },
   ]);
 
@@ -65,7 +67,7 @@ function TableAdminEstoqueComponent() {
         <h2 className={styles.headerTitle}>Lista de Produtos</h2>
         <div className={styles.btnWrapper}>
           <Button
-            label="Adicionar"
+            label="Novo Item"
             icon={BsPlus}
             //onClick={() => setModalOpen(true)}
             variant="primary"

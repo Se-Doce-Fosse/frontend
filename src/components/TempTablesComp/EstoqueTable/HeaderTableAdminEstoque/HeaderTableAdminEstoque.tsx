@@ -9,6 +9,7 @@ export type EstoqueRow = {
   uniMedida: string;
   preco: number;
   categoria: 'ativo' | 'inativo';
+  atualizadoEm: Date;
 };
 
 type TableProps = {
@@ -47,7 +48,7 @@ export const HeaderTableAdminEstoque: React.FC<TableProps> = ({
                 <td>
                   <StatusBadge status={row.categoria} />
                 </td>
-                <td>atualizadoEm.toLocaleDateString()</td>
+                <td>{row.atualizadoEm.toLocaleDateString()}</td>
                 <td>
                   <span className={styles.actions}>
                     <BsFillPencilFill

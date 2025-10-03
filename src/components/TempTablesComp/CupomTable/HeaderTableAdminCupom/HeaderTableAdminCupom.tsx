@@ -6,8 +6,9 @@ import { StatusBadge } from '../../../StatusBadge/StatusBadge';
 export type CupomRow = {
   cupom: string;
   desconto: string;
+  validade: Date;
   status: 'ativo' | 'inativo';
-  unico: boolean;
+  unico: string;
 };
 
 type TableProps = {
@@ -40,7 +41,7 @@ export const HeaderTableAdminCupom: React.FC<TableProps> = ({
               <tr key={idx}>
                 <td>{row.cupom}</td>
                 <td>{row.desconto}</td>
-                <td>Validade</td>
+                <td>{row.validade.toLocaleDateString()}</td>
                 <td>
                   <StatusBadge status={row.status} />
                 </td>

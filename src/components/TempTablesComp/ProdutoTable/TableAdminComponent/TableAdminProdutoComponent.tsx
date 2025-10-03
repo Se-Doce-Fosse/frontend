@@ -54,7 +54,7 @@ function TabelAdminProdutoComponent() {
         <h2 className={styles.headerTitle}>Lista de Produtos</h2>
         <div className={styles.btnWrapper}>
           <Button
-            label="Adicionar"
+            label="Novo Produto"
             icon={BsPlus}
             onClick={() => setModalOpen(true)}
             variant="primary"

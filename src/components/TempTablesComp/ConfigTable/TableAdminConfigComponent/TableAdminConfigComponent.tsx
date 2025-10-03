@@ -1,22 +1,22 @@
 import { useState } from 'react';
-import { HeaderTableAdminCupom } from '../HeaderTableAdminCupom/HeaderTableAdminCupom';
-import type { CupomRow } from '../HeaderTableAdminCupom/HeaderTableAdminCupom';
+import { HeaderTableAdminConfig } from '../HeaderTableAdminConfig/HeaderTableAdminConfig';
+import type { userRow } from '../HeaderTableAdminConfig/HeaderTableAdminConfig';
 // import { TempModalComponent } from '../../../TempModalComponent/TempModalComponent';
 import { BsPlus } from 'react-icons/bs';
 import { Button } from '../../../Button/Button';
-import styles from './TableAdminCupomComponent.module.scss';
+import styles from './TableAdminConfigComponent.module.scss';
 
-function TabelAdminCupomComponent() {
+function TabelAdminConfigComponent() {
   // const [modalOpen, setModalOpen] = useState<boolean>(false);
-  const [cupons, setCupoms] = useState<CupomRow[]>([
+  const [users, setUsers] = useState<userRow[]>([
     {
-      cupom: 'manteiga',
-      desconto: '10',
-      validade: new Date(),
+      user: 'Cookie Vegano',
+      cargo: 'vegano',
+      email: 'Vegano',
       status: 'ativo',
-      unico: 'Sim',
     },
   ]);
+  const [rowToEdit, setRowToEdit] = useState<number | null>(null);
 
   const tempHandleEditRow = (idx: number) => {
     setRowToEdit(idx);
@@ -24,10 +24,8 @@ function TabelAdminCupomComponent() {
     console.log('not done');
   };
 
-  const [rowToEdit, setRowToEdit] = useState<number | null>(null);
-
   const handleDeleteRow = (targetIndex: number) => {
-    setCupoms(cupons.filter((_, idx) => idx !== targetIndex));
+    setUsers(users.filter((_, idx) => idx !== targetIndex));
   };
 
   // const handleEditRow = (idx: number) => {
@@ -35,12 +33,12 @@ function TabelAdminCupomComponent() {
   //   setModalOpen(true);
   // };
 
-  // const handleSubmit = (newRow: CupomRow) => {
+  // const handleSubmit = (newRow: userRow) => {
   //   if (rowToEdit === null) {
-  //     setCupoms([...cupons, newRow]);
+  //     setUsers([...users, newRow]);
   //   } else {
-  //     setCupoms(
-  //       cupons.map((currRow, idx) => {
+  //     setUsers(
+  //       users.map((currRow, idx) => {
   //         if (idx !== rowToEdit) return currRow;
   //         return newRow;
   //       })
@@ -49,12 +47,12 @@ function TabelAdminCupomComponent() {
   // };
 
   return (
-    <div className={styles.TabelAdminCupomComponent}>
+    <div className={styles.TabelAdminConfigComponent}>
       <div className={styles.header}>
-        <h2 className={styles.headerTitle}>Lista de Cupons</h2>
+        <h2 className={styles.headerTitle}>Lista de Usuárioss</h2>
         <div className={styles.btnWrapper}>
           <Button
-            label="Novo Cupom"
+            label="Adicionar"
             icon={BsPlus}
             // onClick={() => setModalOpen(true)}
             variant="primary"
@@ -63,8 +61,8 @@ function TabelAdminCupomComponent() {
         </div>
       </div>
       <div>
-        <HeaderTableAdminCupom
-          cupons={cupons}
+        <HeaderTableAdminConfig
+          users={users}
           deleteRow={handleDeleteRow}
           editRow={tempHandleEditRow}
         />
@@ -76,11 +74,11 @@ function TabelAdminCupomComponent() {
             setRowToEdit(null);
           }}
           onSubmit={handleSubmit}
-          defaultValue={rowToEdit !== null ? cupons[rowToEdit] : undefined}
+          defaultValue={rowToEdit !== null ? users[rowToEdit] : undefined}
         />
       )} */}
     </div>
   );
 }
 
-export default TabelAdminCupomComponent;
+export default TabelAdminConfigComponent;

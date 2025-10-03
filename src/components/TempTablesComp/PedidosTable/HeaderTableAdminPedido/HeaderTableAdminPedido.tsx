@@ -1,24 +1,24 @@
 import React from 'react';
 import { BsFillTrashFill, BsFillPencilFill } from 'react-icons/bs';
-import styles from './HeaderTableAdminProduto.module.scss';
+import styles from './HeaderTableAdminPedido.module.scss';
 import { StatusBadge } from '../../../StatusBadge/StatusBadge';
 
-export type ProdutoRow = {
-  produto: string;
-  categoria: string;
-  preco: number;
+export type PedidoRow = {
+  pedido: string;
+  cliente: string;
+  total: number;
   status: 'ativo' | 'inativo';
-  estoque: number;
+  atualizadoEm: Date;
 };
 
 type TableProps = {
-  produtos: ProdutoRow[];
+  pedidos: PedidoRow[];
   deleteRow: (idx: number) => void;
   editRow: (idx: number) => void;
 };
 
-export const HeaderTableAdminProduto: React.FC<TableProps> = ({
-  produtos,
+export const HeaderTableAdminPedido: React.FC<TableProps> = ({
+  pedidos,
   deleteRow,
   editRow,
 }) => {
@@ -27,25 +27,25 @@ export const HeaderTableAdminProduto: React.FC<TableProps> = ({
       <table className={styles.table}>
         <thead>
           <tr>
-            <th>Produto</th>
-            <th>Categoria</th>
-            <th>Preço</th>
-            <th>Estoque</th>
+            <th>Pedido</th>
+            <th>Cliente</th>
+            <th>Total</th>
             <th>Status</th>
+            <th>Atualizado Em</th>
             <th>Ações</th>
           </tr>
         </thead>
         <tbody>
-          {produtos.map((row, idx) => {
+          {pedidos.map((row, idx) => {
             return (
               <tr key={idx}>
-                <td>{row.produto}</td>
-                <td>{row.categoria}</td>
-                <td>{row.preco}</td>
-                <td>{row.estoque}</td>
+                <td>{row.pedido}</td>
+                <td>{row.cliente}</td>
+                <td>{row.total}</td>
                 <td>
                   <StatusBadge status={row.status} />
                 </td>
+                <td>{row.atualizadoEm.toLocaleDateString()}</td>
                 <td>
                   <span className={styles.actions}>
                     <BsFillPencilFill

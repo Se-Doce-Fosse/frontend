@@ -6,7 +6,7 @@ import CartDrawerOrder from '../../components/Cart/CartDrawerOrder/CartDrawerOrd
 import bannerDesktop from '../../assets/images/banner-desktop.png';
 import bannerMobile from '../../assets/images/banner-mobile.png';
 import ProductList from '../../components/ProductList';
-import TableAdminEstoqueComponent from '../../components/TempTablesComp/EstoqueTable/TableAdminEstoqueComponent/TabelAdminEstoqueComponent';
+import TableAdminCupomComponent from '../../components/TempTablesComp/CupomTable/TableAdminCupomComponent/TableAdminCupomComponent';
 const Home = () => {
   const [isDrawerOpened, setIsDrawerOpened] = useState(true);
   return (
@@ -77,7 +77,7 @@ const Home = () => {
               /> */}
       <Footer />
       <div>
-        <TableAdminEstoqueComponent />
+        <TableAdminCupomComponent />
       </div>
     </div>
   );
