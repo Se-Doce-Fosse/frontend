@@ -1,24 +1,23 @@
 import React from 'react';
 import { BsFillTrashFill, BsFillPencilFill } from 'react-icons/bs';
-import styles from './HeaderTableAdminProduto.module.scss';
+import styles from './HeaderTableAdminComment.module.scss';
 import { StatusBadge } from '../../../StatusBadge/StatusBadge';
 
-export type ProdutoRow = {
-  produto: string;
-  categoria: string;
-  preco: number;
+export type CommentRow = {
+  pedido: string;
+  cliente: string;
+  estrela: number;
   status: 'ativo' | 'inativo';
-  estoque: number;
 };
 
 type TableProps = {
-  produtos: ProdutoRow[];
+  comments: CommentRow[];
   deleteRow: (idx: number) => void;
   editRow: (idx: number) => void;
 };
 
-export const HeaderTableAdminProduto: React.FC<TableProps> = ({
-  produtos,
+export const HeaderTableAdminComment: React.FC<TableProps> = ({
+  comments,
   deleteRow,
   editRow,
 }) => {
@@ -27,22 +26,21 @@ export const HeaderTableAdminProduto: React.FC<TableProps> = ({
       <table className={styles.table}>
         <thead>
           <tr>
-            <th>Produto</th>
-            <th>Categoria</th>
-            <th>Preço</th>
-            <th>Estoque</th>
+            <th>Pedido</th>
+            <th>Cliente</th>
+            <th>Estrelas</th>
             <th>Status</th>
+            <th>Titulo</th>
             <th>Ações</th>
           </tr>
         </thead>
         <tbody>
-          {produtos.map((row, idx) => {
+          {comments.map((row, idx) => {
             return (
               <tr key={idx}>
-                <td>{row.produto}</td>
-                <td>{row.categoria}</td>
-                <td>{row.preco}</td>
-                <td>{row.estoque}</td>
+                <td>{row.pedido}</td>
+                <td>{row.cliente}</td>
+                <td>{row.estrela}</td>
                 <td>
                   <StatusBadge status={row.status} />
                 </td>
