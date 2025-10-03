@@ -28,7 +28,7 @@ jest.mock('../../../components/Filter', () => ({
 const tableSpy = jest.fn();
 
 jest.mock(
-  '../../../components/TableAdminComponent/TableAdminComponent',
+  '../../../components/TempTablesComp/ProdutoTable/TableAdminComponent/TableAdminProdutoComponent',
   () => ({
     __esModule: true,
     default: () => {
