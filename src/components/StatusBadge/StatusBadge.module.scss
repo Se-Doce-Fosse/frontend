@@ -13,12 +13,45 @@
   text-align: center;
 }
 
-.active {
+.ativo {
   background-color: $status-active;
   color: $preto;
 }
 
-.inactive {
+.inativo {
   background-color: $status-inactive;
+  color: $preto;
+}
+
+.pendente {
+  background-color: $status-preparando;
+  color: $preto;
+}
+.aprovado {
+  background-color: $status-active;
+  color: $preto;
+}
+.rejeitado {
+  background-color: $status-inactive;
+  color: $preto;
+}
+.entregue {
+  background-color: $status-active;
+  color: $preto;
+}
+.pronto {
+  background-color: $status-active;
+  color: $preto;
+}
+.preparando {
+  background-color: $status-preparando;
+  color: $preto;
+}
+.insumo {
+  background-color: $status-insumo;
+  color: $preto;
+}
+.pacote {
+  background-color: $status-embalagem;
   color: $preto;
 }

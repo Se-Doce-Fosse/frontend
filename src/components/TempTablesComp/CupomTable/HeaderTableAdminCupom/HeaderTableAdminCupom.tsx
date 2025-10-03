@@ -2,12 +2,13 @@ import React from 'react';
 import { BsFillTrashFill, BsFillPencilFill } from 'react-icons/bs';
 import styles from './HeaderTableAdminCupom.module.scss';
 import { StatusBadge } from '../../../StatusBadge/StatusBadge';
+import type { StatusEnum } from 'src/types/status';
 
 export type CupomRow = {
   cupom: string;
   desconto: string;
   validade: Date;
-  status: 'ativo' | 'inativo';
+  status: StatusEnum;
   unico: string;
 };
 

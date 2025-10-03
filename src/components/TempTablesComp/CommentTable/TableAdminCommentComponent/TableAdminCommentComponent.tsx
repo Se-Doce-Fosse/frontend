@@ -11,7 +11,7 @@ function TabelAdminCommentComponent() {
       pedido: 'Cookie Vegano',
       cliente: 'Vegano',
       estrela: 4,
-      status: 'ativo',
+      status: 'aprovado',
     },
   ]);
   const [rowToEdit, setRowToEdit] = useState<number | null>(null);

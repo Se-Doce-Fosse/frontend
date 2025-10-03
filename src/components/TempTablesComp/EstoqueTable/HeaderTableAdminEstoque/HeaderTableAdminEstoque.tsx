@@ -2,13 +2,14 @@ import React from 'react';
 import { BsFillTrashFill, BsFillPencilFill } from 'react-icons/bs';
 import styles from './HeaderTableAdminEstoque.module.scss';
 import { StatusBadge } from '../../../StatusBadge/StatusBadge';
+import type { StatusEnum } from 'src/types/status';
 
 export type EstoqueRow = {
   item: string;
   quantidade: number;
   uniMedida: string;
   preco: number;
-  categoria: 'ativo' | 'inativo';
+  categoria: StatusEnum;
   atualizadoEm: Date;
 };
 

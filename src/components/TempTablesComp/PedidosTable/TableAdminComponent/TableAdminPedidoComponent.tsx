@@ -13,7 +13,7 @@ function TabelAdminPedidoComponent() {
       pedido: '0000101',
       cliente: 'Vegano',
       total: 35.99,
-      status: 'ativo',
+      status: 'pendente',
       atualizadoEm: new Date(),
     },
   ]);

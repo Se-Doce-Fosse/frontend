@@ -2,12 +2,13 @@ import React from 'react';
 import { BsFillTrashFill, BsFillPencilFill } from 'react-icons/bs';
 import styles from './HeaderTableAdminPedido.module.scss';
 import { StatusBadge } from '../../../StatusBadge/StatusBadge';
+import type { StatusEnum } from 'src/types/status';
 
 export type PedidoRow = {
   pedido: string;
   cliente: string;
   total: number;
-  status: 'ativo' | 'inativo';
+  status: StatusEnum;
   atualizadoEm: Date;
 };
 

@@ -14,7 +14,7 @@ function TableAdminEstoqueComponent() {
       quantidade: 10,
       uniMedida: 'kg',
       preco: 10,
-      categoria: 'ativo',
+      categoria: 'insumo',
       atualizadoEm: new Date(),
     },
     {
@@ -22,7 +22,7 @@ function TableAdminEstoqueComponent() {
       quantidade: 20,
       uniMedida: 'pacote',
       preco: 1000.0,
-      categoria: 'ativo',
+      categoria: 'embalagem',
       atualizadoEm: new Date(),
     },
   ]);
