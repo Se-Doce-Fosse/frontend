@@ -7,15 +7,25 @@ export interface SelectOption {
   disabled?: boolean;
 }
 
-export interface SelectProps {
+export interface SelectProps
+  extends React.SelectHTMLAttributes<HTMLSelectElement> {
   placeholder?: string;
   options: SelectOption[];
 }
 
-export const Select = ({ placeholder, options, ...props }: SelectProps) => {
+export const Select: React.FC<SelectProps> = ({
+  placeholder,
+  options,
+  value,
+  defaultValue,
+  ...rest
+}) => {
+  const selectValueProps =
+    value !== undefined ? { value } : { defaultValue: defaultValue ?? '' };
+
   return (
     <div className={styles.selectWrapper}>
-      <select className={styles.selectField} defaultValue="" {...props}>
+      <select className={styles.selectField} {...selectValueProps} {...rest}>
         {placeholder && (
           <option value="" hidden>
             {placeholder}
