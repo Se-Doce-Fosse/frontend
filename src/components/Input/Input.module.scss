@@ -1,0 +1,39 @@
+@use './../../styles/variables.scss' as *;
+
+.input {
+  display: flex;
+  flex-direction: column;
+  gap: $space-sm;
+
+  &Label {
+    font-size: $font-lg;
+    font-weight: 500;
+    color: black;
+  }
+
+  &Field {
+    padding: 0.625rem 1.25rem;
+    border-radius: 0.625rem;
+    box-shadow: 0rem 0.25rem 0.25rem 0rem #00000040;
+    font-size: $font-md;
+
+    &:focus {
+      outline: 2px solid $marrom-gourmet;
+    }
+  }
+
+  &Border {
+    border: 1px solid $cacau-intenso;
+    box-shadow: none;
+  }
+
+  &Error {
+    border: 1px solid #e53935;
+    outline: none;
+  }
+  &ErrorMessage {
+    color: #e53935;
+    font-size: $font-sm;
+    margin-top: 0.25rem;
+  }
+}

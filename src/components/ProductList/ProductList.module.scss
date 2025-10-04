@@ -1,0 +1,47 @@
+@use '../../styles/variables.scss' as *;
+
+.productListContainer {
+  width: 100%;
+  margin-bottom: 2rem;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.title {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #3d2c13;
+  letter-spacing: -0.03125rem;
+  line-height: 1.1;
+}
+
+.productsRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  scrollbar-width: thin;
+  scrollbar-color: #e0e0e0 #fff;
+  & > * {
+    flex: 0 0 calc(50% - 0.75rem);
+    max-width: calc(50% - 0.75rem);
+  }
+}
+
+@include desktop {
+  .title {
+    font-size: 2rem;
+  }
+  .productsRow {
+    flex-wrap: wrap;
+    gap: 2rem;
+    & > * {
+      flex: 0 0 calc(25% - 1.5rem);
+      max-width: calc(25% - 1.5rem);
+    }
+  }
+}

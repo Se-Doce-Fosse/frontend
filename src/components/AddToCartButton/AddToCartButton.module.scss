@@ -1,0 +1,106 @@
+@use 'sass:color';
+@use '../../styles/variables.scss' as *;
+
+.addButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: $space-xs;
+  padding: $space-xs;
+  background-color: $verde-pistache;
+  border-radius: $space-xs;
+  font-size: $font-sm;
+  font-weight: 500;
+  border: none;
+  cursor: pointer;
+  transition: background 0.2s ease;
+  width: 2.5rem; // 40px
+  height: 2.5rem; // 40px
+
+  &:hover {
+    background-color: color.adjust($creme-caramelo, $lightness: -5%);
+  }
+
+  .label {
+    display: none;
+  }
+
+  @include desktop {
+    .label {
+      display: inline;
+    }
+
+    width: 7.5rem; // 120px
+    height: 2rem;
+    padding: $space-xs $space-md;
+  }
+}
+
+.counterWrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: $space-xxs;
+  padding: 0 $space-sm;
+  border: 0.125rem solid $marrom-gourmet; // 2px
+  border-radius: $space-xs;
+  background-color: $branco;
+  color: $marrom-gourmet;
+  font-size: $font-md;
+  font-weight: 500;
+  width: 7.5rem;
+  height: 2rem;
+}
+
+.counterButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  border: none;
+  color: $marrom-gourmet;
+  font-size: $font-lg;
+  cursor: pointer;
+  padding: 0;
+  width: 1.6875rem;
+  height: 2rem;
+
+  &:hover {
+    opacity: 0.7;
+  }
+}
+
+.counterValue {
+  min-width: 1.5rem;
+  text-align: center;
+  font-weight: 600;
+  font-size: $font-sm;
+  color: $marrom-gourmet;
+  line-height: 1;
+}
+
+//esse @media quebra o botão em 480px rever ele
+@media (max-width: 480px) {
+  .addButton {
+    width: 2.5rem;
+    height: 2.5rem;
+  }
+
+  .counterWrapper {
+    width: 7.5rem; // Mantém a largura fixa
+    height: 2.5rem;
+    padding: $space-xxs $space-xs;
+  }
+
+  .counterButton {
+    width: 2.5rem;
+    height: 2.5rem;
+    font-size: $font-lg;
+  }
+
+  .counterValue {
+    min-width: 2rem;
+    font-size: $font-md;
+    font-weight: 700;
+  }
+}
