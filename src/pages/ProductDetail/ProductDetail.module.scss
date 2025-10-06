@@ -1,0 +1,116 @@
+@use '../../styles/variables.scss' as *;
+@use 'sass:color';
+
+.page {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background-color: white;
+}
+
+.main {
+  flex: 1;
+  max-width: 75rem;
+  margin: 0 auto;
+  padding: 2rem 1rem;
+  width: 100%;
+}
+
+.productSection {
+  margin-bottom: 3rem;
+}
+
+.relatedSection {
+  margin-bottom: 2rem;
+}
+
+.loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 25rem;
+  text-align: center;
+
+  p {
+    font-size: 1.2rem;
+    color: #666;
+  }
+}
+
+.error {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 25rem;
+  text-align: center;
+
+  h2 {
+    color: #d32f2f;
+    margin-bottom: 1rem;
+    font-size: 1.8rem;
+  }
+
+  p {
+    color: #666;
+    margin-bottom: 2rem;
+    font-size: 1.1rem;
+  }
+}
+
+.backLink {
+  display: inline-block;
+  padding: 0.75rem 1.5rem;
+  background-color: $marrom-gourmet;
+  color: white;
+  text-decoration: none;
+  border-radius: 0.25rem;
+  font-weight: 500;
+  transition: background-color 0.3s ease;
+
+  &:hover {
+    background-color: color.adjust($marrom-gourmet, $lightness: -10%);
+  }
+}
+
+// Responsividade
+@media (max-width: 48rem) {
+  .main {
+    padding: 1rem 0.5rem;
+  }
+
+  .productSection {
+    margin-bottom: 2rem;
+  }
+
+  .relatedSection {
+    margin-bottom: 1.5rem;
+  }
+
+  .loading,
+  .error {
+    min-height: 18.75rem;
+    padding: 1rem;
+  }
+
+  .error {
+    h2 {
+      font-size: 1.5rem;
+    }
+
+    p {
+      font-size: 1rem;
+    }
+  }
+}
+
+@media (max-width: 30rem) {
+  .main {
+    padding: 0.5rem;
+  }
+
+  .loading,
+  .error {
+    min-height: 15.625rem;
+  }
+}

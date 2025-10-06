@@ -23,3 +23,11 @@ Object.defineProperty(window, 'matchMedia', {
     dispatchEvent: jest.fn(),
   })),
 });
+
+// Mock do fetch para testes
+global.fetch = jest.fn();
+
+// Reset fetch mock antes de cada teste
+beforeEach(() => {
+  (fetch as jest.Mock).mockClear();
+});

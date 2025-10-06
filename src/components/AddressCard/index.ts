@@ -1,2 +1,2 @@
-export { AdressCard } from './AddressCard';
+export { AddressCard } from './AddressCard';
 export type { AddressCardProps, AddressData } from './AddressCard';

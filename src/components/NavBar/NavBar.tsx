@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import styles from './NavBar.module.scss';
 import { FaUser, FaShoppingCart, FaBars, FaTimes } from 'react-icons/fa';
-import logoImage from '../../assets//images/logo-se-doce-fosse-dark.png';
+import logoImage from '../../assets/images/logo-se-doce-fosse-dark.png';
 
 interface NavLink {
   label: string;

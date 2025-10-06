@@ -16,7 +16,7 @@ export interface AddressCardProps {
   initialData?: Partial<AddressData>;
 }
 
-export const AdressCard = ({ onSubmit, initialData }: AddressCardProps) => {
+export const AddressCard = ({ onSubmit, initialData }: AddressCardProps) => {
   const [formData, setFormData] = useState<AddressData>({
     cep: initialData?.cep || '',
     street: initialData?.street || '',
