@@ -1,9 +1,9 @@
 import { useState } from 'react';
 import { HeaderTableAdminComment } from '../HeaderTableAdminComment/HeaderTableAdminComment';
 import type { CommentRow } from '../HeaderTableAdminComment/HeaderTableAdminComment';
-import { BsPlus } from 'react-icons/bs';
 import { Button } from '../../../Button/Button';
 import styles from './TableAdminCommentComponent.module.scss';
+import { IoReload } from 'react-icons/io5';
 
 function TabelAdminCommentComponent() {
   const [comments, setComments] = useState<CommentRow[]>([
@@ -38,7 +38,7 @@ function TabelAdminCommentComponent() {
         <div className={styles.btnWrapper}>
           <Button
             label="Atualizar"
-            icon={BsPlus}
+            icon={IoReload}
             variant="primary"
             className={styles.btn}
           />

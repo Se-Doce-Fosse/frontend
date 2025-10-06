@@ -2,9 +2,9 @@ import { useState } from 'react';
 import { HeaderTableAdminPedido } from '../HeaderTableAdminPedido/HeaderTableAdminPedido';
 import type { PedidoRow } from '../HeaderTableAdminPedido/HeaderTableAdminPedido';
 // import { TempModalComponent } from '../../../TempModalComponent/TempModalComponent';
-import { BsPlus } from 'react-icons/bs';
 import { Button } from '../../../Button/Button';
 import styles from './TableAdminPedidoComponent.module.scss';
+import { IoReload } from 'react-icons/io5';
 
 function TabelAdminPedidoComponent() {
   // const [modalOpen, setModalOpen] = useState<boolean>(false);
@@ -54,7 +54,7 @@ function TabelAdminPedidoComponent() {
         <div className={styles.btnWrapper}>
           <Button
             label="Atualizar"
-            icon={BsPlus}
+            icon={IoReload}
             // onClick={() => setModalOpen(true)}
             variant="primary"
             className={styles.btn}
