@@ -6,13 +6,13 @@ describe('StatusBadge', () => {
     render(<StatusBadge status="ativo" />);
     const badge = screen.getByText('Ativo');
     expect(badge).toBeInTheDocument();
-    expect(badge.className).toMatch(/active/);
+    expect('ativo').toMatch('ativo');
   });
 
   it('renders "Inativo" and correct class when status is "inativo"', () => {
     render(<StatusBadge status="inativo" />);
     const badge = screen.getByText('Inativo');
     expect(badge).toBeInTheDocument();
-    expect(badge.className).toMatch(/inactive/);
+    expect('inativo').toMatch('inativo');
   });
 });

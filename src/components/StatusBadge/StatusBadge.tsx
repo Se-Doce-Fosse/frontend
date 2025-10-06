@@ -1,19 +1,14 @@
+import type { StatusEnum } from 'src/types/status';
 import styles from './StatusBadge.module.scss';
 
 export type StatusProps = {
-  status: 'ativo' | 'inativo';
+  status: StatusEnum;
 };
 
 export const StatusBadge = ({ status }: StatusProps) => {
-  const isActive = status === 'ativo';
-
   return (
-    <span
-      className={`${styles.badge} ${
-        isActive ? styles.active : styles.inactive
-      }`}
-    >
-      {isActive ? 'Ativo' : 'Inativo'}
+    <span className={`${styles.badge} ${styles[status]}`}>
+      {status.charAt(0).toUpperCase() + status.slice(1)}
     </span>
   );
 };

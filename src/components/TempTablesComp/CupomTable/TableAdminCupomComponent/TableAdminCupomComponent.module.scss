@@ -1,0 +1,26 @@
+@use 'sass:color';
+@use '../../../../styles/variables.scss' as *;
+
+.btn {
+  margin-top: 0.5rem;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+
+  &Title {
+    font-size: 2.5rem;
+    font-weight: 500;
+  }
+}
+
+.TableAdminComponent {
+  display: flex;
+  flex-direction: column;
+  padding: 1.25rem;
+  background-color: $cinza-claro;
+  border-radius: 0.625rem;
+}
