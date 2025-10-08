@@ -18,7 +18,8 @@ export const TempModalComponent: React.FC<ModalProps> = ({
     defaultValue || {
       produto: '',
       categoria: '',
-      preco: 0,
+      preco: '',
+      precoNumero: 0,
       status: 'ativo',
       estoque: 0,
     }
@@ -30,11 +31,14 @@ export const TempModalComponent: React.FC<ModalProps> = ({
     const errorFields: string[] = [];
     if (!produto) errorFields.push('produto');
     if (!categoria) errorFields.push('categoria');
-    if (preco === null || preco === undefined || preco < 0)
+    const precoNum = Number(preco);
+    if (preco === '' || Number.isNaN(precoNum) || precoNum < 0) {
       errorFields.push('preco');
+    }
     if (!status) errorFields.push('status');
-    if (estoque === null || estoque === undefined || estoque < 0)
+    if (estoque === null || estoque === undefined || estoque < 0) {
       errorFields.push('estoque');
+    }
     setErrors(errorFields.join(', '));
     return errorFields.length === 0;
   };
@@ -45,7 +49,7 @@ export const TempModalComponent: React.FC<ModalProps> = ({
     const { name, value } = e.target;
     setFormState((prev) => ({
       ...prev,
-      [name]: name === 'preco' || name === 'estoque' ? Number(value) : value,
+      [name]: name === 'estoque' ? Number(value) : value,
     }));
   };
 
