@@ -6,7 +6,8 @@ import { StatusBadge } from '../../../StatusBadge/StatusBadge';
 export type ProdutoRow = {
   produto: string;
   categoria: string;
-  preco: number;
+  preco: string;
+  precoNumero: number;
   status: 'ativo' | 'inativo';
   estoque: number;
 };
@@ -23,7 +24,7 @@ export const HeaderTableAdminProduto: React.FC<TableProps> = ({
   editRow,
 }) => {
   return (
-    <div className={styles['table-wrapper']}>
+    <div className={styles.tableWrapper}>
       <table className={styles.table}>
         <thead>
           <tr>

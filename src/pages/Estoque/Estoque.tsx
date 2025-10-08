@@ -2,6 +2,7 @@ import React from 'react';
 import AdminLayout from '../../layouts/AdminLayout/AdminLayout';
 import { Filter } from '../../components/Filter';
 import TableAdminEstoqueComponent from '../../components/TempTablesComp/EstoqueTable/TableAdminEstoqueComponent/TabelAdminEstoqueComponent';
+import styles from './Estoque.module.scss';
 
 const status = [
   { label: 'Todos os status', value: 'todos' },
@@ -12,14 +13,16 @@ const status = [
 const Estoque: React.FC = () => {
   return (
     <AdminLayout>
-      <h1>Estoque</h1>
-      <Filter
-        title="Filtro"
-        searchPlaceholder="Busque por produto ou categoria..."
-        selectPlaceholder="Todos os status"
-        selectOptions={status}
-      />
-      <TableAdminEstoqueComponent />
+      <div className={styles.estoque}>
+        <h1>Estoque</h1>
+        <Filter
+          title="Filtro"
+          searchPlaceholder="Busque por produto ou categoria..."
+          selectPlaceholder="Todos os status"
+          selectOptions={status}
+        />
+        <TableAdminEstoqueComponent />
+      </div>
     </AdminLayout>
   );
 };

@@ -1,0 +1,136 @@
+@use '../../../../../styles/variables.scss' as *;
+
+.overlay {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.45);
+  animation: fadeIn 0.2s ease-in-out;
+  z-index: 1000;
+}
+
+.content {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: $branco;
+  border-radius: 10px;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.2);
+  width: auto;
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: $space-md;
+  z-index: 1001;
+  animation: scaleIn 0.25s ease-in-out;
+}
+
+.title {
+  font-size: $font-lg;
+  font-weight: 700;
+  text-align: center;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: 1.15fr 1fr;
+  gap: 1rem 1.25rem;
+  grid-template-areas:
+    'image nome'
+    'image preco'
+    'url   url'
+    'categoria status'
+    'descricao descricao'
+    'footer footer';
+}
+
+.fieldLabel {
+  font-weight: 600;
+  margin-bottom: 0.35rem;
+  display: inline-block;
+  color: #5b4538;
+}
+
+.errorMsg {
+  color: #c62828;
+  font-size: 0.85rem;
+  margin-top: 0.25rem;
+}
+
+.cellImage {
+  grid-area: image;
+}
+.cellNome {
+  grid-area: nome;
+}
+.cellPreco {
+  grid-area: preco;
+}
+.urlRow {
+  grid-area: url;
+}
+.cellCategoria {
+  grid-area: categoria;
+}
+.cellStatus {
+  grid-area: status;
+}
+.cellDescricao {
+  grid-area: descricao;
+}
+.footer {
+  grid-area: footer;
+  display: flex;
+  justify-content: space-around;
+  gap: 0.75rem;
+}
+
+.imageDrop {
+  width: 100%;
+  aspect-ratio: 4/3;
+  border: 2px dashed #d6c4b7;
+  background: #faf7f4;
+  border-radius: 14px;
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  overflow: hidden;
+  transition: border-color 0.15s ease;
+}
+.imageDrop:hover {
+  border-color: #bfa894;
+}
+
+.imagePlaceholder {
+  color: #8a6b58;
+  opacity: 0.8;
+}
+
+.imagePreview {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.fileInput {
+  display: none;
+}
+
+.urlRow {
+  margin-top: 0.6rem;
+}
+
+@media (max-width: 860px) {
+  .grid {
+    grid-template-columns: 1fr;
+    grid-template-areas:
+      'image'
+      'nome'
+      'preco'
+      'url'
+      'categoria'
+      'status'
+      'descricao'
+      'footer';
+  }
+}
