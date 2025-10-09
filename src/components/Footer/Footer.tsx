@@ -4,6 +4,7 @@ import logoFooter from '../../assets/images/logo-footer.png';
 import type { ReactNode } from 'react';
 import { Input } from '../Input';
 import { Textarea } from '../Textarea';
+import { RatingStars } from '../RatingStars';
 
 export interface CommentData {
   comment: string;
@@ -143,6 +144,10 @@ export const Footer = ({
               placeholder="Telefone*"
               aria-label="Telefone"
             />
+          </div>
+
+          <div className={styles.avaliation}>
+            <RatingStars />
           </div>
 
           <div className={styles.buttonContainer}>

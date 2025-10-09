@@ -1,0 +1,22 @@
+@use '../../styles/variables.scss' as *;
+
+.star {
+  cursor: pointer;
+  font-size: $space-xl;
+  color: $cinza-borda;
+  transition: color 0.2s ease;
+
+  @media (min-width: 64rem) {
+    .star:hover {
+      color: $status-avaliacao;
+    }
+  }
+}
+
+.container {
+  display: flex;
+  gap: 0.3125rem;
+}
+.active {
+  color: $status-avaliacao;
+}
