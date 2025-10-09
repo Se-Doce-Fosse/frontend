@@ -1,0 +1,71 @@
+@use '../../styles/variables.scss' as *;
+
+.banner {
+  background-color: $creme-caramelo;
+  padding: $space-sm $space-md;
+  width: 100%;
+  position: relative;
+  border-bottom: 0.0625rem solid $marrom-gourmet;
+}
+
+.content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  max-width: 75rem;
+  margin: 0 auto;
+  position: relative;
+}
+
+.text {
+  color: $marrom-gourmet;
+  font-size: $font-sm;
+  font-weight: 400;
+  text-align: center;
+  flex: 1;
+
+  strong {
+    font-weight: $semi-bold;
+  }
+}
+
+.closeButton {
+  background: none;
+  border: none;
+  color: $preto;
+  font-size: $font-lg;
+  font-weight: $bold;
+  cursor: pointer;
+  padding: 0;
+  width: $space-lg;
+  height: $space-lg;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: color 0.2s ease;
+
+  &:hover {
+    color: $cinza-texto;
+  }
+
+  &:focus {
+    outline: 0.125rem solid $marrom-gourmet;
+    outline-offset: 0.125rem;
+  }
+}
+
+@media (max-width: 48rem) {
+  .banner {
+    padding: $space-xs $space-sm;
+  }
+
+  .text {
+    font-size: $font-xs;
+    text-align: left;
+    margin-right: $space-xs;
+  }
+
+  .content {
+    justify-content: flex-start;
+  }
+}

@@ -1,3 +1,4 @@
+export * from './CupomBanner';
 export * from './HelloWorld';
 export * from './Footer';
 export * from './SideBar';

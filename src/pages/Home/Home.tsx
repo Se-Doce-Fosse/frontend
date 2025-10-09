@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styles from './Home.module.scss';
-import { NavBar, Footer } from '../../components';
+import { NavBar, Footer, CupomBanner } from '../../components';
 import CartDrawerOrder from '../../components/Cart/CartDrawerOrder/CartDrawerOrder';
 import CartDrawerFinish from '../../components/Cart/CartDrawerFinish/CartDrawerFinish';
 import bannerDesktop from '../../assets/images/banner-desktop.png';
@@ -98,6 +98,7 @@ const Home = () => {
     <div className={styles.container}>
       <div className={styles.top}>
         <NavBar onCartClick={() => setActiveDrawer('order')} />
+        <CupomBanner />
         <img
           src={bannerDesktop}
           alt="Banner promocional da loja Se Doce Fosse"
