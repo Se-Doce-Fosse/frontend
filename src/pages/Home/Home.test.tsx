@@ -21,6 +21,7 @@ jest.mock('../../components', () => ({
     </nav>
   ),
   Footer: () => <footer data-testid="footer">Footer</footer>,
+  CupomBanner: () => <div data-testid="cupom-banner">Banner Cupom</div>,
 }));
 
 jest.mock('../../components/Cart/CartDrawerOrder/CartDrawerOrder', () => ({
