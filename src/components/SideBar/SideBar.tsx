@@ -9,7 +9,7 @@ import {
   AiOutlineTags,
 } from 'react-icons/ai';
 import { FaSignOutAlt } from 'react-icons/fa';
-import logoImage from '../../assets//images/logo-se-doce-fosse.png';
+import logoImage from '../../assets/images/logo-se-doce-fosse.png';
 import { useUser } from '../../context/UserContext';
 
 export default function SideBar() {

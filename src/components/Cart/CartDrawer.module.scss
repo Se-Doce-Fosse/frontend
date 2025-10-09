@@ -177,3 +177,26 @@
     padding: 1rem;
   }
 }
+
+.headingRow {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: $cacau-intenso;
+  margin: 0 0 2.5rem 0;
+}
+
+.icon {
+  color: $cacau-intenso;
+  font-size: 1.6rem;
+  line-height: 1;
+}
+
+.finishOrderContent {
+  display: flex;
+  flex-direction: column;
+  gap: $space-lg;
+  height: 100%;
+  padding: $space-lg;
+  overflow-x: hidden;
+}

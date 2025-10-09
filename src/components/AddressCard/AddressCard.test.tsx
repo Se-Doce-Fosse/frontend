@@ -1,9 +1,9 @@
 import { render, screen, fireEvent } from '@testing-library/react';
-import { AdressCard } from './AddressCard';
+import { AddressCard } from './AddressCard';
 
-describe('AdressCard component', () => {
+describe('AddressCard component', () => {
   it('renders with title and all form fields', () => {
-    render(<AdressCard />);
+    render(<AddressCard />);
 
     expect(screen.getByText('Endereço de entrega')).toBeInTheDocument();
     expect(screen.getByPlaceholderText('CEP*')).toBeInTheDocument();
@@ -15,7 +15,7 @@ describe('AdressCard component', () => {
 
   it('shows validation errors for required fields', () => {
     const mockOnSubmit = jest.fn();
-    render(<AdressCard onSubmit={mockOnSubmit} />);
+    render(<AddressCard onSubmit={mockOnSubmit} />);
 
     const form = screen.getByTestId('address-form');
     fireEvent.submit(form);
@@ -31,7 +31,7 @@ describe('AdressCard component', () => {
 
   it('calls onSubmit with form data when valid', () => {
     const mockOnSubmit = jest.fn();
-    render(<AdressCard onSubmit={mockOnSubmit} />);
+    render(<AddressCard onSubmit={mockOnSubmit} />);
 
     fireEvent.change(screen.getByPlaceholderText('CEP*'), {
       target: { value: '12345-678' },
@@ -70,7 +70,7 @@ describe('AdressCard component', () => {
       complement: 'Casa',
     };
 
-    render(<AdressCard initialData={initialData} />);
+    render(<AddressCard initialData={initialData} />);
 
     expect(screen.getByDisplayValue('12345-678')).toBeInTheDocument();
     expect(screen.getByDisplayValue('Rua Teste')).toBeInTheDocument();
@@ -80,7 +80,7 @@ describe('AdressCard component', () => {
   });
 
   it('removes error when user starts typing', () => {
-    render(<AdressCard />);
+    render(<AddressCard />);
 
     const form = screen.getByTestId('address-form');
     fireEvent.submit(form);
