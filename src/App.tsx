@@ -10,6 +10,7 @@ import {
   Home,
   Login,
   SobreNos,
+  Encomendas,
 } from '@pages';
 import { UserProvider } from './context/UserContext';
 import { CartProvider } from './context/CartContext';
@@ -33,6 +34,7 @@ function App() {
               <Route path="/admin/configuracoes" element={<Configuracoes />} />
               <Route path="/login/" element={<Login />} />
               <Route path="/sobre-nos" element={<SobreNos />} />
+              <Route path="/encomendas" element={<Encomendas />} />
             </Routes>
           </BrowserRouter>
         </main>
