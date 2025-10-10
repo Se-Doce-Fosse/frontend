@@ -41,6 +41,13 @@ export default function CartDrawerFinish({
     [items]
   );
 
+  const whatslines = items.map(
+    (item) => `${item.quantity} ${item.name} Unidade: ${item.unitPrice}`
+  );
+  const whatsMessage = `Pedidos: ${whatslines} *Total:*R$${totalAmount}`;
+  const number = `0000000000000`;
+  const whatsLink = `https://wa.me/${number}?text=${whatsMessage}`;
+
   return (
     <CartDrawer open={open} onClose={onClose} withHeader={false}>
       <div className={styles.finishOrderContent}>
@@ -79,7 +86,10 @@ export default function CartDrawerFinish({
             label="Finalizar Pedido"
             variant="secondary"
             className={styles.continueButton}
-            onClick={() => console.log('mandar por whatsapp (próxima task)')}
+            onClick={() => {
+              window.open(whatsLink, '_blank');
+              console.log(whatsLink);
+            }}
           />
         </footer>
       </div>
