@@ -1,4 +1,5 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import styles from './ProductList.module.scss';
 import { ProductCard } from '../ProductCard';
 import { ShowMoreButton } from '../ShowMoreButton/ShowMoreButton';
@@ -29,6 +30,7 @@ export const ProductList: React.FC<ProductListProps> = ({
   onProductQuantityChange,
   productQuantities,
 }) => {
+  const navigate = useNavigate();
   return (
     <section className={styles.productListContainer}>
       <div className={styles.header}>
@@ -51,6 +53,7 @@ export const ProductList: React.FC<ProductListProps> = ({
               onQuantityChange={(qty) =>
                 onProductQuantityChange?.(product, qty)
               }
+              onClick={() => navigate(`/produtos/${product.id}`)}
             />
           );
         })}

@@ -32,6 +32,7 @@ export interface Product {
   imageSrc: string;
   name: string;
   price: string;
+  description: string;
   relatedProducts: Product[] | null;
 }
 

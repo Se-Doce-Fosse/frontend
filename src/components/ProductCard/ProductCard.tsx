@@ -11,6 +11,7 @@ export type ProductCardProps = {
   onQuantityChange?: AddToCartButtonProps['onQuantityChange'];
   className?: string;
   quantity?: number;
+  onClick?: () => void;
 };
 
 export const ProductCard: React.FC<ProductCardProps> = ({
@@ -22,6 +23,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({
   onQuantityChange,
   className,
   quantity,
+  onClick,
 }) => {
   const [internalQuantity, setInternalQuantity] = useState(0);
   const isControlled = typeof quantity === 'number';
@@ -40,7 +42,12 @@ export const ProductCard: React.FC<ProductCardProps> = ({
   };
 
   return (
-    <article className={`${styles.card} ${className || ''}`} aria-label={title}>
+    <article
+      className={`${styles.card} ${className || ''}`}
+      aria-label={title}
+      onClick={onClick}
+      style={onClick ? { cursor: 'pointer' } : undefined}
+    >
       <div className={styles.media}>
         <img src={imageSrc} alt={imageAlt} loading="lazy" />
       </div>
@@ -56,10 +63,15 @@ export const ProductCard: React.FC<ProductCardProps> = ({
         <div className={styles.footer}>
           <strong className={styles.price}>{priceBRL}</strong>
 
-          <AddToCartButton
-            quantity={currentQuantity}
-            onQuantityChange={handleQuantityChange}
-          />
+          <div
+            onClick={e => e.stopPropagation()}
+            style={{ display: 'inline-block' }}
+          >
+            <AddToCartButton
+              quantity={currentQuantity}
+              onQuantityChange={handleQuantityChange}
+            />
+          </div>
         </div>
       </div>
     </article>

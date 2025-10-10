@@ -134,3 +134,43 @@
       'footer';
   }
 }
+
+//Imagem com tamanho fixo
+.imageDrop {
+  width: 220px;
+  height: 220px;
+  overflow: hidden;
+  display: grid;
+  place-items: center;
+  position: relative;
+}
+
+.fileInput {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.imagePreview {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+}
+
+.imagePlaceholder {
+  display: inline-block;
+  text-align: center;
+  line-height: 1.2;
+  max-width: 90%;
+  word-wrap: break-word;
+}
+
+@media (max-width: 640px) {
+  .imageDrop {
+    width: 220px;
+    height: 220px;
+  }
+}
+

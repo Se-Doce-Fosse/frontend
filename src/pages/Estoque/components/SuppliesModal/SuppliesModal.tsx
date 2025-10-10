@@ -71,7 +71,7 @@ export function SuppliesModal({
             <div className={styles.fieldQtd}>
               <Input
                 label="Quantidade"
-                type="number"
+                type="text"
                 value={values.quantidade}
                 onChange={handleQtd}
               />
@@ -80,7 +80,7 @@ export function SuppliesModal({
             <div className={styles.fieldPreco}>
               <Input
                 label="Preço"
-                type="number"
+                type="text"
                 value={values.preco}
                 onChange={handlePreco}
               />

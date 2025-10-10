@@ -7,10 +7,10 @@ import type { StatusEnum } from 'src/types/status';
 export type EstoqueRow = {
   item: string;
   quantidade: number;
+  pontoReposicao: number;
   uniMedida: string;
   preco: number;
   categoria: StatusEnum;
-  atualizadoEm: Date;
 };
 
 type TableProps = {
@@ -18,6 +18,12 @@ type TableProps = {
   deleteRow: (idx: number) => void;
   editRow: (idx: number) => void;
 };
+
+const brlFmt = new Intl.NumberFormat('pt-BR', {
+  style: 'currency',
+  currency: 'BRL',
+  minimumFractionDigits: 2,
+});
 
 export const HeaderTableAdminEstoque: React.FC<TableProps> = ({
   estoque,
@@ -31,10 +37,10 @@ export const HeaderTableAdminEstoque: React.FC<TableProps> = ({
           <tr>
             <th>Item</th>
             <th>Quantidade</th>
+            <th>Ponto de Reposição</th>
             <th>Uni.Medida</th>
-            <th>Preco</th>
+            <th>Preço Compra</th>
             <th>Categoria</th>
-            <th>Atualizado Em</th>
             <th>Ações</th>
           </tr>
         </thead>
@@ -44,12 +50,12 @@ export const HeaderTableAdminEstoque: React.FC<TableProps> = ({
               <tr key={idx}>
                 <td>{row.item}</td>
                 <td>{row.quantidade}</td>
+                <td>{row.pontoReposicao}</td>
                 <td>{row.uniMedida}</td>
-                <td>{row.preco}</td>
+                <td>{brlFmt.format(row.preco)}</td>
                 <td>
                   <StatusBadge status={row.categoria} />
                 </td>
-                <td>{row.atualizadoEm.toLocaleDateString()}</td>
                 <td>
                   <span className={styles.actions}>
                     <BsFillPencilFill

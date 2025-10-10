@@ -6,8 +6,8 @@ import styles from './Estoque.module.scss';
 
 const status = [
   { label: 'Todos os status', value: 'todos' },
-  { label: 'Ativos', value: 'ativos' },
-  { label: 'Inativos', value: 'inativos' },
+  { label: 'Insumo', value: 'insumo' },
+  { label: 'Embalagem', value: 'embalagem' },
 ];
 
 const Estoque: React.FC = () => {
@@ -17,7 +17,7 @@ const Estoque: React.FC = () => {
         <h1>Estoque</h1>
         <Filter
           title="Filtro"
-          searchPlaceholder="Busque por produto ou categoria..."
+          searchPlaceholder="Busque por um item..."
           selectPlaceholder="Todos os status"
           selectOptions={status}
         />
