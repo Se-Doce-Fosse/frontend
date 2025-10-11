@@ -9,3 +9,4 @@ export { Comentarios } from './Comentarios';
 export { Configuracoes } from './Configuracoes';
 export { Login } from './Login';
 export { SobreNos } from './SobreNos';
+export { Encomendas } from './Encomendas';
