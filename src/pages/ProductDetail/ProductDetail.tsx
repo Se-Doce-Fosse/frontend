@@ -5,6 +5,9 @@ import { ProductDetailCard } from '../../components/ProductDetailCard';
 import { ProductList } from '../../components/ProductList';
 import { NavBar } from '../../components/NavBar';
 import { Footer } from '../../components/Footer';
+import CartDrawerOrder from '../../components/Cart/CartDrawerOrder/CartDrawerOrder';
+import CartDrawerFinish from '../../components/Cart/CartDrawerFinish/CartDrawerFinish';
+import { useCart } from '../../context/CartContext';
 import {
   fetchProductById,
   fetchProducts,
@@ -20,6 +23,17 @@ export const ProductDetail: React.FC = () => {
   const [relatedProducts, setRelatedProducts] = useState<ApiProduct[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+
+  const {
+    items,
+    activeDrawer,
+    setActiveDrawer,
+    updateProductQuantity,
+    incrementItem,
+    decrementItem,
+    removeItem,
+    quantitiesByProductId,
+  } = useCart();
 
   useEffect(() => {
     const fetchProductData = async () => {
@@ -71,12 +85,30 @@ export const ProductDetail: React.FC = () => {
     }
   }, [produtoId]);
 
-  const handleAddToCart = (id: string) => {
-    console.log('Adicionando ao carrinho:', id);
+  const handleAddToCart = () => {
+    if (product) {
+      const productForCart = {
+        id: product.id,
+        name: product.name,
+        price: product.price,
+        imageSrc: product.imageSrc,
+        imageAlt: product.imageAlt,
+      };
+      updateProductQuantity(productForCart, 1);
+    }
   };
 
   const handleQuantityChange = (quantity: number) => {
-    console.log('Quantidade alterada:', quantity);
+    if (product) {
+      const productForCart = {
+        id: product.id,
+        name: product.name,
+        price: product.price,
+        imageSrc: product.imageSrc,
+        imageAlt: product.imageAlt,
+      };
+      updateProductQuantity(productForCart, quantity);
+    }
   };
 
   const handleShowMoreRelated = () => {
@@ -117,7 +149,7 @@ export const ProductDetail: React.FC = () => {
 
   return (
     <div className={styles.page}>
-      <NavBar />
+      <NavBar onCartClick={() => setActiveDrawer('order')} />
       <main className={styles.main}>
         <section className={styles.productSection}>
           <ProductDetailCard
@@ -131,6 +163,7 @@ export const ProductDetail: React.FC = () => {
             priceCents={Number(product.price.replace(/[^\d]/g, ''))}
             onAddToCart={handleAddToCart}
             onQuantityChange={handleQuantityChange}
+            quantity={quantitiesByProductId[product.id] || 0}
           />
         </section>
 
@@ -141,10 +174,27 @@ export const ProductDetail: React.FC = () => {
               products={relatedProducts}
               showMore={true}
               onShowMoreClick={handleShowMoreRelated}
+              onProductQuantityChange={updateProductQuantity}
+              productQuantities={quantitiesByProductId}
             />
           </section>
         )}
       </main>
+
+      <CartDrawerOrder
+        open={activeDrawer === 'order'}
+        onClose={() => setActiveDrawer(null)}
+        onContinue={() => setActiveDrawer('finish')}
+        items={items}
+        onIncrement={incrementItem}
+        onDecrement={decrementItem}
+        onRemove={removeItem}
+      />
+      <CartDrawerFinish
+        open={activeDrawer === 'finish'}
+        onClose={() => setActiveDrawer(null)}
+      />
+
       <Footer />
     </div>
   );
