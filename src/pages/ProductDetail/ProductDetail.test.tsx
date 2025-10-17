@@ -2,6 +2,7 @@ import React from 'react';
 import { render, screen, waitFor } from '@testing-library/react';
 import { BrowserRouter } from 'react-router-dom';
 import { ProductDetail } from './ProductDetail';
+import { CartProvider } from '../../context/CartContext';
 
 const mockUseParams = jest.fn();
 jest.mock('react-router-dom', () => ({
@@ -129,7 +130,11 @@ const mockProductsData = {
 };
 
 const renderWithRouter = (component: React.ReactElement) => {
-  return render(<BrowserRouter>{component}</BrowserRouter>);
+  return render(
+    <CartProvider>
+      <BrowserRouter>{component}</BrowserRouter>
+    </CartProvider>
+  );
 };
 
 describe('ProductDetail', () => {

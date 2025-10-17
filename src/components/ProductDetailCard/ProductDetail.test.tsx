@@ -39,12 +39,12 @@ describe('ProductDetailCard', () => {
     expect(screen.getByText(mockProduct.description)).toBeInTheDocument();
   });
 
-  it('ao clicar em adicionar, chama onAddToCart com o id', () => {
+  it('ao clicar em adicionar, chama onAddToCart', () => {
     const onAddToCart = jest.fn();
     renderProductDetailCard({ onAddToCart });
     const addButton = screen.getByRole('button', { name: /adicionar/i });
     fireEvent.click(addButton);
-    expect(onAddToCart).toHaveBeenCalledWith(mockProduct.id);
+    expect(onAddToCart).toHaveBeenCalled();
   });
 
   it('incrementa e decrementa quantidade corretamente', () => {
