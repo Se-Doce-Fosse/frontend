@@ -5,8 +5,6 @@ import { ProductDetailCard } from '../../components/ProductDetailCard';
 import { ProductList } from '../../components/ProductList';
 import { NavBar } from '../../components/NavBar';
 import { Footer } from '../../components/Footer';
-import CartDrawerOrder from '../../components/Cart/CartDrawerOrder/CartDrawerOrder';
-import CartDrawerFinish from '../../components/Cart/CartDrawerFinish/CartDrawerFinish';
 import { useCart } from '../../context/CartContext';
 import {
   fetchProductById,
@@ -24,16 +22,8 @@ export const ProductDetail: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  const {
-    items,
-    activeDrawer,
-    setActiveDrawer,
-    updateProductQuantity,
-    incrementItem,
-    decrementItem,
-    removeItem,
-    quantitiesByProductId,
-  } = useCart();
+  const { setActiveDrawer, updateProductQuantity, quantitiesByProductId } =
+    useCart();
 
   useEffect(() => {
     const fetchProductData = async () => {
@@ -180,20 +170,6 @@ export const ProductDetail: React.FC = () => {
           </section>
         )}
       </main>
-
-      <CartDrawerOrder
-        open={activeDrawer === 'order'}
-        onClose={() => setActiveDrawer(null)}
-        onContinue={() => setActiveDrawer('finish')}
-        items={items}
-        onIncrement={incrementItem}
-        onDecrement={decrementItem}
-        onRemove={removeItem}
-      />
-      <CartDrawerFinish
-        open={activeDrawer === 'finish'}
-        onClose={() => setActiveDrawer(null)}
-      />
 
       <Footer />
     </div>
