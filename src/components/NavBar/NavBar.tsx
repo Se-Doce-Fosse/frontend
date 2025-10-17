@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import styles from './NavBar.module.scss';
 import { FaUser, FaShoppingCart, FaBars, FaTimes } from 'react-icons/fa';
 import logoImage from '../../assets/images/logo-se-doce-fosse-dark.png';
@@ -30,6 +31,7 @@ export function NavBar({
   isCartDrawerActive = false,
 }: NavBarProps) {
   const [isMobileMenuOpen, setMenuOpen] = useState(false);
+  const navigate = useNavigate();
 
   const toggleMenu = () => {
     setMenuOpen(!isMobileMenuOpen);
@@ -65,7 +67,7 @@ export function NavBar({
         </ul>
         <div className={styles.navIcons}>
           <button
-            onClick={onLoginClick}
+            onClick={() => (onLoginClick ? onLoginClick() : navigate('/login'))}
             className={`${styles.iconButton} ${
               isLoginModalActive ? styles.active : ''
             }`}
@@ -105,7 +107,11 @@ export function NavBar({
           ))}
           <li className={styles.mobileActionItem}>
             <button
-              onClick={() => handleMobileLinkClick(onLoginClick)}
+              onClick={() =>
+                handleMobileLinkClick(
+                  onLoginClick ? onLoginClick : () => navigate('/login')
+                )
+              }
               className={`${styles.iconButton} ${
                 isLoginModalActive ? styles.active : ''
               }`}

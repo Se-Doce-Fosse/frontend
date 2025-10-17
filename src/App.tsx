@@ -10,11 +10,11 @@ import {
   Home,
   Login,
   SobreNos,
-  Encomendas,
 } from '@pages';
 import { UserProvider } from './context/UserContext';
 import { CartProvider } from './context/CartContext';
 import { ProdutosAdmin } from './pages/Admin/Produtos';
+import ClienteLogin from './pages/Cliente/Login/Log';
 
 function App() {
   return (
@@ -32,9 +32,9 @@ function App() {
               <Route path="/admin/pedidos" element={<Pedidos />} />
               <Route path="/admin/comentarios" element={<Comentarios />} />
               <Route path="/admin/configuracoes" element={<Configuracoes />} />
-              <Route path="/login/" element={<Login />} />
+              <Route path="/admin/login" element={<Login />} />
+              <Route path="/login" element={<ClienteLogin />} />
               <Route path="/sobre-nos" element={<SobreNos />} />
-              <Route path="/encomendas" element={<Encomendas />} />
             </Routes>
           </BrowserRouter>
         </main>

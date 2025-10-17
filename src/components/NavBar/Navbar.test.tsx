@@ -1,5 +1,16 @@
 import { render, screen, fireEvent } from '@testing-library/react';
 import '@testing-library/jest-dom';
+
+// Mock react-router's useNavigate so NavBar can call navigate('/login') in tests
+const mockNavigate = jest.fn();
+jest.mock('react-router-dom', () => {
+  const actual = jest.requireActual('react-router-dom') as unknown;
+  return {
+    ...(actual as Record<string, unknown>),
+    useNavigate: () => mockNavigate,
+  };
+});
+
 import { NavBar } from './';
 
 jest.mock(
