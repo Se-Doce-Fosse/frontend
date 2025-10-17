@@ -59,6 +59,10 @@ const Home = () => {
     navigate('/produtos');
   };
 
+  const handleProductClick = (product: { id: string }) => {
+    navigate(`/produtos/${product.id}`);
+  };
+
   const renderProductSections = () => {
     if (loading) {
       return <div>Carregando produtos...</div>;
@@ -77,21 +81,25 @@ const Home = () => {
           onShowMoreClick={handleShowMoreClick}
           onProductQuantityChange={updateProductQuantity}
           productQuantities={quantitiesByProductId}
+          onProductClick={handleProductClick}
         />
       );
     }
 
-    return categories.map((category) => (
+    // Mostrar apenas uma categoria na home
+    const firstCategory = categories[0];
+    return (
       <ProductList
-        key={category.id}
-        title={category.name}
-        products={category.products}
+        key={firstCategory.id}
+        title={firstCategory.name}
+        products={firstCategory.products}
         showMore
         onShowMoreClick={handleShowMoreClick}
         onProductQuantityChange={updateProductQuantity}
         productQuantities={quantitiesByProductId}
+        onProductClick={handleProductClick}
       />
-    ));
+    );
   };
 
   return (

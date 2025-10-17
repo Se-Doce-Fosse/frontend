@@ -19,6 +19,7 @@ export type ProductListProps = {
   onShowMoreClick?: () => void;
   onProductQuantityChange?: (product: Product, quantity: number) => void;
   productQuantities?: Record<string, number>;
+  onProductClick?: (product: Product) => void;
 };
 
 export const ProductList: React.FC<ProductListProps> = ({
@@ -28,6 +29,7 @@ export const ProductList: React.FC<ProductListProps> = ({
   onShowMoreClick,
   onProductQuantityChange,
   productQuantities,
+  onProductClick,
 }) => {
   return (
     <section className={styles.productListContainer}>
@@ -51,6 +53,7 @@ export const ProductList: React.FC<ProductListProps> = ({
               onQuantityChange={(qty) =>
                 onProductQuantityChange?.(product, qty)
               }
+              onClick={() => onProductClick?.(product)}
             />
           );
         })}
