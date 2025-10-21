@@ -78,6 +78,20 @@ const Home = () => {
 
     // Mostrar apenas uma categoria na home
     const firstCategory = categories[0];
+    if (!firstCategory) {
+      return (
+        <ProductList
+          title="Produtos em Destaque"
+          products={FEATURED_PRODUCTS}
+          showMore
+          onShowMoreClick={handleShowMoreClick}
+          onProductQuantityChange={updateProductQuantity}
+          productQuantities={quantitiesByProductId}
+          onProductClick={handleProductClick}
+        />
+      );
+    }
+
     return (
       <ProductList
         key={firstCategory.id}
