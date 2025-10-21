@@ -42,7 +42,8 @@ export default function CartDrawerFinish({
   );
 
   const whatslines = items.map(
-    (item) => `${item.quantity} ${item.name} Unidade: ${item.unitPrice}`
+    (item) =>
+      ` ${item.quantity} ${item.name} Unidade: ${formatCurrency(item.unitPrice)}`
   );
   const whatsMessage = `Pedidos: ${whatslines} *Total:*R$${totalAmount}`;
   const number = `5551994527855`;
