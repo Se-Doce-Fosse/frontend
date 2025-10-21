@@ -48,7 +48,6 @@ export default function CartDrawerFinish({
   const whatsMessage = `Pedidos: ${whatslines} Total: ${formatCurrency(totalAmount)}`;
   const number = `5551994527855`;
   const whatsLink = `https://wa.me/${number}?text=${whatsMessage}`;
-  console.log(whatsLink);
 
   return (
     <CartDrawer open={open} onClose={onClose} withHeader={false}>
@@ -90,7 +89,6 @@ export default function CartDrawerFinish({
             className={styles.continueButton}
             onClick={() => {
               window.open(whatsLink, '_blank');
-              console.log(whatsLink);
             }}
           />
         </footer>
