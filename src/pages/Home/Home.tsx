@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styles from './Home.module.scss';
-import { NavBar, Footer, CupomBanner } from '../../components';
 import CartDrawerOrder from '../../components/Cart/CartDrawerOrder/CartDrawerOrder';
 import CartDrawerFinish from '../../components/Cart/CartDrawerFinish/CartDrawerFinish';
 import bannerDesktop from '../../assets/images/banner-desktop.png';
@@ -11,6 +10,7 @@ import { FEATURED_PRODUCTS } from '../../data/products';
 import { useCart } from '../../context/CartContext';
 import { fetchProducts } from '../../services/product/productService';
 import type { Category } from '../../types/api';
+import { CupomBanner, Footer, NavBar } from '@components';
 
 const Home = () => {
   const {
@@ -127,6 +127,7 @@ const Home = () => {
         open={activeDrawer === 'finish'}
         onClose={() => setActiveDrawer(null)}
       />
+
       <Footer />
     </div>
   );
