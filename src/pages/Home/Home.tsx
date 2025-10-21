@@ -2,8 +2,6 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styles from './Home.module.scss';
 import { NavBar, Footer, CupomBanner } from '../../components';
-import CartDrawerOrder from '../../components/Cart/CartDrawerOrder/CartDrawerOrder';
-import CartDrawerFinish from '../../components/Cart/CartDrawerFinish/CartDrawerFinish';
 import bannerDesktop from '../../assets/images/banner-desktop.png';
 import bannerMobile from '../../assets/images/banner-mobile.png';
 import ProductList from '../../components/ProductList';
@@ -13,16 +11,8 @@ import { fetchProducts } from '../../services/product/productService';
 import type { Category } from '../../types/api';
 
 const Home = () => {
-  const {
-    items,
-    activeDrawer,
-    setActiveDrawer,
-    updateProductQuantity,
-    incrementItem,
-    decrementItem,
-    removeItem,
-    quantitiesByProductId,
-  } = useCart();
+  const { setActiveDrawer, updateProductQuantity, quantitiesByProductId } =
+    useCart();
   const navigate = useNavigate();
 
   const [categories, setCategories] = useState<Category[]>([]);
@@ -59,6 +49,10 @@ const Home = () => {
     navigate('/produtos');
   };
 
+  const handleProductClick = (product: { id: string }) => {
+    navigate(`/produtos/${product.id}`);
+  };
+
   const renderProductSections = () => {
     if (loading) {
       return <div>Carregando produtos...</div>;
@@ -77,21 +71,39 @@ const Home = () => {
           onShowMoreClick={handleShowMoreClick}
           onProductQuantityChange={updateProductQuantity}
           productQuantities={quantitiesByProductId}
+          onProductClick={handleProductClick}
         />
       );
     }
 
-    return categories.map((category) => (
+    // Mostrar apenas uma categoria na home
+    const firstCategory = categories[0];
+    if (!firstCategory) {
+      return (
+        <ProductList
+          title="Produtos em Destaque"
+          products={FEATURED_PRODUCTS}
+          showMore
+          onShowMoreClick={handleShowMoreClick}
+          onProductQuantityChange={updateProductQuantity}
+          productQuantities={quantitiesByProductId}
+          onProductClick={handleProductClick}
+        />
+      );
+    }
+
+    return (
       <ProductList
-        key={category.id}
-        title={category.name}
-        products={category.products}
+        key={firstCategory.id}
+        title={firstCategory.name}
+        products={firstCategory.products}
         showMore
         onShowMoreClick={handleShowMoreClick}
         onProductQuantityChange={updateProductQuantity}
         productQuantities={quantitiesByProductId}
+        onProductClick={handleProductClick}
       />
-    ));
+    );
   };
 
   return (
@@ -114,19 +126,6 @@ const Home = () => {
 
       <div className={styles.contentContainer}>{renderProductSections()}</div>
 
-      <CartDrawerOrder
-        open={activeDrawer === 'order'}
-        onClose={() => setActiveDrawer(null)}
-        onContinue={() => setActiveDrawer('finish')}
-        items={items}
-        onIncrement={incrementItem}
-        onDecrement={decrementItem}
-        onRemove={removeItem}
-      />
-      <CartDrawerFinish
-        open={activeDrawer === 'finish'}
-        onClose={() => setActiveDrawer(null)}
-      />
       <Footer />
     </div>
   );

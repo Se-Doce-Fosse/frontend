@@ -12,8 +12,9 @@ export type ProductDetailCardProps = {
   allergens?: string[];
   priceCents: number;
   onQuantityChange?: AddToCartButtonProps['onQuantityChange'];
-  onAddToCart: (id: string) => void;
+  onAddToCart: () => void;
   className?: string;
+  quantity?: number;
 };
 export const ProductDetailCard: React.FC<ProductDetailCardProps> = ({
   id,
@@ -26,9 +27,12 @@ export const ProductDetailCard: React.FC<ProductDetailCardProps> = ({
   className,
   onQuantityChange,
   onAddToCart,
+  quantity: externalQuantity,
 }) => {
   const [expanded, setExpanded] = useState(false);
-  const [quantity, setQuantity] = useState(0);
+  const [internalQuantity, setInternalQuantity] = useState(0);
+  const isControlled = typeof externalQuantity === 'number';
+  const quantity = isControlled ? externalQuantity : internalQuantity;
 
   const priceBRL = (priceCents / 100).toLocaleString('pt-BR', {
     style: 'currency',
@@ -78,10 +82,11 @@ export const ProductDetailCard: React.FC<ProductDetailCardProps> = ({
             className={styles.shoppingCart}
             quantity={quantity}
             onQuantityChange={(qty) => {
-              setQuantity(qty);
+              if (!isControlled) {
+                setInternalQuantity(qty);
+              }
               if (typeof onQuantityChange === 'function') onQuantityChange(qty);
-              if (qty === 1 && typeof onAddToCart === 'function')
-                onAddToCart(id);
+              if (qty === 1 && typeof onAddToCart === 'function') onAddToCart();
             }}
           />
         </div>
