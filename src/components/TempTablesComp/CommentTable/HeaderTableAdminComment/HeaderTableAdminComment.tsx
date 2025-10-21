@@ -3,6 +3,7 @@ import { BsFillTrashFill, BsFillPencilFill } from 'react-icons/bs';
 import styles from './HeaderTableAdminComment.module.scss';
 import { StatusBadge } from '../../../StatusBadge/StatusBadge';
 import type { StatusEnum } from 'src/types/status';
+import { Button } from '../../../Button/Button';
 
 export type CommentRow = {
   pedido: string;
@@ -57,6 +58,12 @@ export const HeaderTableAdminComment: React.FC<TableProps> = ({
                       onClick={() => deleteRow(idx)}
                       color="#CA071A"
                     />
+                  </span>
+                </td>
+                <td>
+                  <span>
+                    <Button label={'accept'} />
+                    <Button label={'decline'} />
                   </span>
                 </td>
               </tr>
