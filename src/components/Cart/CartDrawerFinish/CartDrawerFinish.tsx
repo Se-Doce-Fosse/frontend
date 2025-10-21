@@ -42,11 +42,13 @@ export default function CartDrawerFinish({
   );
 
   const whatslines = items.map(
-    (item) => `${item.quantity} ${item.name} Unidade: ${item.unitPrice}`
+    (item) =>
+      ` ${item.quantity} ${item.name} Unidade: ${formatCurrency(item.unitPrice)}`
   );
-  const whatsMessage = `Pedidos: ${whatslines} *Total:*R$${totalAmount}`;
-  const number = `0000000000000`;
+  const whatsMessage = `Pedidos: ${whatslines} Total: ${formatCurrency(totalAmount)}`;
+  const number = `5551994527855`;
   const whatsLink = `https://wa.me/${number}?text=${whatsMessage}`;
+  console.log(whatsLink);
 
   return (
     <CartDrawer open={open} onClose={onClose} withHeader={false}>
