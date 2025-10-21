@@ -12,6 +12,7 @@ function TabelAdminCommentComponent() {
       cliente: 'Vegano',
       estrela: 4,
       status: 'aprovado',
+      titulo: 'muito bom',
     },
   ]);
   const [rowToEdit, setRowToEdit] = useState<number | null>(null);
