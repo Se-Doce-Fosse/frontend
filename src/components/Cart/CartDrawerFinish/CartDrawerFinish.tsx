@@ -42,9 +42,10 @@ export default function CartDrawerFinish({
   );
 
   const whatslines = items.map(
-    (item) => `${item.quantity} ${item.name} Unidade: ${item.unitPrice}`
+    (item) =>
+      ` ${item.quantity} ${item.name} Unidade: ${formatCurrency(item.unitPrice)}`
   );
-  const whatsMessage = `Pedidos: ${whatslines} *Total:*R$${totalAmount}`;
+  const whatsMessage = `Pedidos: ${whatslines} Total: ${formatCurrency(totalAmount)}`;
   const number = `5551994527855`;
 
   const handleWhatsAppOrder = () => {
@@ -63,7 +64,6 @@ export default function CartDrawerFinish({
       const whatsLink = `https://web.whatsapp.com/send?phone=${number}&text=${encodeURIComponent(whatsMessage)}`;
       window.open(whatsLink, '_blank');
     }
-    console.log('WhatsApp message:', whatsMessage);
   };
 
   return (
