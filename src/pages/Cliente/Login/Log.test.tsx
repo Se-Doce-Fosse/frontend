@@ -1,8 +1,13 @@
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import '@testing-library/jest-dom';
+import { MemoryRouter } from 'react-router-dom';
 import Login from './Log.tsx';
+import { ClienteProvider } from '../../../context/ClienteContext';
 
-// Não mockamos services externos aqui; a página usa um login local simulado
+// Mock the backend login for cliente so tests don't perform network calls
+jest.mock('../../../services/auth/auth', () => ({
+  loginCliente: jest.fn(async (nome: string) => ({ id: 'local-1', nome })),
+}));
 
 describe('Login Component', () => {
   beforeEach(() => {
@@ -14,8 +19,17 @@ describe('Login Component', () => {
     jest.restoreAllMocks();
   });
 
+  const renderWithProviders = () =>
+    render(
+      <ClienteProvider>
+        <MemoryRouter>
+          <Login />
+        </MemoryRouter>
+      </ClienteProvider>
+    );
+
   it('renderiza formulário de login', () => {
-    render(<Login />);
+    renderWithProviders();
     expect(screen.getByText('Entre com sua conta')).toBeInTheDocument();
     expect(screen.getByLabelText(/nome/i)).toBeInTheDocument();
     expect(screen.getByLabelText(/telefone/i)).toBeInTheDocument();
@@ -25,7 +39,7 @@ describe('Login Component', () => {
   });
 
   it('mostra erro quando nome tem menos de 2 caracteres', () => {
-    render(<Login />);
+    renderWithProviders();
     const nomeInput = screen.getByLabelText(/nome/i);
     fireEvent.change(nomeInput, { target: { value: 'A' } });
     fireEvent.blur(nomeInput);
@@ -35,7 +49,7 @@ describe('Login Component', () => {
   });
 
   it('mostra erro quando telefone é muito curto', () => {
-    render(<Login />);
+    renderWithProviders();
     const telefoneInput = screen.getByLabelText(/telefone/i);
     fireEvent.change(telefoneInput, { target: { value: '119998' } });
     fireEvent.blur(telefoneInput);
@@ -45,7 +59,7 @@ describe('Login Component', () => {
   });
 
   it('formata telefone automaticamente', () => {
-    render(<Login />);
+    renderWithProviders();
     const telefoneInput = screen.getByLabelText(
       /telefone/i
     ) as HTMLInputElement;
@@ -54,7 +68,7 @@ describe('Login Component', () => {
   });
 
   it('processa login localmente quando formulário válido', async () => {
-    render(<Login />);
+    renderWithProviders();
 
     fireEvent.change(screen.getByLabelText(/nome/i), {
       target: { value: 'João Silva' },
@@ -63,17 +77,22 @@ describe('Login Component', () => {
       target: { value: '11999887766' },
     });
 
+    // spy on localStorage
+    const setItemSpy = jest.spyOn(Storage.prototype, 'setItem');
+
     fireEvent.click(screen.getByRole('button', { name: /acessar/i }));
 
     await waitFor(() => {
-      expect(window.alert).toHaveBeenCalledWith(
-        'Acesso realizado com sucesso!\n\nBem-vindo(a), João Silva!'
+      expect(setItemSpy).toHaveBeenCalledWith(
+        'cliente',
+        expect.stringContaining('João Silva')
       );
     });
+    setItemSpy.mockRestore();
   });
 
   it('não envia requisição se formulário inválido', () => {
-    render(<Login />);
+    renderWithProviders();
     fireEvent.change(screen.getByLabelText(/nome/i), {
       target: { value: 'A' },
     });

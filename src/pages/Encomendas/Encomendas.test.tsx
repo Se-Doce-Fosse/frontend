@@ -1,6 +1,7 @@
 import { render, screen, fireEvent } from '@testing-library/react';
 import { BrowserRouter } from 'react-router-dom';
 import Encomendas from './Encomendas';
+import { ClienteProvider } from '../../context/ClienteContext';
 
 const mockOpen = jest.fn();
 Object.defineProperty(window, 'open', {
@@ -17,7 +18,9 @@ Object.defineProperty(window, 'encodeURIComponent', {
 const renderEncomendas = () => {
   return render(
     <BrowserRouter>
-      <Encomendas />
+      <ClienteProvider>
+        <Encomendas />
+      </ClienteProvider>
     </BrowserRouter>
   );
 };
