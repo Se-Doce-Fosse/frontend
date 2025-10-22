@@ -11,6 +11,7 @@ import {
   Login,
   SobreNos,
   Encomendas,
+  Cupons,
 } from '@pages';
 import { UserProvider } from './context/UserContext';
 import { CartProvider } from './context/CartContext';
@@ -26,6 +27,7 @@ function App() {
               <Route path="/" element={<Home />} />
               <Route path="/admin/dashboard" element={<Dashboard />} />
               <Route path="/admin/estoque" element={<Estoque />} />
+              <Route path="/admin/cupons" element={<Cupons />} />
               <Route path="/produtos" element={<Produtos />} />
               <Route path="/produtos/:produtoId" element={<ProductDetail />} />
               <Route path="/admin/produtos" element={<ProdutosAdmin />} />
