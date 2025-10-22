@@ -40,6 +40,7 @@ const AppWithDrawers: React.FC = () => {
             <Route path="/admin/estoque" element={<Estoque />} />
             <Route path="/produtos" element={<Produtos />} />
             <Route path="/produtos/:produtoId" element={<ProductDetail />} />
+            <Route path="/admin/cupons" element={<Cupons />} />
             <Route path="/admin/produtos" element={<ProdutosAdmin />} />
             <Route path="/admin/pedidos" element={<Pedidos />} />
             <Route path="/admin/comentarios" element={<Comentarios />} />
