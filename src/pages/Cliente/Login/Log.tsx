@@ -1,27 +1,15 @@
 import React, { useState } from 'react';
 import styles from './Log.module.scss';
 import logoImage from '../../../assets/images/logo-se-doce-fosse-sem-fundodark.png';
+import { useNavigate } from 'react-router-dom';
+import { loginCliente } from '../../../services/auth/auth';
+import { useCliente } from '../../../context/ClienteContext';
 
 type Customer = {
   id?: string;
   nome: string;
   telefone: string;
 };
-
-async function simulateLocalLogin(data: {
-  nome: string;
-  telefone: string;
-}): Promise<Customer> {
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      resolve({
-        id: `local-${Date.now()}`,
-        nome: data.nome,
-        telefone: data.telefone,
-      });
-    }, 150);
-  });
-}
 
 const Login: React.FC = () => {
   const [formData, setFormData] = useState({
@@ -31,6 +19,7 @@ const Login: React.FC = () => {
   const [errors, setErrors] = useState({
     nome: '',
     telefone: '',
+    general: '',
   });
   const [touched, setTouched] = useState({
     nome: false,
@@ -131,28 +120,52 @@ const Login: React.FC = () => {
     );
   };
 
+  const navigate = useNavigate();
+  const { saveCliente } = useCliente();
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setTouched({ nome: true, telefone: true });
 
-    const nomeError = validateField('nome', formData.nome);
-    const telefoneError = validateField('telefone', formData.telefone);
-    setErrors({ nome: nomeError, telefone: telefoneError });
+  const nomeError = validateField('nome', formData.nome);
+  const telefoneError = validateField('telefone', formData.telefone);
+  setErrors({ nome: nomeError, telefone: telefoneError, general: '' });
 
     if (nomeError || telefoneError) return;
 
     setIsLoading(true);
     try {
       const phoneNumbers = formData.telefone.replace(/\D/g, '');
-      const customer: Customer = await simulateLocalLogin({
-        nome: formData.nome.trim(),
-        telefone: phoneNumbers,
-      });
+      const customer: Customer = await loginCliente(
+        formData.nome.trim(),
+        phoneNumbers
+      );
 
-      alert(`Acesso realizado com sucesso!\n\nBem-vindo(a), ${customer.nome}!`);
+      
+      const normalize = (s: string) =>
+        s
+          .normalize('NFD')
+          .replace(/\p{Diacritic}/gu, '')
+          .toLowerCase()
+          .trim();
+
+      const enteredNameNorm = normalize(formData.nome);
+      const returnedNameNorm = normalize(customer.nome || '');
+
+      if (returnedNameNorm && enteredNameNorm !== returnedNameNorm) {
+        setErrors((p) => ({
+          ...p,
+          general:
+            'O telefone informado já está cadastrado com outro nome. Se este for o seu número, por favor utilize o nome cadastrado ou recupere o acesso. Caso contrário, entre em contato com o suporte.',
+        }));
+        return;
+      }
+
+  saveCliente(customer);
+  navigate('/');
     } catch (err) {
       const message = err instanceof Error ? err.message : 'Erro no acesso';
-      alert(`Erro no acesso: ${message}`);
+      setErrors((p) => ({ ...p, general: `Erro no acesso: ${message}` }));
     } finally {
       setIsLoading(false);
     }
@@ -239,6 +252,11 @@ const Login: React.FC = () => {
             >
               {isLoading ? 'Acessando...' : 'Acessar'}
             </button>
+            {errors.general && (
+              <div className={styles.formError} role="alert">
+                {errors.general}
+              </div>
+            )}
           </form>
         </div>
       </div>
