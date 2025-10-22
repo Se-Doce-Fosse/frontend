@@ -47,7 +47,6 @@ export default function CartDrawerFinish({
   );
   const whatsMessage = `Pedidos: ${whatslines} *Total:*R$${totalAmount}`;
   const number = `5551994527855`;
-<<<<<<< HEAD
 
   const handleWhatsAppOrder = () => {
     // Detecta se é mobile ou desktop
@@ -67,9 +66,6 @@ export default function CartDrawerFinish({
     }
     console.log('WhatsApp message:', whatsMessage);
   };
-=======
-  const whatsLink = `https://wa.me/${number}?text=${whatsMessage}`;
->>>>>>> d5201fa (remove console.log from code)
 
   return (
     <CartDrawer open={open} onClose={onClose} withHeader={false}>
@@ -109,13 +105,7 @@ export default function CartDrawerFinish({
             label="Finalizar Pedido"
             variant="secondary"
             className={styles.continueButton}
-<<<<<<< HEAD
             onClick={handleWhatsAppOrder}
-=======
-            onClick={() => {
-              window.open(whatsLink, '_blank');
-            }}
->>>>>>> d5201fa (remove console.log from code)
           />
         </footer>
       </div>
