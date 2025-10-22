@@ -13,6 +13,7 @@ import {
 } from '@pages';
 import { UserProvider } from './context/UserContext';
 import { CartProvider } from './context/CartContext';
+import { ClienteProvider } from './context/ClienteContext';
 import { ProdutosAdmin } from './pages/Admin/Produtos';
 import ClienteLogin from './pages/Cliente/Login/Log';
 
@@ -20,8 +21,9 @@ function App() {
   return (
     <UserProvider>
       <CartProvider>
-        <main>
-          <BrowserRouter>
+        <ClienteProvider>
+          <main>
+            <BrowserRouter>
             <Routes>
               <Route path="/" element={<Home />} />
               <Route path="/admin/dashboard" element={<Dashboard />} />
@@ -36,8 +38,9 @@ function App() {
               <Route path="/login" element={<ClienteLogin />} />
               <Route path="/sobre-nos" element={<SobreNos />} />
             </Routes>
-          </BrowserRouter>
-        </main>
+            </BrowserRouter>
+          </main>
+        </ClienteProvider>
       </CartProvider>
     </UserProvider>
   );
