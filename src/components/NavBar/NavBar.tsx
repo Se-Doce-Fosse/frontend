@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useCliente } from '../../context/ClienteContext';
 import styles from './NavBar.module.scss';
 import { FaUser, FaShoppingCart, FaBars, FaTimes } from 'react-icons/fa';
 import logoImage from '../../assets/images/logo-se-doce-fosse-dark.png';
@@ -32,6 +33,9 @@ export function NavBar({
 }: NavBarProps) {
   const [isMobileMenuOpen, setMenuOpen] = useState(false);
   const navigate = useNavigate();
+  const { cliente } = useCliente();
+
+  const firstName = cliente?.nome ? cliente.nome.split(' ')[0] : null;
 
   const toggleMenu = () => {
     setMenuOpen(!isMobileMenuOpen);
@@ -73,7 +77,7 @@ export function NavBar({
             }`}
           >
             <FaUser />
-            <span>Entrar</span>
+            <span>{firstName ?? 'Entrar'}</span>
           </button>
           <button
             onClick={onCartClick}
@@ -117,7 +121,7 @@ export function NavBar({
               }`}
             >
               <FaUser />
-              <span>Entrar</span>
+              <span>{firstName ?? 'Entrar'}</span>
             </button>
           </li>
           <li className={styles.mobileActionItem}>
