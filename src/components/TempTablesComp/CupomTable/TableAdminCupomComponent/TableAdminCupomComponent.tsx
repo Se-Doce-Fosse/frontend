@@ -49,7 +49,7 @@ function TabelAdminCupomComponent() {
   // };
 
   return (
-    <div className={styles.TabelAdminCupomComponent}>
+    <div className={styles.TableAdminCupomComponent}>
       <div className={styles.header}>
         <h2 className={styles.headerTitle}>Lista de Cupons</h2>
         <div className={styles.btnWrapper}>

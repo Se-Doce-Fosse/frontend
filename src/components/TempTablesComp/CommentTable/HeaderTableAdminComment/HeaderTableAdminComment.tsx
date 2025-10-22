@@ -3,6 +3,7 @@ import styles from './HeaderTableAdminComment.module.scss';
 import { StatusBadge } from '../../../StatusBadge/StatusBadge';
 import type { StatusEnum } from 'src/types/status';
 import { Button } from '../../../Button/Button';
+import { RatingStars } from '../../../RatingStars/RatingStars';
 
 export type CommentRow = {
   pedido: string;
@@ -38,7 +39,9 @@ export const HeaderTableAdminComment: React.FC<TableProps> = ({ comments }) => {
               <tr key={idx}>
                 <td>{row.pedido}</td>
                 <td>{row.cliente}</td>
-                <td>{row.estrela}</td>
+                <td>
+                  <RatingStars />
+                </td>
                 <td>
                   <StatusBadge status={row.status} />
                 </td>
