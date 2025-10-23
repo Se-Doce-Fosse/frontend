@@ -1,33 +1,51 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { HeaderTableAdminProduto } from '../HeaderTableAdminProduto/HeaderTableAdminProduto';
-import type { ProdutoRow } from '../HeaderTableAdminProduto/HeaderTableAdminProduto';
-import { TempModalComponent } from '../../../TempModalComponent/TempModalComponent';
 import { BsPlus } from 'react-icons/bs';
 import { Button } from '../../../Button/Button';
 import styles from './TableAdminProdutoComponent.module.scss';
+import { type Product } from '../../../..//types/product';
+import {
+  getAllProducts,
+  deleteProduct,
+} from '../../../../services/admin-product/admin-product';
+import { useUser } from '../../../../context/UserContext';
 
 function TabelAdminProdutoComponent() {
   const [modalOpen, setModalOpen] = useState<boolean>(false);
-  const [produtos, setProdutos] = useState<ProdutoRow[]>([
-    {
-      produto: 'Cookie Vegano',
-      categoria: 'Vegano',
-      preco: 35.99,
-      estoque: 10,
-      status: 'ativo',
-    },
-    {
-      produto: 'Cookie',
-      categoria: 'Cookie',
-      preco: 19.99,
-      estoque: 5,
-      status: 'inativo',
-    },
-  ]);
+  const [products, setProducts] = useState<Product[]>([]);
+  const [loading, setLoading] = useState<boolean>(false);
   const [rowToEdit, setRowToEdit] = useState<number | null>(null);
+  const { user } = useUser();
 
-  const handleDeleteRow = (targetIndex: number) => {
-    setProdutos(produtos.filter((_, idx) => idx !== targetIndex));
+  const fetchProducts = async () => {
+    if (!user?.token) return;
+    setLoading(true);
+    try {
+      const data = await getAllProducts(user.token);
+      setProducts(data);
+    } catch (error) {
+      console.error('Error fetching products:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  console.log(modalOpen);
+  console.log(loading);
+
+  const handleDeleteRow = async (targetIndex: number) => {
+    if (!user?.token) return;
+    const product = products?.[targetIndex];
+    if (!product) {
+      console.warn('handleDeleteRow: índice inválido', targetIndex);
+      return;
+    }
+    try {
+      await deleteProduct(product.sku, user.token);
+      setProducts((prev) => prev.filter((_, i) => i !== targetIndex));
+    } catch (error) {
+      console.error('Error deleting product:', error);
+    }
   };
 
   const handleEditRow = (idx: number) => {
@@ -35,18 +53,24 @@ function TabelAdminProdutoComponent() {
     setModalOpen(true);
   };
 
-  const handleSubmit = (newRow: ProdutoRow) => {
+  const handleSubmit = (newRow: Product) => {
     if (rowToEdit === null) {
-      setProdutos([...produtos, newRow]);
+      setProducts([...products, newRow]);
     } else {
-      setProdutos(
-        produtos.map((currRow, idx) => {
+      setProducts(
+        products.map((currRow, idx) => {
           if (idx !== rowToEdit) return currRow;
           return newRow;
         })
       );
     }
   };
+
+  console.log(handleSubmit);
+
+  useEffect(() => {
+    fetchProducts();
+  }, [user?.token]);
 
   return (
     <div className={styles.TabelAdminProdutoComponent}>
@@ -64,21 +88,11 @@ function TabelAdminProdutoComponent() {
       </div>
       <div>
         <HeaderTableAdminProduto
-          produtos={produtos}
+          produtos={products}
           deleteRow={handleDeleteRow}
           editRow={handleEditRow}
         />
       </div>
-      {modalOpen && (
-        <TempModalComponent
-          closeModal={() => {
-            setModalOpen(false);
-            setRowToEdit(null);
-          }}
-          onSubmit={handleSubmit}
-          defaultValue={rowToEdit !== null ? produtos[rowToEdit] : undefined}
-        />
-      )}
     </div>
   );
 }
