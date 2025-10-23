@@ -18,3 +18,4 @@ export * from './ProtectedRoute';
 export * from './Loading';
 export * from './Select';
 export * from './CommentCard';
+export * from './Carousel';

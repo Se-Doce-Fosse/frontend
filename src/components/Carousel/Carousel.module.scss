@@ -1,0 +1,65 @@
+@use '../../styles/variables.scss' as *;
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+
+.head {
+  width: 100%;
+  background-color: $branco;
+
+  display: flex;
+  flex-direction: column; // título em cima, conteúdo abaixo
+  align-items: center; // centraliza horizontalmente o conteúdo
+}
+
+.tittle {
+  align-self: flex-start;
+  margin-left: 6rem;
+  color: $cacau-intenso;
+  font-family: 'Roboto', sans-serif;
+  margin-bottom: 1rem;
+  font-size: 2rem;
+  font-weight: bold;
+}
+
+.body {
+  display: flex;
+  flex-direction: row; // deixa o conteúdo em linha (botão, cards, botão)
+  align-items: center;
+  width: 100%;
+  // alinha verticalmente ao centro
+}
+
+.carouselContainer {
+  display: flex;
+  align-items: center; // centraliza verticalmente
+  gap: 1rem;
+  width: 100%;
+}
+
+.arrow {
+  flex-shrink: 0;
+  cursor: pointer;
+  font-size: 2rem;
+  background: $cacau-intenso;
+  border-radius: 100%;
+  color: none;
+  margin-left: 1rem;
+  width: 2.5rem;
+  height: 3rem;
+  margin-right: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.slides {
+  display: flex;
+  overflow: hidden;
+  flex-grow: 0; // evitar crescer além do que é definido
+  gap: 1rem;
+  width: 100%; // largura exata para 3 cards + 2 gaps
+  min-width: 0;
+}
+
+.slide {
+  flex: 0 0 200px; // largura fixa dos cards
+}

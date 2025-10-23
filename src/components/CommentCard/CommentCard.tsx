@@ -6,7 +6,6 @@ export type CommentCardProps = {
   description: string;
   rating?: number;
 };
-<h2 className={styles.emptyStateTitle}>Seu carrinho está vazio</h2>;
 
 export const CommentCard = ({
   name,
