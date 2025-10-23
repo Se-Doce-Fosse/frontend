@@ -1,5 +1,9 @@
 const URL = 'http://localhost:8081';
 
+export interface ApiError extends Error {
+  status?: number;
+}
+
 export const api = async (
   path: string,
   headers: HeadersInit,
@@ -15,14 +19,25 @@ export const api = async (
 
   if (!res.ok) {
     let errorMessage = 'Erro';
+    const clonedResponse = res.clone();
 
     try {
-      const data = await res.json();
-      errorMessage = data.message;
+      const data = await clonedResponse.json();
+      errorMessage = data?.message ?? errorMessage;
     } catch {
-      errorMessage = await res.text();
+      try {
+        errorMessage = await res.text();
+      } catch {
+        errorMessage = res.statusText || errorMessage;
+      }
     }
-    throw new Error(errorMessage);
+    const error: ApiError = new Error(errorMessage);
+    error.status = res.status;
+    throw error;
+  }
+
+  if (res.status === 204) {
+    return null;
   }
 
   return res.json();

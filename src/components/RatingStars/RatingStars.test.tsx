@@ -41,4 +41,17 @@ describe('RatingStars Component', () => {
       expect(star.classList.contains('active')).toBe(false);
     });
   });
+
+  test('calls onChange when provided', () => {
+    const onChange = jest.fn();
+
+    render(<RatingStars value={3} onChange={onChange} />);
+    const stars = screen.getAllByTestId('star');
+
+    fireEvent.click(stars[0]);
+    expect(onChange).toHaveBeenCalledWith(1);
+
+    fireEvent.click(stars[2]);
+    expect(onChange).toHaveBeenCalledWith(0);
+  });
 });
