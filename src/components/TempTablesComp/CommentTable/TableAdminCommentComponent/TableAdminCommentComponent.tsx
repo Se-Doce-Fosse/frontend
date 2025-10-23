@@ -35,7 +35,7 @@ function TabelAdminCommentComponent() {
   return (
     <div className={styles.TabelAdminCommentComponent}>
       <div className={styles.header}>
-        <h2 className={styles.headerTitle}>Lista de Comments</h2>
+        <h2 className={styles.headerTitle}>Lista de Commentários</h2>
         <div className={styles.btnWrapper}>
           <Button
             label="Atualizar"
