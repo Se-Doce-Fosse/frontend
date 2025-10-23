@@ -18,19 +18,21 @@ const Cupons: React.FC = () => {
     <AdminLayout>
       <div className={style.cupons}>
         <h1>Cupons</h1>
-        <Filter
-          title="Filtrar Cupons"
-          selectOptions={statusOptions}
-          selectPlaceholder="Status"
-          searchPlaceholder="Buscar cupom..."
-          searchValue={searchValue}
-          onSearchChange={setSearchValue}
-          selectProps={{
-            value: filterStatus,
-            onChange: (event) => setFilterStatus(event.target.value),
-            options: statusOptions,
-          }}
-        />
+        <div className={style.filter}>
+          <Filter
+            title="Filtros"
+            selectOptions={statusOptions}
+            selectPlaceholder="Status"
+            searchPlaceholder="Buscar cupom..."
+            searchValue={searchValue}
+            onSearchChange={setSearchValue}
+            selectProps={{
+              value: filterStatus,
+              onChange: (event) => setFilterStatus(event.target.value),
+              options: statusOptions,
+            }}
+          />
+        </div>
         <TableAdminCupomComponent
           filterStatus={filterStatus}
           searchTerm={searchValue}
