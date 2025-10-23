@@ -18,7 +18,9 @@ const Configuracoes: React.FC = () => {
     <AdminLayout>
       <div className={style.users}>
         <h1>Configurações</h1>
+
         <div className={style.filter}>
+          <h1>Outras Contas</h1>
           <Filter
             title="Filtros"
             selectOptions={statusOptions}
