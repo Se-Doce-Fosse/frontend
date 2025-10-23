@@ -3,6 +3,16 @@ import { api } from '..';
 
 const BASE_URL = '/admin/products';
 
+export const getCategories = async () => {
+  return api(
+    '/products',
+    {},
+    {
+      method: 'GET',
+    }
+  );
+};
+
 export const getAllProducts = async (token: string) => {
   return api(
     `${BASE_URL}`,
