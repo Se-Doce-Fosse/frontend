@@ -1,10 +1,10 @@
 import CartDrawer from '../CartDrawer';
-import { AddressCard } from '../../AddressCard/AddressCard';
+import { AddressCard, type AddressData } from '../../AddressCard/AddressCard';
 import { AiOutlineShoppingCart } from 'react-icons/ai';
 import { CartItem } from '../CartItem';
 import { Button } from '@components';
 import styles from '../CartDrawer.module.scss';
-import { useMemo } from 'react';
+import { useMemo, useState } from 'react';
 import { useCart } from '../../../context/CartContext';
 interface CartDrawerFinishProps {
   open: boolean;
@@ -31,6 +31,8 @@ export default function CartDrawerFinish({
     quantitiesByProductId,
   } = useCart();
 
+  const [addressData, setAddressData] = useState<AddressData | null>(null);
+
   const totalAmount = useMemo(
     () =>
       items.reduce(
@@ -41,12 +43,32 @@ export default function CartDrawerFinish({
     [items]
   );
 
+  const formatAddress = (address: AddressData) => {
+    const parts = [
+      address.street,
+      address.number,
+      address.complement && `(${address.complement})`,
+      address.neighborhood,
+      `CEP: ${address.cep}`,
+    ].filter(Boolean);
+
+    return parts.join(', ');
+  };
+
   const whatslines = items.map(
     (item) =>
       ` ${item.quantity} ${item.name} Unidade: ${formatCurrency(item.unitPrice)}`
   );
-  const whatsMessage = `Pedidos: ${whatslines} Total: ${formatCurrency(totalAmount)}`;
+
+  const addressText = addressData
+    ? `\n\nEndereço de entrega:\n${formatAddress(addressData)}`
+    : '';
+  const whatsMessage = `Pedidos: ${whatslines} Total: ${formatCurrency(totalAmount)}${addressText}`;
   const number = `5551994527855`;
+
+  const handleAddressSubmit = (data: AddressData) => {
+    setAddressData(data);
+  };
 
   const handleWhatsAppOrder = () => {
     // Detecta se é mobile ou desktop
@@ -69,7 +91,7 @@ export default function CartDrawerFinish({
   return (
     <CartDrawer open={open} onClose={onClose} withHeader={false}>
       <div className={styles.finishOrderContent}>
-        <AddressCard />
+        <AddressCard onSubmit={handleAddressSubmit} />
 
         <div className={styles.headingRow}>
           <AiOutlineShoppingCart className={styles.icon} aria-hidden="true" />
