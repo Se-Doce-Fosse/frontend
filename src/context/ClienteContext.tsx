@@ -36,7 +36,10 @@ export function ClienteProvider({ children }: { children: React.ReactNode }) {
     try {
       localStorage.setItem('cliente', JSON.stringify(c));
     } catch (err) {
-      console.warn('ClienteContext: falha ao salvar cliente no localStorage', err);
+      console.warn(
+        'ClienteContext: falha ao salvar cliente no localStorage',
+        err
+      );
     }
   }
 
@@ -45,18 +48,29 @@ export function ClienteProvider({ children }: { children: React.ReactNode }) {
     try {
       localStorage.removeItem('cliente');
     } catch (err) {
-      console.warn('ClienteContext: falha ao remover cliente do localStorage', err);
+      console.warn(
+        'ClienteContext: falha ao remover cliente do localStorage',
+        err
+      );
     }
   }
 
   return (
     <ClienteContext.Provider
-      value={{ cliente, saveCliente, logoutCliente, isAuthenticated: !!cliente, loading }}
+      value={{
+        cliente,
+        saveCliente,
+        logoutCliente,
+        isAuthenticated: !!cliente,
+        loading,
+      }}
     >
       {children}
     </ClienteContext.Provider>
   );
 }
+
+// eslint-disable-next-line react-refresh/only-export-components
 export function useCliente() {
   const ctx = useContext(ClienteContext);
   if (!ctx) throw new Error('useCliente must be used within ClienteProvider');

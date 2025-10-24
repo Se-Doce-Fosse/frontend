@@ -127,9 +127,9 @@ const Login: React.FC = () => {
     e.preventDefault();
     setTouched({ nome: true, telefone: true });
 
-  const nomeError = validateField('nome', formData.nome);
-  const telefoneError = validateField('telefone', formData.telefone);
-  setErrors({ nome: nomeError, telefone: telefoneError, general: '' });
+    const nomeError = validateField('nome', formData.nome);
+    const telefoneError = validateField('telefone', formData.telefone);
+    setErrors({ nome: nomeError, telefone: telefoneError, general: '' });
 
     if (nomeError || telefoneError) return;
 
@@ -141,7 +141,6 @@ const Login: React.FC = () => {
         phoneNumbers
       );
 
-      
       const normalize = (s: string) =>
         s
           .normalize('NFD')
@@ -161,8 +160,8 @@ const Login: React.FC = () => {
         return;
       }
 
-  saveCliente(customer);
-  navigate('/');
+      saveCliente(customer);
+      navigate('/');
     } catch (err) {
       const message = err instanceof Error ? err.message : 'Erro no acesso';
       setErrors((p) => ({ ...p, general: `Erro no acesso: ${message}` }));
