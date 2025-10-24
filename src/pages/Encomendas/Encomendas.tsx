@@ -8,7 +8,28 @@ const Encomendas = () => {
   const navigate = useNavigate();
 
   const handleWhatsAppClick = () => {
-    window.open(`https://wa.me/5511999999999?text=$`, '_blank');
+    const whatsMessage = `Olá! Gostaria de fazer uma encomenda personalizada. Pode me ajudar?`;
+    const number = `5551994527855`;
+
+    // Detecta se é mobile ou desktop
+    const isMobile =
+      /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
+        navigator.userAgent
+      );
+
+    if (isMobile) {
+      // No mobile usa wa.me que abre diretamente o app
+      window.open(
+        `https://wa.me/${number}?text=${encodeURIComponent(whatsMessage)}`,
+        '_blank'
+      );
+    } else {
+      // No desktop usando WhatsApp Web diretamente
+      window.open(
+        `https://web.whatsapp.com/send?phone=${number}&text=${encodeURIComponent(whatsMessage)}`,
+        '_blank'
+      );
+    }
   };
 
   return (

@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import styles from './Home.module.scss';
 import CartDrawerOrder from '../../components/Cart/CartDrawerOrder/CartDrawerOrder';
 import CartDrawerFinish from '../../components/Cart/CartDrawerFinish/CartDrawerFinish';
+import { NavBar, Footer, CupomBanner } from '../../components';
 import bannerDesktop from '../../assets/images/banner-desktop.png';
 import bannerMobile from '../../assets/images/banner-mobile.png';
 import ProductList from '../../components/ProductList';
@@ -10,7 +11,6 @@ import { FEATURED_PRODUCTS } from '../../data/products';
 import { useCart } from '../../context/CartContext';
 import { fetchProducts } from '../../services/product/productService';
 import type { Category } from '../../types/api';
-import { CupomBanner, Footer, NavBar } from '@components';
 
 const Home = () => {
   const {
@@ -59,6 +59,10 @@ const Home = () => {
     navigate('/produtos');
   };
 
+  const handleProductClick = (product: { id: string }) => {
+    navigate(`/produtos/${product.id}`);
+  };
+
   const renderProductSections = () => {
     if (loading) {
       return <div>Carregando produtos...</div>;
@@ -77,21 +81,39 @@ const Home = () => {
           onShowMoreClick={handleShowMoreClick}
           onProductQuantityChange={updateProductQuantity}
           productQuantities={quantitiesByProductId}
+          onProductClick={handleProductClick}
         />
       );
     }
 
-    return categories.map((category) => (
+    // Mostrar apenas uma categoria na home
+    const firstCategory = categories[0];
+    if (!firstCategory) {
+      return (
+        <ProductList
+          title="Produtos em Destaque"
+          products={FEATURED_PRODUCTS}
+          showMore
+          onShowMoreClick={handleShowMoreClick}
+          onProductQuantityChange={updateProductQuantity}
+          productQuantities={quantitiesByProductId}
+          onProductClick={handleProductClick}
+        />
+      );
+    }
+
+    return (
       <ProductList
-        key={category.id}
-        title={category.name}
-        products={category.products}
+        key={firstCategory.id}
+        title={firstCategory.name}
+        products={firstCategory.products}
         showMore
         onShowMoreClick={handleShowMoreClick}
         onProductQuantityChange={updateProductQuantity}
         productQuantities={quantitiesByProductId}
+        onProductClick={handleProductClick}
       />
-    ));
+    );
   };
 
   return (
