@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Button } from '../Button';
 import styles from './Carousel.module.scss';
+import { FaAngleLeft, FaAngleRight } from 'react-icons/fa';
 
 export type CarouselProps = {
   items: React.ReactNode[];
@@ -32,7 +33,11 @@ export const Carousel: React.FC<CarouselProps> = ({
           <Button
             onClick={prev}
             label=""
-            icon={() => <span>&lt;</span>}
+            icon={() => (
+              <span>
+                <FaAngleLeft />
+              </span>
+            )}
             className={styles.arrow}
           />
 
@@ -47,7 +52,11 @@ export const Carousel: React.FC<CarouselProps> = ({
           <Button
             onClick={next}
             label=""
-            icon={() => <span>&gt;</span>}
+            icon={() => (
+              <span>
+                <FaAngleRight />
+              </span>
+            )}
             className={styles.arrow}
           />
         </div>

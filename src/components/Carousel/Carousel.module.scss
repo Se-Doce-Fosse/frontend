@@ -36,19 +36,32 @@
 }
 
 .arrow {
-  flex-shrink: 0;
   cursor: pointer;
-  font-size: 2rem;
   background: $cacau-intenso;
   border-radius: 100%;
-  color: none;
   margin-left: 1rem;
-  width: 2.5rem;
-  height: 3rem;
+  min-width: 2rem;
+  min-height: 2rem;
   margin-right: 1rem;
   display: flex;
   align-items: center;
   justify-content: center;
+  font-size: 2rem;
+  padding: 1rem;
+  gap: 0 !important;
+
+  span {
+    gap: 0 !important;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+
+    svg {
+      // margin-left: 0.5rem;
+    }
+  }
 }
 
 .slides {
