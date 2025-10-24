@@ -2,6 +2,7 @@ import React from 'react';
 import { BsFillTrashFill, BsFillPencilFill } from 'react-icons/bs';
 import styles from './HeaderTableAdminProduto.module.scss';
 import { StatusBadge } from '../../../StatusBadge/StatusBadge';
+import type { Product } from 'src/types/product';
 
 export type ProdutoRow = {
   produto: string;
@@ -12,7 +13,7 @@ export type ProdutoRow = {
 };
 
 type TableProps = {
-  produtos: ProdutoRow[];
+  produtos: Product[];
   deleteRow: (idx: number) => void;
   editRow: (idx: number) => void;
 };
@@ -37,14 +38,15 @@ export const HeaderTableAdminProduto: React.FC<TableProps> = ({
         </thead>
         <tbody>
           {produtos.map((row, idx) => {
+            const category = row.category;
             return (
               <tr key={idx}>
-                <td>{row.produto}</td>
-                <td>{row.categoria}</td>
-                <td>{row.preco}</td>
-                <td>{row.estoque}</td>
+                <td>{row.name}</td>
+                <td>{category?.name}</td>
+                <td>{row.price}</td>
+                <td>{row.quantity}</td>
                 <td>
-                  <StatusBadge status={row.status} />
+                  <StatusBadge status={row.isActive ? 'ativo' : 'inativo'} />
                 </td>
                 <td>
                   <span className={styles.actions}>
