@@ -90,6 +90,12 @@ describe('Encomendas', () => {
   });
 
   it('deve abrir o WhatsApp quando o botão for clicado', () => {
+    // Mock navigator.userAgent para simular desktop
+    Object.defineProperty(navigator, 'userAgent', {
+      writable: true,
+      value: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36',
+    });
+
     renderEncomendas();
 
     const whatsappButton = screen.getByRole('button', {
@@ -98,7 +104,28 @@ describe('Encomendas', () => {
     fireEvent.click(whatsappButton);
 
     expect(mockOpen).toHaveBeenCalledWith(
-      'https://wa.me/5511999999999?text=$',
+      'https://web.whatsapp.com/send?phone=5551994527855&text=Olá! Gostaria de fazer uma encomenda personalizada. Pode me ajudar?',
+      '_blank'
+    );
+  });
+
+  it('deve usar wa.me em dispositivos mobile', () => {
+    // Mock navigator.userAgent para simular mobile
+    Object.defineProperty(navigator, 'userAgent', {
+      writable: true,
+      value:
+        'Mozilla/5.0 (iPhone; CPU iPhone OS 14_7_1 like Mac OS X) AppleWebKit/605.1.15',
+    });
+
+    renderEncomendas();
+
+    const whatsappButton = screen.getByRole('button', {
+      name: /realizar encomenda/i,
+    });
+    fireEvent.click(whatsappButton);
+
+    expect(mockOpen).toHaveBeenCalledWith(
+      'https://wa.me/5551994527855?text=Olá! Gostaria de fazer uma encomenda personalizada. Pode me ajudar?',
       '_blank'
     );
   });

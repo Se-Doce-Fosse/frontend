@@ -41,6 +41,31 @@ export default function CartDrawerFinish({
     [items]
   );
 
+  const whatslines = items.map(
+    (item) =>
+      ` ${item.quantity} ${item.name} Unidade: ${formatCurrency(item.unitPrice)}`
+  );
+  const whatsMessage = `Pedidos: ${whatslines} Total: ${formatCurrency(totalAmount)}`;
+  const number = `5551994527855`;
+
+  const handleWhatsAppOrder = () => {
+    // Detecta se é mobile ou desktop
+    const isMobile =
+      /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
+        navigator.userAgent
+      );
+
+    if (isMobile) {
+      // No mobile, usa wa.me que abre diretamente o app
+      const whatsLink = `https://wa.me/${number}?text=${encodeURIComponent(whatsMessage)}`;
+      window.open(whatsLink, '_blank');
+    } else {
+      // No desktop, usa WhatsApp Web diretamente
+      const whatsLink = `https://web.whatsapp.com/send?phone=${number}&text=${encodeURIComponent(whatsMessage)}`;
+      window.open(whatsLink, '_blank');
+    }
+  };
+
   return (
     <CartDrawer open={open} onClose={onClose} withHeader={false}>
       <div className={styles.finishOrderContent}>
@@ -79,7 +104,7 @@ export default function CartDrawerFinish({
             label="Finalizar Pedido"
             variant="secondary"
             className={styles.continueButton}
-            onClick={() => console.log('mandar por whatsapp (próxima task)')}
+            onClick={handleWhatsAppOrder}
           />
         </footer>
       </div>

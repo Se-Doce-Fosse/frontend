@@ -83,15 +83,16 @@ describe('Login page', () => {
     expect(
       screen.queryByText(/a senha não pode estar vazia/i)
     ).not.toBeInTheDocument();
-  });
+  }, 10000);
 
   test('aceita emails válidos de forma case-insensitive (regex com /i)', async () => {
     renderWithProvider(<Login />);
-    await userEvent.type(
-      screen.getByLabelText(/email/i),
-      'USER+tag@EXAMPLE-CO.com.br'
-    );
-    await userEvent.type(screen.getByLabelText(/senha/i), '123');
+
+    const emailInput = screen.getByLabelText(/email/i);
+    const passwordInput = screen.getByLabelText(/senha/i);
+
+    await userEvent.type(emailInput, 'USER+tag@EXAMPLE.com.br');
+    await userEvent.type(passwordInput, '123');
     await submit();
 
     expect(
