@@ -19,6 +19,8 @@ import { ProdutosAdmin } from './pages/Admin/Produtos';
 import CartDrawerOrder from './components/Cart/CartDrawerOrder/CartDrawerOrder';
 import CartDrawerFinish from './components/Cart/CartDrawerFinish/CartDrawerFinish';
 import { useCart } from './context/CartContext';
+import ClienteLogin from './pages/Cliente/Login/Log';
+import { ClienteProvider } from './context/ClienteContext';
 
 const AppWithDrawers: React.FC = () => {
   const {
@@ -45,7 +47,8 @@ const AppWithDrawers: React.FC = () => {
             <Route path="/admin/pedidos" element={<Pedidos />} />
             <Route path="/admin/comentarios" element={<Comentarios />} />
             <Route path="/admin/configuracoes" element={<Configuracoes />} />
-            <Route path="/login/" element={<Login />} />
+            <Route path="/admin/login" element={<Login />} />
+            <Route path="/login/" element={<ClienteLogin />} />
             <Route path="/sobre-nos" element={<SobreNos />} />
             <Route path="/encomendas" element={<Encomendas />} />
           </Routes>
@@ -73,7 +76,9 @@ function App() {
   return (
     <UserProvider>
       <CartProvider>
-        <AppWithDrawers />
+        <ClienteProvider>
+          <AppWithDrawers />
+        </ClienteProvider>
       </CartProvider>
     </UserProvider>
   );

@@ -1,4 +1,6 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useCliente } from '../../context/ClienteContext';
 import styles from './NavBar.module.scss';
 import { FaUser, FaShoppingCart, FaBars, FaTimes } from 'react-icons/fa';
 import logoImage from '../../assets/images/logo-se-doce-fosse-dark.png';
@@ -30,6 +32,10 @@ export function NavBar({
   isCartDrawerActive = false,
 }: NavBarProps) {
   const [isMobileMenuOpen, setMenuOpen] = useState(false);
+  const navigate = useNavigate();
+  const { cliente } = useCliente();
+
+  const firstName = cliente?.nome ? cliente.nome.split(' ')[0] : null;
 
   const toggleMenu = () => {
     setMenuOpen(!isMobileMenuOpen);
@@ -65,13 +71,13 @@ export function NavBar({
         </ul>
         <div className={styles.navIcons}>
           <button
-            onClick={onLoginClick}
+            onClick={() => (onLoginClick ? onLoginClick() : navigate('/login'))}
             className={`${styles.iconButton} ${
               isLoginModalActive ? styles.active : ''
             }`}
           >
             <FaUser />
-            <span>Entrar</span>
+            <span>{firstName ?? 'Entrar'}</span>
           </button>
           <button
             onClick={onCartClick}
@@ -105,13 +111,17 @@ export function NavBar({
           ))}
           <li className={styles.mobileActionItem}>
             <button
-              onClick={() => handleMobileLinkClick(onLoginClick)}
+              onClick={() =>
+                handleMobileLinkClick(
+                  onLoginClick ? onLoginClick : () => navigate('/login')
+                )
+              }
               className={`${styles.iconButton} ${
                 isLoginModalActive ? styles.active : ''
               }`}
             >
               <FaUser />
-              <span>Entrar</span>
+              <span>{firstName ?? 'Entrar'}</span>
             </button>
           </li>
           <li className={styles.mobileActionItem}>

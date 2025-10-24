@@ -26,3 +26,14 @@ export async function signup(
     }
   );
 }
+
+export async function loginCliente(nome: string, telefone: string) {
+  return api(
+    '/login',
+    {},
+    {
+      method: 'POST',
+      body: JSON.stringify({ nome, telefone }),
+    }
+  );
+}

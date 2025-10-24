@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { AiOutlinePushpin } from 'react-icons/ai';
 import styles from './AddressCard.module.scss';
 import { Textarea as TextArea } from '../Textarea/Textarea';
@@ -50,6 +50,19 @@ export const AddressCard = ({ onSubmit, initialData }: AddressCardProps) => {
     setErrors(e);
     return Object.keys(e).length === 0;
   };
+
+  // enviar dados ao mudar algum valor
+  useEffect(() => {
+    const isValid =
+      formData.cep.trim() &&
+      formData.street.trim() &&
+      formData.neighborhood.trim() &&
+      formData.number.trim();
+
+    if (isValid && onSubmit) {
+      onSubmit(formData);
+    }
+  }, [formData, onSubmit]);
 
   const handleSubmit = (ev: React.FormEvent) => {
     ev.preventDefault();
