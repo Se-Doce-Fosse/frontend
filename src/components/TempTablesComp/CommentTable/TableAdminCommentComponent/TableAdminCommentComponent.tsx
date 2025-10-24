@@ -12,6 +12,7 @@ function TabelAdminCommentComponent() {
       cliente: 'Vegano',
       estrela: 4,
       status: 'aprovado',
+      titulo: 'muito bom',
     },
   ]);
   const [rowToEdit, setRowToEdit] = useState<number | null>(null);
@@ -34,7 +35,7 @@ function TabelAdminCommentComponent() {
   return (
     <div className={styles.TabelAdminCommentComponent}>
       <div className={styles.header}>
-        <h2 className={styles.headerTitle}>Lista de Comments</h2>
+        <h2 className={styles.headerTitle}>Lista de Comentários</h2>
         <div className={styles.btnWrapper}>
           <Button
             label="Atualizar"

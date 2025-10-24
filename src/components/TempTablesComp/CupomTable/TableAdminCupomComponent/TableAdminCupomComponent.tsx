@@ -6,7 +6,7 @@ import { BsPlus } from 'react-icons/bs';
 import { Button } from '../../../Button/Button';
 import styles from './TableAdminCupomComponent.module.scss';
 
-function TabelAdminCupomComponent() {
+function TableAdminCupomComponent() {
   // const [modalOpen, setModalOpen] = useState<boolean>(false);
   const [cupons, setCupoms] = useState<CupomRow[]>([
     {
@@ -49,7 +49,7 @@ function TabelAdminCupomComponent() {
   // };
 
   return (
-    <div className={styles.TabelAdminCupomComponent}>
+    <div className={styles.TableAdminCupomComponent}>
       <div className={styles.header}>
         <h2 className={styles.headerTitle}>Lista de Cupons</h2>
         <div className={styles.btnWrapper}>
@@ -83,4 +83,4 @@ function TabelAdminCupomComponent() {
   );
 }
 
-export default TabelAdminCupomComponent;
+export default TableAdminCupomComponent;
