@@ -122,7 +122,6 @@ const AddCouponModal: React.FC<AddCouponModalProps> = ({ onClose, onAdd }) => {
               <Dialog.Close asChild>
                 <Button
                   label="Cancelar"
-                  onClick={onClose}
                   variant="secondary"
                   className={styles.cancelButton}
                 />
