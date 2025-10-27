@@ -7,6 +7,7 @@
 
 .header {
   display: flex;
+  overflow: hidden;
   align-items: center;
   justify-content: space-between;
   margin-bottom: 1rem;
@@ -19,8 +20,15 @@
 
 .TableAdminCupomComponent {
   display: flex;
+  overflow: auto;
   flex-direction: column;
   padding: 1.25rem;
   background-color: $cinza-claro;
   border-radius: 0.625rem;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.TableAdminCupomComponent::-webkit-scrollbar {
+  display: none;
 }
