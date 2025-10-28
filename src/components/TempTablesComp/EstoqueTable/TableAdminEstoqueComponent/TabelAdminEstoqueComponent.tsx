@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import { HeaderTableAdminEstoque } from '../HeaderTableAdminEstoque/HeaderTableAdminEstoque';
 import type { EstoqueRow } from '../HeaderTableAdminEstoque/HeaderTableAdminEstoque';
 //import { TempModalComponent } from '../../../TempModalComponent/TempModalComponent';
@@ -6,7 +6,14 @@ import { BsPlus } from 'react-icons/bs';
 import { Button } from '../../../Button/Button';
 import styles from './TableAdminEstoqueComponent.module.scss';
 
-function TableAdminEstoqueComponent() {
+interface TableAdminEstoqueComponentProps {
+  filterStatus: string;
+  searchTerm: string;
+}
+function TableAdminEstoqueComponent({
+  filterStatus,
+  searchTerm,
+}: TableAdminEstoqueComponentProps) {
   //const [modalOpen, setModalOpen] = useState<boolean>(false);
   const [estoques, setEstoques] = useState<EstoqueRow[]>([
     {
@@ -61,6 +68,18 @@ function TableAdminEstoqueComponent() {
   //   }
   // };
 
+  const filteredEstoque = useMemo(() => {
+    return estoques.filter((item) => {
+      const matchesSearch = item.item
+        .toLowerCase()
+        .includes(searchTerm.toLowerCase());
+      const matchesStatus = filterStatus
+        ? item.categoria === filterStatus
+        : true;
+      return matchesSearch && matchesStatus;
+    });
+  }, [estoques, searchTerm, filterStatus]);
+
   return (
     <div className={styles.TableAdminComponent}>
       <div className={styles.header}>
@@ -77,7 +96,7 @@ function TableAdminEstoqueComponent() {
       </div>
       <div>
         <HeaderTableAdminEstoque
-          estoque={estoques}
+          estoque={filteredEstoque}
           deleteRow={handleDeleteRow}
           editRow={tempHandleEditRow}
         />
