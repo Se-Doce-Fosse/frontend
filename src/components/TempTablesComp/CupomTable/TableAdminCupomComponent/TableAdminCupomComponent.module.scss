@@ -25,10 +25,4 @@
   padding: 1.25rem;
   background-color: $cinza-claro;
   border-radius: 0.625rem;
-  -ms-overflow-style: none;
-  scrollbar-width: none;
-}
-
-.TableAdminCupomComponent::-webkit-scrollbar {
-  display: none;
 }
