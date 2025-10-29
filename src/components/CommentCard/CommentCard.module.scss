@@ -27,6 +27,14 @@
 .comment {
   color: $cacau-intenso;
   font-family: 'Roboto', sans-serif;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  height: 12rem;
+  -webkit-box-orient: vertical;
+  line-height: 1.4;
+  max-height: calc(1.4em * 3);
 }
 
 .star {
@@ -42,9 +50,8 @@
   }
 }
 
-.avaliationStars {
-  display: flex;
-  margin-right: 0.25rem;
+.avaliation {
+  margin-bottom: 0.5rem;
 }
 .active {
   color: $cacau-intenso;

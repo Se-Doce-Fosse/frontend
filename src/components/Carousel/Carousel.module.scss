@@ -1,78 +1,140 @@
 @use '../../styles/variables.scss' as *;
-@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
 
-.head {
-  width: 100%;
-  background-color: $branco;
-
-  display: flex;
-  flex-direction: column; // título em cima, conteúdo abaixo
-  align-items: center; // centraliza horizontalmente o conteúdo
+.commentsSection {
+  padding: 2rem 1rem;
+  background-color: #f8f9fa;
 }
 
-.tittle {
-  align-self: flex-start;
-  margin-left: 6rem;
-  color: $cacau-intenso;
-  font-family: 'Roboto', sans-serif;
+.commentsTitle {
+  text-align: left;
+  font-size: 2rem;
+  font-weight: $bold;
   margin-bottom: 1rem;
-  font-size: 2rem;
-  font-weight: bold;
+  color: $cacau-intenso;
+  max-width: 1200px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 1rem;
 }
 
-.body {
-  display: flex;
-  flex-direction: row; // deixa o conteúdo em linha (botão, cards, botão)
-  align-items: center;
-  width: 100%;
-  // alinha verticalmente ao centro
+.commentsCarousel {
+  max-width: 1200px;
+  margin: 0 auto;
+  position: relative;
+
+  // Customizar as setas do carousel
+  :global(.carousel-control-prev),
+  :global(.carousel-control-next) {
+    width: 50px;
+    height: 50px;
+    background-color: $cacau-intenso;
+    border-radius: 50%;
+    top: 50%;
+    transform: translateY(-50%);
+    opacity: 0.8;
+    transition: all 0.3s ease;
+
+    &:hover {
+      opacity: 1;
+      background-color: $verde-pistache;
+    }
+
+    &:focus {
+      opacity: 1;
+    }
+  }
+
+  :global(.carousel-control-prev-icon),
+  :global(.carousel-control-next-icon) {
+    background-size: 20px 20px;
+  }
 }
 
-.carouselContainer {
-  display: flex;
-  align-items: center; // centraliza verticalmente
-  gap: 1rem;
-  width: 100%;
-}
+// Carousel para Desktop - escondido no mobile
+.desktopCarousel {
+  display: none;
 
-.arrow {
-  cursor: pointer;
-  background: $cacau-intenso;
-  border-radius: 100%;
-  margin-left: 1rem;
-  min-width: 2rem;
-  min-height: 2rem;
-  margin-right: 1rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 2rem;
-  padding: 1rem;
-  gap: 0 !important;
+  @media (min-width: 768px) {
+    display: block;
 
-  span {
-    gap: 0 !important;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-    height: 100%;
+    :global(.carousel-control-prev) {
+      left: -60px;
+    }
 
-    svg {
-      // margin-left: 0.5rem;
+    :global(.carousel-control-next) {
+      right: -60px;
     }
   }
 }
 
-.slides {
-  display: flex;
-  overflow: hidden;
-  flex-grow: 0; // evitar crescer além do que é definido
-  gap: 1rem;
-  width: 100%; // largura exata para 3 cards + 2 gaps
-  min-width: 0;
+// Carousel para Mobile - escondido no desktop
+.mobileCarousel {
+  display: block;
+
+  @media (min-width: 768px) {
+    display: none;
+  }
+
+  :global(.carousel-control-prev) {
+    left: 10px;
+  }
+
+  :global(.carousel-control-next) {
+    right: 10px;
+  }
 }
 
-.slide {
-  flex: 0 0 200px; // largura fixa dos cards
+// Conteúdo do carousel para Desktop - 3 itens lado a lado
+.carouselItemContentDesktop {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: stretch;
+  gap: 1rem;
+
+  > * {
+    flex: 1;
+    margin: 0 0.5rem;
+  }
+}
+
+// Conteúdo do carousel para Mobile - 1 item centralizado
+.carouselItemContentMobile {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0 1rem;
+}
+
+.loadingContainer,
+.errorContainer,
+.noCommentsContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 200px;
+  font-size: 1.2rem;
+  color: $preto;
+}
+
+.errorContainer {
+  color: #dc3545;
+}
+
+.loadingContainer {
+  color: $cacau-intenso;
+}
+
+@media (min-width: 64rem) {
+  .commentsSection {
+    padding: 3rem 5rem; // Aumentar padding lateral para dar espaço às setas
+  }
+
+  .commentsTitle {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+    max-width: 1200px;
+    margin-left: auto;
+    margin-right: auto;
+  }
 }
