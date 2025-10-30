@@ -6,7 +6,7 @@ import { BsPlus } from 'react-icons/bs';
 import { Button } from '../../../Button/Button';
 import styles from './TableAdminEstoqueComponent.module.scss';
 
-export default function TableAdminEstoqueComponent() {
+function TableAdminEstoqueComponent() {
   const [modalOpen, setModalOpen] = useState<boolean>(false);
   const [viewModalOpen, setViewModalOpen] = useState<boolean>(false);
   const [estoques, setEstoques] = useState<EstoqueRow[]>([
@@ -175,3 +175,5 @@ export default function TableAdminEstoqueComponent() {
     </div>
   );
 }
+
+export default TableAdminEstoqueComponent;
