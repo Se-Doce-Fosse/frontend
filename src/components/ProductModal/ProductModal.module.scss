@@ -3,7 +3,7 @@
 .overlay {
   position: fixed;
   inset: 0;
-  background-color: rgba(0, 0, 0, 0.45);
+  background-color: $light-shadow;
   animation: fadeIn 0.2s ease-in-out;
   z-index: 1000;
 }
@@ -15,7 +15,7 @@
   transform: translate(-50%, -50%);
   background: $branco;
   border-radius: 10px;
-  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 12px 30px $light-shadow;
   width: auto;
   padding: 1.5rem;
   display: flex;
@@ -29,6 +29,7 @@
   font-size: $font-lg;
   font-weight: 700;
   text-align: center;
+  color: $marrom-gourmet;
 }
 
 .grid {
@@ -48,11 +49,11 @@
   font-weight: 600;
   margin-bottom: 0.35rem;
   display: inline-block;
-  color: #5b4538;
+  color: $cacau-intenso;
 }
 
 .errorMsg {
-  color: #c62828;
+  color: $status-inactive;
   font-size: 0.85rem;
   margin-top: 0.25rem;
 }
@@ -88,8 +89,8 @@
 .imageDrop {
   width: 100%;
   aspect-ratio: 4/3;
-  border: 2px dashed #d6c4b7;
-  background: #faf7f4;
+  border: 2px dashed $cinza-borda;
+  background: $cinza-claro;
   border-radius: 14px;
   display: grid;
   place-items: center;
@@ -98,11 +99,11 @@
   transition: border-color 0.15s ease;
 }
 .imageDrop:hover {
-  border-color: #bfa894;
+  border-color: $cinza-hover;
 }
 
 .imagePlaceholder {
-  color: #8a6b58;
+  color: $cinza-texto;
   opacity: 0.8;
 }
 
