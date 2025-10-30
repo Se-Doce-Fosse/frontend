@@ -14,6 +14,7 @@ import {
 import { useUser } from '../../../../context/UserContext';
 import { DeleteModal } from '../../../DeleteModal/DeleteModal';
 import { ProductModal, type Option } from '../../../ProductModal/ProductModal';
+import { ProductViewModal } from '../../../ProductModal/ProductViewModal';
 import { Loading } from '../../../Loading/Loading';
 
 function TabelAdminProdutoComponent() {
@@ -25,6 +26,7 @@ function TabelAdminProdutoComponent() {
 
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
   const [deleteIndex, setDeleteIndex] = useState<number | null>(null);
+  // Removido estado mock que causava re-render infinito
 
   const [productModalValues, setProductModalValues] = useState<
     Partial<Product>
@@ -51,6 +53,9 @@ function TabelAdminProdutoComponent() {
   const [categoriasMap, setCategoriasMap] = useState<
     Record<string, CategoryDTO>
   >({});
+
+  const [viewModalOpen, setViewModalOpen] = useState<boolean>(false);
+  const [viewModalValues, setViewModalValues] = useState<Partial<Product>>({});
 
   useEffect(() => {
     fetchProducts();
@@ -79,9 +84,9 @@ function TabelAdminProdutoComponent() {
       if (data?.categories) {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         data.categories.forEach((cat: any) => {
-          options.push({ label: cat.name, value: cat.id });
-          map[cat.id] = {
-            id: cat.id,
+          options.push({ label: cat.name, value: String(cat.id) });
+          map[String(cat.id)] = {
+            id: Number(cat.id),
             name: cat.name,
             description: cat.description,
           };
@@ -141,6 +146,28 @@ function TabelAdminProdutoComponent() {
     setProductModalErrors({});
   };
 
+  const handleViewRow = (idx: number) => {
+    const product = products[idx];
+    setViewModalValues({
+      sku: product.sku,
+      name: product.name,
+      price: product.price,
+      imageSrc: product.imageSrc,
+      description: product.description,
+      isActive: product.isActive,
+      quantity: product.quantity ?? 0,
+      category: product.category?.id
+        ? (categoriasMap[product.category.id] ?? {
+            id: product.category.id,
+            name: product.category.name,
+          })
+        : { id: undefined, name: '' },
+      allergens: product.allergens,
+      relatedProducts: product.relatedProducts,
+    });
+    setViewModalOpen(true);
+  };
+
   const handleNewProduct = () => {
     setProductModalValues({
       sku: '',
@@ -180,9 +207,10 @@ function TabelAdminProdutoComponent() {
     setProductModalSubmitting(true);
     try {
       const categoriaId = productModalValues.category?.id;
-      const categoriaObj = categoriaId
-        ? categoriasMap[categoriaId]
-        : { id: undefined, name: '' };
+      const categoriaObj =
+        categoriaId !== undefined && categoriaId !== null
+          ? categoriasMap[String(categoriaId)]
+          : { id: undefined, name: '' };
       if (productModalMode === 'create') {
         await createProduct(
           {
@@ -236,6 +264,7 @@ function TabelAdminProdutoComponent() {
             produtos={products}
             deleteRow={handleDeleteRow}
             editRow={handleEditRow}
+            viewRow={handleViewRow}
           />
         )}
       </div>
@@ -266,6 +295,14 @@ function TabelAdminProdutoComponent() {
           { label: 'Inativo', value: 'false' },
         ]}
         onSubmit={handleProductModalSubmit}
+      />
+      <ProductViewModal
+        open={viewModalOpen}
+        onOpenChange={setViewModalOpen}
+        values={viewModalValues}
+        errors={{}}
+        onChange={() => {}}
+        categoriaOptions={categoriaOptions}
       />
     </div>
   );

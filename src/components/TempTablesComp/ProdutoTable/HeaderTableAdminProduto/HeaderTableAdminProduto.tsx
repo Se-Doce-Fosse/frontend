@@ -1,5 +1,5 @@
 import React from 'react';
-import { BsFillTrashFill, BsFillPencilFill } from 'react-icons/bs';
+import { BsFillTrashFill, BsFillPencilFill, BsEye } from 'react-icons/bs';
 import styles from './HeaderTableAdminProduto.module.scss';
 import { StatusBadge } from '../../../StatusBadge/StatusBadge';
 import type { Product } from 'src/types/product';
@@ -16,12 +16,14 @@ type TableProps = {
   produtos: Product[];
   deleteRow: (idx: number) => void;
   editRow: (idx: number) => void;
+  viewRow?: (idx: number) => void;
 };
 
 export const HeaderTableAdminProduto: React.FC<TableProps> = ({
   produtos,
   deleteRow,
   editRow,
+  viewRow,
 }) => {
   return (
     <div className={styles['table-wrapper']}>
@@ -41,7 +43,20 @@ export const HeaderTableAdminProduto: React.FC<TableProps> = ({
             const category = row.category;
             return (
               <tr key={idx}>
-                <td>{row.name}</td>
+                <td
+                  onClick={() => viewRow && viewRow(idx)}
+                  role={viewRow ? 'button' : undefined}
+                  tabIndex={viewRow ? 0 : undefined}
+                  onKeyDown={(e) => {
+                    if (!viewRow) return;
+                    if (e.key === 'Enter' || e.key === ' ') {
+                      e.preventDefault();
+                      viewRow(idx);
+                    }
+                  }}
+                >
+                  {row.name}
+                </td>
                 <td>{category?.name}</td>
                 <td>{row.price}</td>
                 <td>{row.quantity}</td>
@@ -50,6 +65,13 @@ export const HeaderTableAdminProduto: React.FC<TableProps> = ({
                 </td>
                 <td>
                   <span className={styles.actions}>
+                    {viewRow && (
+                      <BsEye
+                        className={styles['view-btn']}
+                        onClick={() => viewRow(idx)}
+                        color="#2E3A59"
+                      />
+                    )}
                     <BsFillPencilFill
                       className={styles['edit-btn']}
                       onClick={() => editRow(idx)}
