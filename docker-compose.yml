@@ -5,16 +5,13 @@ services:
       dockerfile: Dockerfile
     container_name: se-doce-fosse-frontend
     ports:
-      - '4173:4173'
-    environment:
-      - NODE_ENV=production
+      - "80:80"
     restart: unless-stopped
-
     deploy:
       resources:
         limits:
-          cpus: '1.0'
+          cpus: "1.0"
           memory: 512M
         reservations:
-          cpus: '0.5'
+          cpus: "0.5"
           memory: 256M
