@@ -24,7 +24,7 @@ export default function SideBar() {
 
   const handleLogout = () => {
     logout();
-    navigate('/login');
+    navigate('/admin/login');
   };
 
   const navBarItems = [
