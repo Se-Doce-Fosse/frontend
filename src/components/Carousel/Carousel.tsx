@@ -2,13 +2,14 @@ import React, { useState, useEffect } from 'react';
 import { CommentCard } from '../../components';
 import styles from './Carousel.module.scss';
 import type { Comment } from '../../data/comments.mock';
-import { Carousel } from 'react-bootstrap';
-import 'bootstrap/dist/css/bootstrap.min.css';
+import Slider from 'react-slick';
+import 'slick-carousel/slick/slick.css';
+import 'slick-carousel/slick/slick-theme.css';
 import { fetchFeaturedComments } from '../../services/comment/commentService';
 
 export type CarouselProps = {
   items?: React.ReactNode[];
-  visibleCount?: number; // número de itens visíveis ao mesmo tempo
+  visibleCount?: number;
 };
 
 export const CarouselComponent: React.FC<CarouselProps> = () => {
@@ -77,54 +78,45 @@ export const CarouselComponent: React.FC<CarouselProps> = () => {
       );
     }
 
-    // Para desktop: agrupar comentários de 3 em 3
-    const groupedCommentsDesktop = [];
-    for (let i = 0; i < comments.length; i += 3) {
-      groupedCommentsDesktop.push(comments.slice(i, i + 3));
-    }
+    const settings = {
+      dots: true,
+      infinite: true,
+      speed: 500,
+      autoplay: true,
+      autoplaySpeed: 4000,
+      pauseOnHover: true,
+      slidesToShow: 3,
+      slidesToScroll: 1,
+      responsive: [
+        {
+          breakpoint: 768,
+          settings: {
+            slidesToShow: 1,
+            slidesToScroll: 1,
+            centerMode: true,
+            centerPadding: '0px',
+            variableWidth: false,
+          },
+        },
+      ],
+    };
 
     return (
       <div className={styles.commentsSection}>
         <h2 className={styles.commentsTitle}>Comentários</h2>
-
-        {/* Carousel para Desktop - 3 comentários por slide */}
-        <Carousel
-          className={`${styles.commentsCarousel} ${styles.desktopCarousel}`}
-          interval={400000}
-        >
-          {groupedCommentsDesktop.map((group, index) => (
-            <Carousel.Item key={`desktop-group-${index}`}>
-              <div className={styles.carouselItemContentDesktop}>
-                {group.map((comment) => (
-                  <CommentCard
-                    key={comment.id}
-                    name={comment.name}
-                    description={comment.description}
-                    rating={comment.rating}
-                  />
-                ))}
-              </div>
-            </Carousel.Item>
-          ))}
-        </Carousel>
-
-        {/* Carousel para Mobile - 1 comentário por slide */}
-        <Carousel
-          className={`${styles.commentsCarousel} ${styles.mobileCarousel}`}
-          interval={400000}
-        >
-          {comments.map((comment) => (
-            <Carousel.Item key={`mobile-${comment.id}`}>
-              <div className={styles.carouselItemContentMobile}>
+        <div className={styles.sliderContainer}>
+          <Slider {...settings}>
+            {comments.map((comment) => (
+              <div key={comment.id} className={styles.slideItem}>
                 <CommentCard
                   name={comment.name}
                   description={comment.description}
                   rating={comment.rating}
                 />
               </div>
-            </Carousel.Item>
-          ))}
-        </Carousel>
+            ))}
+          </Slider>
+        </div>
       </div>
     );
   };

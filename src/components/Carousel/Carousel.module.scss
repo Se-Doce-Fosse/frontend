@@ -17,93 +17,109 @@
   padding-left: 1rem;
 }
 
-.commentsCarousel {
+.sliderContainer {
   max-width: 1200px;
   margin: 0 auto;
   position: relative;
 
-  // Customizar as setas do carousel
-  :global(.carousel-control-prev),
-  :global(.carousel-control-next) {
+  @media (max-width: 767px) {
+    overflow: hidden;
+    padding: 0 1rem;
+
+    :global(.slick-track) {
+      display: flex;
+      align-items: center;
+    }
+
+    :global(.slick-slide) {
+      display: flex !important;
+      justify-content: center;
+      align-items: center;
+
+      > div {
+        padding: 0;
+        margin: 0;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+      }
+    }
+
+    // Para centerMode no mobile - garantir que o slide ativo fique centralizado
+    :global(.slick-center) {
+      opacity: 1;
+      transform: scale(1);
+    }
+
+    :global(.slick-slide:not(.slick-center)) {
+      opacity: 0;
+      transform: scale(0);
+      pointer-events: none;
+    }
+  }
+
+  // Customizar as setas do react-slick
+  :global(.slick-arrow) {
     width: 50px;
     height: 50px;
-    background-color: $cacau-intenso;
-    border-radius: 50%;
-    top: 50%;
-    transform: translateY(-50%);
-    opacity: 0.8;
-    transition: all 0.3s ease;
+    z-index: 1;
 
-    &:hover {
-      opacity: 1;
-      background-color: $verde-pistache;
+    &:before {
+      font-size: 25px;
+      color: $cacau-intenso;
+      opacity: 0.8;
     }
 
-    &:focus {
+    &:hover:before {
+      color: $verde-pistache;
       opacity: 1;
     }
   }
 
-  :global(.carousel-control-prev-icon),
-  :global(.carousel-control-next-icon) {
-    background-size: 20px 20px;
-  }
-}
+  :global(.slick-prev) {
+    left: -60px;
 
-// Carousel para Desktop - escondido no mobile
-.desktopCarousel {
-  display: none;
-
-  @media (min-width: 768px) {
-    display: block;
-
-    :global(.carousel-control-prev) {
-      left: -60px;
-    }
-
-    :global(.carousel-control-next) {
-      right: -60px;
+    @media (max-width: 767px) {
+      left: -25px;
     }
   }
-}
 
-// Carousel para Mobile - escondido no desktop
-.mobileCarousel {
-  display: block;
+  :global(.slick-next) {
+    right: -60px;
 
-  @media (min-width: 768px) {
-    display: none;
+    @media (max-width: 767px) {
+      right: -25px;
+    }
   }
 
-  :global(.carousel-control-prev) {
-    left: 10px;
-  }
+  // Customizar os dots
+  :global(.slick-dots) {
+    bottom: -50px;
 
-  :global(.carousel-control-next) {
-    right: 10px;
-  }
-}
+    li button:before {
+      font-size: 12px;
+      color: $cacau-intenso;
+      opacity: 0.5;
+    }
 
-// Conteúdo do carousel para Desktop - 3 itens lado a lado
-.carouselItemContentDesktop {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: stretch;
-  gap: 1rem;
-
-  > * {
-    flex: 1;
-    margin: 0 0.5rem;
+    li.slick-active button:before {
+      color: $verde-pistache;
+      opacity: 1;
+    }
   }
 }
 
-// Conteúdo do carousel para Mobile - 1 item centralizado
-.carouselItemContentMobile {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 0 1rem;
+.slideItem {
+  padding: 0 10px;
+  outline: none;
+
+  @media (max-width: 767px) {
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+  }
 }
 
 .loadingContainer,
@@ -127,7 +143,8 @@
 
 @media (min-width: 64rem) {
   .commentsSection {
-    padding: 3rem 5rem; // Aumentar padding lateral para dar espaço às setas
+    padding: 3rem 5rem;
+    margin-bottom: 3rem;
   }
 
   .commentsTitle {
