@@ -1,13 +1,14 @@
 import { useState } from 'react';
 import { HeaderTableAdminEstoque } from '../HeaderTableAdminEstoque/HeaderTableAdminEstoque';
 import type { EstoqueRow } from '../HeaderTableAdminEstoque/HeaderTableAdminEstoque';
-//import { TempModalComponent } from '../../../TempModalComponent/TempModalComponent';
+import { EstoqueModal, type EstoqueValues } from '../../../EstoqueModal';
 import { BsPlus } from 'react-icons/bs';
 import { Button } from '../../../Button/Button';
 import styles from './TableAdminEstoqueComponent.module.scss';
 
 function TableAdminEstoqueComponent() {
-  //const [modalOpen, setModalOpen] = useState<boolean>(false);
+  const [modalOpen, setModalOpen] = useState<boolean>(false);
+  const [viewModalOpen, setViewModalOpen] = useState<boolean>(false);
   const [estoques, setEstoques] = useState<EstoqueRow[]>([
     {
       item: 'manteiga',
@@ -31,35 +32,101 @@ function TableAdminEstoqueComponent() {
     setEstoques(estoques.filter((_, idx) => idx !== targetIndex));
   };
 
-  const tempHandleEditRow = (idx: number) => {
+  const [rowToEdit, setRowToEdit] = useState<number | null>(null);
+  const [formValues, setFormValues] = useState<EstoqueValues>({
+    nome: '',
+    quantidade: '',
+    preco: '',
+    categoria: '',
+    unidadeMedida: '',
+  });
+
+  const categoriaOptions = [
+    { label: 'Insumo', value: 'insumo' },
+    { label: 'Embalagem', value: 'embalagem' },
+  ];
+
+  const unidadeMedidaOptions = [
+    { label: 'kg', value: 'kg' },
+    { label: 'g', value: 'g' },
+    { label: 'L', value: 'L' },
+    { label: 'mL', value: 'mL' },
+  ];
+
+  const handleEditRow = (idx: number) => {
     setRowToEdit(idx);
-    console.log(rowToEdit);
-    console.log('not done');
+    const row = estoques[idx];
+    setFormValues({
+      nome: row.item,
+      quantidade: String(row.quantidade),
+      preco: String(row.preco),
+      categoria: row.categoria,
+      unidadeMedida: row.uniMedida,
+    });
+    setModalOpen(true);
   };
 
-  // Precisa do modal
+  const handleViewRow = (idx: number) => {
+    const row = estoques[idx];
+    setFormValues({
+      nome: row.item,
+      quantidade: String(row.quantidade),
+      preco: String(row.preco),
+      categoria: row.categoria,
+      unidadeMedida: row.uniMedida,
+    });
+    setViewModalOpen(true);
+  };
 
-  const [rowToEdit, setRowToEdit] = useState<number | null>(null);
+  const handleSubmit = () => {
+    if (rowToEdit === null) {
+      const newRow: EstoqueRow = {
+        item: formValues.nome,
+        quantidade: Number(formValues.quantidade),
+        uniMedida: formValues.unidadeMedida,
+        preco: Number(formValues.preco),
+        categoria: formValues.categoria as 'insumo' | 'embalagem',
+        atualizadoEm: new Date(),
+      };
+      setEstoques([...estoques, newRow]);
+    } else {
+      setEstoques(
+        estoques.map((currRow, idx) => {
+          if (idx !== rowToEdit) return currRow;
+          return {
+            item: formValues.nome,
+            quantidade: Number(formValues.quantidade),
+            uniMedida: formValues.unidadeMedida,
+            preco: Number(formValues.preco),
+            categoria: formValues.categoria as 'insumo' | 'embalagem',
+            atualizadoEm: new Date(),
+          };
+        })
+      );
+    }
 
-  // const handleEditRow = (idx: number) => {
-  //   setRowToEdit(idx);
-  //   setModalOpen(true);
-  // };
+    setFormValues({
+      nome: '',
+      quantidade: '',
+      preco: '',
+      categoria: '',
+      unidadeMedida: '',
+    });
+    setRowToEdit(null);
+    setModalOpen(false);
+  };
 
-  //Precisa fazer o modal, mas o submit ja ta pronto
-
-  // const handleSubmit = (newRow: EstoqueRow) => {
-  //   if (rowToEdit === null) {
-  //     setEstoques([...estoques, newRow]);
-  //   } else {
-  //     setEstoques(
-  //       estoques.map((currRow, idx) => {
-  //         if (idx !== rowToEdit) return currRow;
-  //         return newRow;
-  //       })
-  //     );
-  //   }
-  // };
+  const handleOpenModal = () => {
+    setFormValues({
+      nome: '',
+      quantidade: '',
+      preco: '',
+      categoria: '',
+      unidadeMedida: '',
+    });
+    setRowToEdit(null);
+    setModalOpen(true);
+  };
 
   return (
     <div className={styles.TableAdminComponent}>
@@ -69,7 +136,7 @@ function TableAdminEstoqueComponent() {
           <Button
             label="Novo Item"
             icon={BsPlus}
-            //onClick={() => setModalOpen(true)}
+            onClick={handleOpenModal}
             variant="primary"
             className={styles.btn}
           />
@@ -79,22 +146,32 @@ function TableAdminEstoqueComponent() {
         <HeaderTableAdminEstoque
           estoque={estoques}
           deleteRow={handleDeleteRow}
-          editRow={tempHandleEditRow}
+          editRow={handleEditRow}
+          viewRow={handleViewRow}
         />
       </div>
-      {
-        //Precisa fazer o modal, mas essa parte ja esta pronta.
-        /* {modalOpen && (
-        <TempModalComponent
-          closeModal={() => {
-            setModalOpen(false);
-            setRowToEdit(null);
-          }}
-          onSubmit={handleSubmit}
-          defaultValue={rowToEdit !== null ? estoques[rowToEdit] : undefined}
-        />
-      )} */
-      }
+
+      <EstoqueModal
+        open={modalOpen}
+        onOpenChange={setModalOpen}
+        title={rowToEdit === null ? 'Adicionar Item' : 'Editar Item'}
+        values={formValues}
+        onChange={(patch) => setFormValues({ ...formValues, ...patch })}
+        categoriaOptions={categoriaOptions}
+        unidadeMedidaOptions={unidadeMedidaOptions}
+        onSubmit={handleSubmit}
+      />
+
+      <EstoqueModal
+        open={viewModalOpen}
+        onOpenChange={setViewModalOpen}
+        title="Visualizar Item"
+        values={formValues}
+        onChange={(patch) => setFormValues({ ...formValues, ...patch })}
+        categoriaOptions={categoriaOptions}
+        unidadeMedidaOptions={unidadeMedidaOptions}
+        mode="view"
+      />
     </div>
   );
 }
