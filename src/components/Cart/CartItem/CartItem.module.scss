@@ -63,6 +63,7 @@
   flex: 1;
   justify-content: space-between;
   min-height: 4rem;
+  max-width: 14rem;
 }
 
 .title {
@@ -71,6 +72,11 @@
   color: $marrom-gourmet;
   margin: 0;
   line-height: 1.2;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 100%;
+  width: 100%;
 }
 
 .description {
@@ -78,6 +84,16 @@
   color: $cinza-texto;
   margin: 0;
   line-height: 1.4;
+
+  /* Limitar a 2 linhas */
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
+  width: 100%;
 }
 
 .price {

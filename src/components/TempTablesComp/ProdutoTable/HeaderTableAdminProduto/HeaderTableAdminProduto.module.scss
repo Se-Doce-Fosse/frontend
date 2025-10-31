@@ -1,0 +1,81 @@
+@use 'sass:color';
+@use '../../../../styles/variables.scss' as *;
+
+$table-shadow: 0px 10px 10px #ccc;
+
+.table-wrapper {
+  overflow-x: auto;
+}
+
+.table {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  border-collapse: collapse;
+  box-shadow: $table-shadow;
+  border-radius: 0.625rem;
+  white-space: nowrap;
+  table-layout: auto;
+  overflow-x: auto;
+
+  thead {
+    background-color: $cinza-claro;
+    color: $preto;
+    display: flex;
+    flex-direction: column;
+  }
+
+  th,
+  td {
+    background-color: $cinza-claro;
+    padding: 0.9rem;
+    min-width: 15rem;
+
+    &:last-child {
+      min-width: 1rem;
+    }
+  }
+
+  td {
+    border: none;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-align: left;
+    vertical-align: middle;
+    width: 100%;
+  }
+
+  th {
+    border: none;
+    text-align: left;
+    vertical-align: middle;
+    width: 100%;
+  }
+
+  tr {
+    border-bottom: 1px solid #000;
+  }
+
+  tbody {
+    display: flex;
+    flex-direction: column;
+    tr {
+      &:hover td {
+        background-color: $creme-caramelo;
+        cursor: pointer;
+      }
+    }
+  }
+}
+
+.actions {
+  display: flex;
+  gap: 1.5rem;
+
+  svg {
+    cursor: pointer;
+  }
+}
+#F5F5F5 .delete-btn {
+  color: #e10d05;
+}

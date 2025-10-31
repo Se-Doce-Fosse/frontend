@@ -9,6 +9,7 @@ export interface CartDrawerProps {
   icon?: ReactNode;
   title?: string;
   children?: ReactNode;
+  withHeader?: boolean;
 }
 
 export default function CartDrawer({
@@ -17,6 +18,7 @@ export default function CartDrawer({
   icon,
   title,
   children,
+  withHeader = true,
 }: CartDrawerProps) {
   useEffect(() => {
     if (open) {
@@ -57,19 +59,21 @@ export default function CartDrawer({
       {open && (
         <div className={styles.overlay} onClick={handleOverlayClick}>
           <div className={`${styles.drawer} ${open ? styles.open : ''}`}>
-            <div className={styles.header}>
-              <div className={styles.headerContent}>
-                {icon && icon}
-                {title && <h2 className={styles.title}>{title}</h2>}
+            {withHeader && (
+              <div className={styles.header}>
+                <div className={styles.headerContent}>
+                  {icon && icon}
+                  {title && <h2 className={styles.title}>{title}</h2>}
+                </div>
+                <button
+                  className={styles.closeButton}
+                  onClick={() => onClose()}
+                  aria-label="Fechar"
+                >
+                  <FaTimes />
+                </button>
               </div>
-              <button
-                className={styles.closeButton}
-                onClick={() => onClose()}
-                aria-label="Fechar"
-              >
-                <FaTimes />
-              </button>
-            </div>
+            )}
             <div className={styles.content}>
               <div className={styles.contentWrapper}>{children}</div>
             </div>

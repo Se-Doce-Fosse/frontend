@@ -1,0 +1,85 @@
+@use './../../styles/variables.scss' as *;
+
+.card {
+  display: flex;
+  flex-direction: column;
+  border-radius: 0.8rem;
+  padding: 1.4rem;
+  width: 25rem;
+  background-color: white;
+  box-shadow: 0rem 0.25rem 0.25rem 0rem #00000040;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.2rem;
+}
+
+.orderCode {
+  font-weight: bold;
+  font-size: 1.5rem;
+  color: black;
+}
+
+.newStatus {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  color: black;
+  font-size: 1rem;
+  background-color: $cinza-hover;
+  padding: 0.4rem;
+  border-radius: 0.5rem;
+}
+
+.statusDot {
+  width: 0.9rem;
+  height: 0.9rem;
+  border-radius: 50%;
+  background-color: $status-inactive;
+}
+
+.clientSection,
+.itemsSection {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  margin-bottom: 1.2rem;
+  align-items: flex-start;
+}
+
+.label {
+  color: black;
+  font-size: 1.2rem;
+  min-width: 3rem;
+}
+
+.clientName {
+  color: $marrom-gourmet;
+  font-size: 1.2rem;
+}
+
+.itemList {
+  list-style-type: disc;
+  padding-left: 1.6rem;
+  color: $marrom-gourmet;
+  font-size: 1.2rem;
+}
+
+.item {
+  font-size: 1.2rem;
+  line-height: 1.4rem;
+}
+
+.moveStageButton {
+  color: $marrom-gourmet;
+  background-color: $creme-caramelo;
+}
+
+.actions {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 1.6rem;
+}

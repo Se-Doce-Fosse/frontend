@@ -105,7 +105,7 @@
       'commentTitle commentTitle'
       'textareaGroup textareaGroup'
       'nome telefone'
-      'enviar enviar';
+      'avaliation enviar';
 
     max-width: 20.875rem;
     width: 100%;
@@ -161,6 +161,10 @@
       margin-left: $space-xs;
       border-radius: 0.3rem;
     }
+  }
+  .avaliation {
+    grid-area: avaliation;
+    margin-top: $space-lg;
   }
 
   .buttonContainer {
@@ -272,6 +276,10 @@
 
       .commentTitle {
         margin-top: -0.5rem;
+      }
+
+      .avaliation {
+        margin-top: $space-sm;
       }
 
       .buttonContainer {

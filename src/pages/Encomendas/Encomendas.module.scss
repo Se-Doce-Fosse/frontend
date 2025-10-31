@@ -1,0 +1,151 @@
+@use '../../styles/variables.scss' as *;
+
+.container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background-color: $branco;
+}
+
+.content {
+  flex: 1;
+  max-width: $container-max;
+  margin: 0 auto;
+  padding: $space-xl $space-md;
+  width: 100%;
+}
+
+.titleContainer {
+  text-align: center;
+  margin-bottom: $space-xxl;
+}
+
+.title {
+  font-size: $font-xxl;
+  font-weight: $semi-bold;
+  color: $cacau-intenso;
+  margin: 0;
+
+  @media (max-width: 48rem) {
+    font-size: $font-xl;
+  }
+}
+
+.mainContent {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: $space-xxxl;
+  align-items: center;
+
+  @media (max-width: 64rem) {
+    grid-template-columns: 1fr;
+    gap: $space-xl;
+  }
+}
+
+.textColumn {
+  display: flex;
+  flex-direction: column;
+  gap: $space-lg;
+}
+
+.textContent {
+  font-size: $font-lg;
+  line-height: 1.6;
+  color: $cacau-intenso;
+
+  p {
+    margin: 0 0 $space-md 0;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+
+  @media (max-width: 48rem) {
+    font-size: $font-md;
+  }
+}
+
+.whatsappButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: $space-xs;
+  padding: $space-sm $space-lg;
+  background-color: $creme-caramelo;
+  color: $cacau-intenso;
+  border: 0.125rem solid $cacau-intenso;
+  border-radius: 0.5rem;
+  font-size: $font-md;
+  font-weight: $semi-bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  max-width: 15rem;
+
+  &:hover {
+    background-color: $cacau-intenso;
+    color: $branco;
+    transform: translateY(-0.125rem);
+    box-shadow: 0 0.25rem 0.75rem $light-shadow;
+  }
+
+  &:active {
+    transform: translateY(0);
+  }
+
+  @media (max-width: 48rem) {
+    font-size: $font-sm;
+    padding: $space-xs $space-md;
+    max-width: 100%;
+  }
+}
+
+.whatsappIcon {
+  width: 1.25rem;
+  height: 1.25rem;
+  flex-shrink: 0;
+  color: currentColor;
+}
+
+.imageColumn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.productImage {
+  width: 100%;
+  max-width: 25rem;
+  height: auto;
+  border-radius: 0.75rem;
+  box-shadow: 0 0.5rem 1.5rem $light-shadow;
+  object-fit: cover;
+
+  @media (max-width: 64rem) {
+    max-width: 20rem;
+  }
+
+  @media (max-width: 48rem) {
+    max-width: 15rem;
+  }
+}
+
+@media (max-width: 30rem) {
+  .content {
+    padding: $space-md $space-sm;
+  }
+
+  .title {
+    font-size: 1.75rem;
+  }
+
+  .textContent {
+    font-size: 0.95rem;
+  }
+
+  .whatsappButton {
+    font-size: 0.95rem;
+    padding: $space-sm 1.25rem;
+  }
+}
