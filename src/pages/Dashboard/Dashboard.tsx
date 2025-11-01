@@ -1,12 +1,61 @@
-import React from 'react';
-import AdminLayout from '../../layouts/AdminLayout/AdminLayout';
+import React, { Component } from 'react';
+import Chart from 'react-apexcharts';
 
-const Dashboard: React.FC = () => {
-  return (
-    <AdminLayout>
-      <h1>Dashboard</h1>
-    </AdminLayout>
-  );
-};
+interface DashboardState {
+  options: {
+    chart: {
+      id: string;
+    };
+    xaxis: {
+      categories: number[];
+    };
+  };
+  series: Array<{
+    name: string;
+    data: number[];
+  }>;
+}
+
+// eslint-disable-next-line @typescript-eslint/no-empty-object-type
+class Dashboard extends Component<{}, DashboardState> {
+  // eslint-disable-next-line @typescript-eslint/no-empty-object-type
+  constructor(props: {}) {
+    super(props);
+
+    this.state = {
+      options: {
+        chart: {
+          id: 'basic-bar',
+        },
+        xaxis: {
+          categories: [1991, 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999],
+        },
+      },
+      series: [
+        {
+          name: 'series-1',
+          data: [30, 40, 45, 50, 49, 60, 70, 91, 44],
+        },
+      ],
+    };
+  }
+
+  render() {
+    return (
+      <div className="app">
+        <div className="row">
+          <div className="mixed-chart">
+            <Chart
+              options={this.state.options}
+              series={this.state.series}
+              type="bar"
+              width="500"
+            />
+          </div>
+        </div>
+      </div>
+    );
+  }
+}
 
 export default Dashboard;
