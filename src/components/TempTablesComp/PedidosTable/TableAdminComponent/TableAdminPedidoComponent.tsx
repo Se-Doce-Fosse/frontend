@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import { HeaderTableAdminPedido } from '../HeaderTableAdminPedido/HeaderTableAdminPedido';
 import type { PedidoRow } from '../HeaderTableAdminPedido/HeaderTableAdminPedido';
 // import { TempModalComponent } from '../../../TempModalComponent/TempModalComponent';
@@ -6,7 +6,15 @@ import { Button } from '../../../Button/Button';
 import styles from './TableAdminPedidoComponent.module.scss';
 import { IoReload } from 'react-icons/io5';
 
-function TabelAdminPedidoComponent() {
+interface TableAdminPedidoComponentProps {
+  filterStatus: string;
+  searchTerm: string;
+}
+
+function TableAdminPedidoComponent({
+  filterStatus,
+  searchTerm,
+}: TableAdminPedidoComponentProps) {
   // const [modalOpen, setModalOpen] = useState<boolean>(false);
   const [pedidos, setPedidos] = useState<PedidoRow[]>([
     {
@@ -47,8 +55,20 @@ function TabelAdminPedidoComponent() {
   //   }
   // };
 
+  const filteredPedidos = useMemo(() => {
+    return pedidos.filter((pedido) => {
+      const matchesSearch = pedido.pedido
+        .toLowerCase()
+        .includes(searchTerm.toLowerCase());
+      const matchesStatus = filterStatus
+        ? pedido.status === filterStatus
+        : true;
+      return matchesSearch && matchesStatus;
+    });
+  }, [pedidos, searchTerm, filterStatus]);
+
   return (
-    <div className={styles.TabelAdminPedidoComponent}>
+    <div className={styles.TableAdminPedidoComponent}>
       <div className={styles.header}>
         <h2 className={styles.headerTitle}>Lista de Pedidos</h2>
         <div className={styles.btnWrapper}>
@@ -63,7 +83,7 @@ function TabelAdminPedidoComponent() {
       </div>
       <div>
         <HeaderTableAdminPedido
-          pedidos={pedidos}
+          pedidos={filteredPedidos}
           deleteRow={handleDeleteRow}
           editRow={tempHandleEditRow}
         />
@@ -72,4 +92,4 @@ function TabelAdminPedidoComponent() {
   );
 }
 
-export default TabelAdminPedidoComponent;
+export default TableAdminPedidoComponent;
