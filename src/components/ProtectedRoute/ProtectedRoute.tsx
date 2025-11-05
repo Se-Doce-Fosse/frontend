@@ -5,5 +5,9 @@ import { Loading } from '@components';
 export const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
   const { isAuthenticated, loading } = useUser();
   if (loading) return <Loading />;
-  return isAuthenticated ? <>{children}</> : <Navigate to="/login" replace />;
+  return isAuthenticated ? (
+    <>{children}</>
+  ) : (
+    <Navigate to="/admin/login" replace />
+  );
 };

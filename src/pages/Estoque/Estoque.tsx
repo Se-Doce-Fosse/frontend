@@ -1,27 +1,45 @@
-import React from 'react';
+import React, { useState } from 'react';
 import AdminLayout from '../../layouts/AdminLayout/AdminLayout';
-import { Filter } from '../../components/Filter';
 import TableAdminEstoqueComponent from '../../components/TempTablesComp/EstoqueTable/TableAdminEstoqueComponent/TabelAdminEstoqueComponent';
+import { Filter } from '../../components/Filter/Filter';
+import style from './Estoque.module.scss';
 
-const status = [
-  { label: 'Todos os status', value: 'todos' },
-  { label: 'Ativos', value: 'ativos' },
-  { label: 'Inativos', value: 'inativos' },
-];
+const Cupons: React.FC = () => {
+  const [searchValue, setSearchValue] = useState('');
+  const [filterStatus, setFilterStatus] = useState('');
 
-const Estoque: React.FC = () => {
+  const statusOptions = [
+    { value: '', label: 'Todos' },
+    { value: 'ativo', label: 'Ativo' },
+    { value: 'inativo', label: 'Inativo' },
+  ];
+
   return (
     <AdminLayout>
-      <h1>Estoque</h1>
-      <Filter
-        title="Filtro"
-        searchPlaceholder="Busque por produto ou categoria..."
-        selectPlaceholder="Todos os status"
-        selectOptions={status}
-      />
-      <TableAdminEstoqueComponent />
+      <div className={style.estoque}>
+        <h1>Estoque</h1>
+        <div className={style.filter}>
+          <Filter
+            title="Filtros"
+            selectOptions={statusOptions}
+            selectPlaceholder="Categorias"
+            searchPlaceholder="Buscar Insumo..."
+            searchValue={searchValue}
+            onSearchChange={setSearchValue}
+            selectProps={{
+              value: filterStatus,
+              onChange: (event) => setFilterStatus(event.target.value),
+              options: statusOptions,
+            }}
+          />
+        </div>
+        <TableAdminEstoqueComponent
+          filterStatus={filterStatus}
+          searchTerm={searchValue}
+        />
+      </div>
     </AdminLayout>
   );
 };
 
-export default Estoque;
+export default Cupons;

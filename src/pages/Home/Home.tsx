@@ -149,7 +149,6 @@ const Home = () => {
         open={activeDrawer === 'finish'}
         onClose={() => setActiveDrawer(null)}
       />
-
       <Footer />
     </div>
   );
