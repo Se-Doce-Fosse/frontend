@@ -5,6 +5,7 @@ import { StatusBadge } from '../../../StatusBadge/StatusBadge';
 import type { StatusEnum } from 'src/types/status';
 
 export type EstoqueRow = {
+  id: string;
   item: string;
   quantidade: number;
   uniMedida: string;
@@ -44,7 +45,7 @@ export const HeaderTableAdminEstoque: React.FC<TableProps> = ({
           {estoque.map((row, idx) => {
             return (
               <tr
-                key={idx}
+                key={row.id}
                 className={styles['clickable-row']}
                 onClick={() => viewRow(idx)}
               >

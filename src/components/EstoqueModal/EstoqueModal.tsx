@@ -24,6 +24,7 @@ export interface EstoqueModalProps {
   unidadeMedidaOptions: Option[];
   onSubmit?: () => void;
   mode?: 'view' | 'edit';
+  errors?: Partial<Record<keyof EstoqueValues, string>>;
 }
 
 export function EstoqueModal({
@@ -37,6 +38,7 @@ export function EstoqueModal({
   unidadeMedidaOptions,
   onSubmit,
   mode = 'edit',
+  errors = {},
 }: EstoqueModalProps) {
   const isViewMode = mode === 'view';
 
@@ -76,6 +78,7 @@ export function EstoqueModal({
                 value={values.nome}
                 onChange={handleNome}
                 disabled={isViewMode}
+                error={errors.nome}
               />
             </div>
 
@@ -86,6 +89,7 @@ export function EstoqueModal({
                 value={values.quantidade}
                 onChange={handleQuantidade}
                 disabled={isViewMode}
+                error={errors.quantidade}
               />
             </div>
 
@@ -96,29 +100,48 @@ export function EstoqueModal({
                 value={values.preco}
                 onChange={handlePreco}
                 disabled={isViewMode}
+                error={errors.preco}
               />
             </div>
 
             <div className={styles.fieldCategoria}>
               <label className={styles.label}>Categoria</label>
-              <Select
-                placeholder="Selecione a categoria"
-                options={categoriaOptions}
-                value={values.categoria}
-                onChange={handleCategoria}
-                disabled={isViewMode}
-              />
+              <div
+                className={errors.categoria ? styles.selectWrapperError : ''}
+              >
+                <Select
+                  placeholder="Selecione a categoria"
+                  options={categoriaOptions}
+                  value={values.categoria}
+                  onChange={handleCategoria}
+                  disabled={isViewMode}
+                />
+              </div>
+              {errors.categoria && (
+                <span className={styles.errorMessage}>{errors.categoria}</span>
+              )}
             </div>
 
             <div className={styles.fieldUnidadeMedida}>
               <label className={styles.label}>Unidade de Medida</label>
-              <Select
-                placeholder="Selecione a unidade"
-                options={unidadeMedidaOptions}
-                value={values.unidadeMedida}
-                onChange={handleUnidadeMedida}
-                disabled={isViewMode}
-              />
+              <div
+                className={
+                  errors.unidadeMedida ? styles.selectWrapperError : ''
+                }
+              >
+                <Select
+                  placeholder="Selecione a unidade"
+                  options={unidadeMedidaOptions}
+                  value={values.unidadeMedida}
+                  onChange={handleUnidadeMedida}
+                  disabled={isViewMode}
+                />
+              </div>
+              {errors.unidadeMedida && (
+                <span className={styles.errorMessage}>
+                  {errors.unidadeMedida}
+                </span>
+              )}
             </div>
 
             <div className={styles.footer}>

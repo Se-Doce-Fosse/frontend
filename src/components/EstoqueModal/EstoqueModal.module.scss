@@ -68,6 +68,21 @@
   color: $preto;
 }
 
+.selectWrapperError {
+  box-shadow: 0 0 0 1px #e53935;
+
+  :global(.selectField) {
+    outline: none;
+  }
+}
+
+.errorMessage {
+  color: #e53935;
+  font-size: $font-sm;
+  margin-top: 0.25rem;
+  display: block;
+}
+
 .footer {
   grid-column: 1 / -1;
   display: flex;

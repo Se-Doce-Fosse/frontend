@@ -1,45 +1,44 @@
-import { useState, useMemo } from 'react';
+import { useEffect, useState, useMemo } from 'react';
 import { HeaderTableAdminEstoque } from '../HeaderTableAdminEstoque/HeaderTableAdminEstoque';
 import type { EstoqueRow } from '../HeaderTableAdminEstoque/HeaderTableAdminEstoque';
 import { EstoqueModal, type EstoqueValues } from '../../../EstoqueModal';
 import { BsPlus } from 'react-icons/bs';
 import { Button } from '../../../Button/Button';
 import styles from './TableAdminEstoqueComponent.module.scss';
+import {
+  getEstoque,
+  createEstoque,
+  updateEstoque,
+  deleteEstoque,
+} from '../../../../services/admin-estoque/admin-estoque';
+import { useUser } from '../../../../context/UserContext';
+import { DeleteModal } from '../../../DeleteModal/DeleteModal';
+import { Loading } from '../../../Loading/Loading';
+import type {
+  Estoque,
+  CreateEstoque,
+  UpdateEstoque,
+} from '../../../../types/estoque';
 
 interface TableAdminEstoqueComponentProps {
   filterStatus: string;
   searchTerm: string;
 }
+
 function TableAdminEstoqueComponent({
   filterStatus,
   searchTerm,
 }: TableAdminEstoqueComponentProps) {
   const [modalOpen, setModalOpen] = useState<boolean>(false);
   const [viewModalOpen, setViewModalOpen] = useState<boolean>(false);
-  const [estoques, setEstoques] = useState<EstoqueRow[]>([
-    {
-      item: 'manteiga',
-      quantidade: 10,
-      uniMedida: 'kg',
-      preco: 10,
-      categoria: 'insumo',
-      atualizadoEm: new Date(),
-    },
-    {
-      item: 'farinha',
-      quantidade: 20,
-      uniMedida: 'pacote',
-      preco: 1000.0,
-      categoria: 'embalagem',
-      atualizadoEm: new Date(),
-    },
-  ]);
-
-  const handleDeleteRow = (targetIndex: number) => {
-    setEstoques(estoques.filter((_, idx) => idx !== targetIndex));
-  };
-
+  const [estoques, setEstoques] = useState<EstoqueRow[]>([]);
+  const [loading, setLoading] = useState<boolean>(false);
   const [rowToEdit, setRowToEdit] = useState<number | null>(null);
+  const { user } = useUser();
+
+  const [deleteModalOpen, setDeleteModalOpen] = useState(false);
+  const [deleteIndex, setDeleteIndex] = useState<number | null>(null);
+
   const [formValues, setFormValues] = useState<EstoqueValues>({
     nome: '',
     quantidade: '',
@@ -47,6 +46,11 @@ function TableAdminEstoqueComponent({
     categoria: '',
     unidadeMedida: '',
   });
+
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [formErrors, setFormErrors] = useState<
+    Partial<Record<keyof EstoqueValues, string>>
+  >({});
 
   const categoriaOptions = [
     { label: 'Insumo', value: 'insumo' },
@@ -58,7 +62,86 @@ function TableAdminEstoqueComponent({
     { label: 'g', value: 'g' },
     { label: 'L', value: 'L' },
     { label: 'mL', value: 'mL' },
+    { label: 'pacote', value: 'pacote' },
   ];
+
+  useEffect(() => {
+    fetchEstoque();
+    // eslint-disable-next-line
+  }, [user?.token]);
+
+  const mapEstoqueToEstoqueRow = (estoque: Estoque): EstoqueRow => {
+    return {
+      id: estoque.id,
+      item: estoque.name,
+      quantidade: estoque.quantity,
+      uniMedida: estoque.unitOfMeasure,
+      preco: Number(estoque.price),
+      categoria: estoque.category as 'insumo' | 'embalagem',
+      atualizadoEm: new Date(),
+    };
+  };
+
+  const mapToCreateEstoque = (formValues: EstoqueValues): CreateEstoque => {
+    return {
+      name: formValues.nome,
+      quantity: Number(formValues.quantidade),
+      price: formValues.preco,
+      category: formValues.categoria,
+      unitOfMeasure: formValues.unidadeMedida,
+    };
+  };
+
+  const mapToUpdateEstoque = (
+    formValues: EstoqueValues,
+    id: string
+  ): UpdateEstoque => {
+    return {
+      id,
+      name: formValues.nome,
+      quantity: Number(formValues.quantidade),
+      price: formValues.preco,
+      category: formValues.categoria,
+      unitOfMeasure: formValues.unidadeMedida,
+    };
+  };
+
+  const fetchEstoque = async () => {
+    if (!user?.token) return;
+    setLoading(true);
+    try {
+      const data = await getEstoque(user.token);
+      const estoquesArray = Array.isArray(data) ? data : data?.items || [];
+      const mappedEstoques = estoquesArray.map(mapEstoqueToEstoqueRow);
+      setEstoques(mappedEstoques);
+    } catch (error) {
+      console.error('Erro ao buscar estoque:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleDeleteRow = (targetIndex: number) => {
+    setDeleteIndex(targetIndex);
+    setDeleteModalOpen(true);
+  };
+
+  const confirmDeleteRow = async () => {
+    if (!user?.token || deleteIndex === null) return;
+    const estoque = estoques?.[deleteIndex];
+    if (!estoque) {
+      console.warn('handleDeleteRow: índice inválido', deleteIndex);
+      return;
+    }
+    try {
+      await deleteEstoque(estoque.id, user.token);
+      setEstoques((prev) => prev.filter((_, i) => i !== deleteIndex));
+    } catch (error) {
+      console.error('Erro ao deletar estoque:', error);
+    } finally {
+      setDeleteIndex(null);
+    }
+  };
 
   const handleEditRow = (idx: number) => {
     setRowToEdit(idx);
@@ -70,6 +153,7 @@ function TableAdminEstoqueComponent({
       categoria: row.categoria,
       unidadeMedida: row.uniMedida,
     });
+    setFormErrors({});
     setModalOpen(true);
   };
 
@@ -85,42 +169,55 @@ function TableAdminEstoqueComponent({
     setViewModalOpen(true);
   };
 
-  const handleSubmit = () => {
-    if (rowToEdit === null) {
-      const newRow: EstoqueRow = {
-        item: formValues.nome,
-        quantidade: Number(formValues.quantidade),
-        uniMedida: formValues.unidadeMedida,
-        preco: Number(formValues.preco),
-        categoria: formValues.categoria as 'insumo' | 'embalagem',
-        atualizadoEm: new Date(),
-      };
-      setEstoques([...estoques, newRow]);
-    } else {
-      setEstoques(
-        estoques.map((currRow, idx) => {
-          if (idx !== rowToEdit) return currRow;
-          return {
-            item: formValues.nome,
-            quantidade: Number(formValues.quantidade),
-            uniMedida: formValues.unidadeMedida,
-            preco: Number(formValues.preco),
-            categoria: formValues.categoria as 'insumo' | 'embalagem',
-            atualizadoEm: new Date(),
-          };
-        })
-      );
-    }
+  const validateForm = (values: EstoqueValues) => {
+    const errors: Partial<Record<keyof EstoqueValues, string>> = {};
+    if (!values.nome.trim()) errors.nome = 'Nome é obrigatório';
+    if (!values.quantidade || Number(values.quantidade) <= 0)
+      errors.quantidade = 'Quantidade deve ser maior que zero';
+    if (!values.preco || Number(values.preco) <= 0)
+      errors.preco = 'Preço deve ser maior que zero';
+    if (!values.categoria) errors.categoria = 'Categoria é obrigatória';
+    if (!values.unidadeMedida)
+      errors.unidadeMedida = 'Unidade de medida é obrigatória';
+    return errors;
+  };
 
-    setFormValues({
-      nome: '',
-      quantidade: '',
-      preco: '',
-      categoria: '',
-      unidadeMedida: '',
-    });
-    setRowToEdit(null);
-    setModalOpen(false);
+  const handleSubmit = async () => {
+    const errors = validateForm(formValues);
+    setFormErrors(errors);
+    if (Object.keys(errors).length > 0) return;
+
+    if (!user?.token) return;
+
+    setIsSubmitting(true);
+    try {
+      if (rowToEdit === null) {
+        const estoqueData = mapToCreateEstoque(formValues);
+        await createEstoque(estoqueData, user.token);
+      } else {
+        const estoqueData = mapToUpdateEstoque(
+          formValues,
+          estoques[rowToEdit].id
+        );
+        await updateEstoque(estoques[rowToEdit].id, estoqueData, user.token);
+      }
+
+      setFormValues({
+        nome: '',
+        quantidade: '',
+        preco: '',
+        categoria: '',
+        unidadeMedida: '',
+      });
+      setRowToEdit(null);
+      setModalOpen(false);
+      setFormErrors({});
+      await fetchEstoque();
+    } catch (error) {
+      console.error('Erro ao salvar estoque:', error);
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const handleOpenModal = () => {
@@ -132,6 +229,7 @@ function TableAdminEstoqueComponent({
       unidadeMedida: '',
     });
     setRowToEdit(null);
+    setFormErrors({});
     setModalOpen(true);
   };
 
@@ -150,7 +248,7 @@ function TableAdminEstoqueComponent({
   return (
     <div className={styles.TableAdminComponent}>
       <div className={styles.header}>
-        <h2 className={styles.headerTitle}>Lista de Produtos</h2>
+        <h2 className={styles.headerTitle}>Lista de Insumos</h2>
         <div className={styles.btnWrapper}>
           <Button
             label="Novo Item"
@@ -162,23 +260,52 @@ function TableAdminEstoqueComponent({
         </div>
       </div>
       <div>
-        <HeaderTableAdminEstoque
-          estoque={filteredEstoque}
-          deleteRow={handleDeleteRow}
-          editRow={handleEditRow}
-          viewRow={handleViewRow}
-        />
+        {loading ? (
+          <Loading />
+        ) : (
+          <HeaderTableAdminEstoque
+            estoque={filteredEstoque}
+            deleteRow={handleDeleteRow}
+            editRow={handleEditRow}
+            viewRow={handleViewRow}
+          />
+        )}
       </div>
+
+      <DeleteModal
+        item={
+          deleteIndex !== null && estoques[deleteIndex]
+            ? estoques[deleteIndex].item
+            : ''
+        }
+        open={deleteModalOpen}
+        onOpenChange={setDeleteModalOpen}
+        onClickConfirm={confirmDeleteRow}
+      />
 
       <EstoqueModal
         open={modalOpen}
         onOpenChange={setModalOpen}
         title={rowToEdit === null ? 'Adicionar Item' : 'Editar Item'}
         values={formValues}
-        onChange={(patch) => setFormValues({ ...formValues, ...patch })}
+        onChange={(patch) => {
+          setFormValues({ ...formValues, ...patch });
+          if (formErrors) {
+            const fieldName = Object.keys(patch)[0] as keyof EstoqueValues;
+            if (formErrors[fieldName]) {
+              setFormErrors((prev) => {
+                const newErrors = { ...prev };
+                delete newErrors[fieldName];
+                return newErrors;
+              });
+            }
+          }
+        }}
         categoriaOptions={categoriaOptions}
         unidadeMedidaOptions={unidadeMedidaOptions}
         onSubmit={handleSubmit}
+        isSubmitting={isSubmitting}
+        errors={formErrors}
       />
 
       <EstoqueModal
