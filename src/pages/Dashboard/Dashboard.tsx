@@ -1,4 +1,5 @@
 import { Component } from 'react';
+import AdminLayout from '../../layouts/AdminLayout/AdminLayout';
 import Chart from 'react-apexcharts';
 
 interface DashboardState {
@@ -42,18 +43,21 @@ class Dashboard extends Component<{}, DashboardState> {
 
   render() {
     return (
-      <div className="app">
-        <div className="row">
-          <div className="mixed-chart">
-            <Chart
-              options={this.state.options}
-              series={this.state.series}
-              type="bar"
-              width="500"
-            />
+      <AdminLayout>
+        <div className="app">
+          <div className="row">
+            <div className="mixed-chart">
+              <Chart
+                options={this.state.options}
+                series={this.state.series}
+                type="bar"
+                width="500"
+              />
+            </div>
           </div>
         </div>
-      </div>
+        <button>get orders</button>
+      </AdminLayout>
     );
   }
 }
