@@ -1,21 +1,29 @@
 import type { Comment } from '../../data/comments.mock';
+import type { ApiComment } from '../../types/api';
 import { MOCK_COMMENTS } from '../../data/comments.mock';
+import { api } from '../index';
 
-export interface CommentsResponse {
-  comments: Comment[];
-  total: number;
-}
+const mapApiCommentToComment = (apiComment: ApiComment): Comment => ({
+  id: apiComment.id.toString(),
+  name: apiComment.nomeExibicao,
+  description: apiComment.descricao,
+  rating: apiComment.nota,
+  createdAt: new Date().toISOString(), // API não retorna data, usando data atual
+});
 
-// Simula uma imp do serviço para buscar comentários
-export const fetchComments = async (): Promise<CommentsResponse> => {
-  return {
-    comments: MOCK_COMMENTS,
-    total: MOCK_COMMENTS.length,
-  };
-};
+export const fetchComments = async (): Promise<Comment[]> => {
+  try {
+    const apiComments: ApiComment[] = await api(
+      '/comments',
+      {},
+      { method: 'GET' }
+    );
+    const comments = apiComments.map(mapApiCommentToComment);
 
-// Simula uma chamada da API para buscar comentários
-export const fetchFeaturedComments = async (): Promise<Comment[]> => {
-  // Retorna os 9 primeiros comentários
-  return MOCK_COMMENTS.slice(0, 9);
+    return comments;
+  } catch (error) {
+    console.error('Erro ao buscar comentários da API:', error);
+    // Fallback para dados mockados em caso de erro
+    return MOCK_COMMENTS;
+  }
 };

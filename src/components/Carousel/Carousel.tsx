@@ -5,7 +5,7 @@ import type { Comment } from '../../data/comments.mock';
 import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
-import { fetchFeaturedComments } from '../../services/comment/commentService';
+import { fetchComments } from '../../services/comment/commentService';
 
 export type CarouselProps = {
   items?: React.ReactNode[];
@@ -20,13 +20,11 @@ export const CarouselComponent: React.FC<CarouselProps> = () => {
   useEffect(() => {
     let isSubscribed = true;
 
-    // Carregar comentários
-    fetchFeaturedComments()
+    fetchComments()
       .then((data) => {
         if (!isSubscribed) {
           return;
         }
-
         setComments(data);
         setLoadingComments(false);
       })

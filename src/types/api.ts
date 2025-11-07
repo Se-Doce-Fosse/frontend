@@ -38,3 +38,12 @@ export interface Product {
 export interface ProductDetail extends Product {
   description: string;
 }
+
+export interface ApiComment {
+  id: number;
+  pedidoId: number;
+  clienteId: string;
+  nota: number;
+  descricao: string;
+  nomeExibicao: string;
+}
