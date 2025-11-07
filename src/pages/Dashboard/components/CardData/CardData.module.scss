@@ -1,0 +1,28 @@
+@use '../../../../styles/variables.scss' as *;
+
+.container {
+  display: flex;
+  flex-direction: column;
+  background-color: $cinza-claro;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.12);
+  padding: $space-md;
+  width: 350px;
+}
+
+.top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: $space-xxl;
+  margin-bottom: $space-md;
+}
+
+.data {
+  color: $preto;
+}
+
+@media (max-width: 1000px) {
+  .container {
+    width: 100%;
+  }
+}
