@@ -8,9 +8,8 @@ import { Input, Select } from '@components';
 const Dashboard: React.FC = () => {
   const [status, setStatus] = useState('');
   const statusOptions = [
-    { value: '', label: 'Todos' },
-    { value: 'ativo', label: 'Ativo' },
-    { value: 'inativo', label: 'Inativo' },
+    { value: 'GX', label: 'Grafico X' },
+    { value: 'GY', label: 'Grafico Y' },
   ];
 
   return (
@@ -26,7 +25,7 @@ const Dashboard: React.FC = () => {
             <p>Gráfico: </p>
             <Select
               options={statusOptions}
-              placeholder="Selecione o status"
+              placeholder="Selecione o gráfico"
               value={status}
               onChange={(e) => setStatus(e.target.value)}
             />
