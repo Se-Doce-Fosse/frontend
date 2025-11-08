@@ -1,7 +1,14 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styles from './Home.module.scss';
-import { NavBar, Footer, CupomBanner } from '../../components';
+import CartDrawerOrder from '../../components/Cart/CartDrawerOrder/CartDrawerOrder';
+import CartDrawerFinish from '../../components/Cart/CartDrawerFinish/CartDrawerFinish';
+import {
+  NavBar,
+  Footer,
+  CupomBanner,
+  CarouselComponent,
+} from '../../components';
 import bannerDesktop from '../../assets/images/banner-desktop.png';
 import bannerMobile from '../../assets/images/banner-mobile.png';
 import ProductList from '../../components/ProductList';
@@ -11,17 +18,27 @@ import { fetchProducts } from '../../services/product/productService';
 import type { Category } from '../../types/api';
 
 const Home = () => {
-  const { setActiveDrawer, updateProductQuantity, quantitiesByProductId } =
-    useCart();
+  const {
+    items,
+    activeDrawer,
+    setActiveDrawer,
+    updateProductQuantity,
+    incrementItem,
+    decrementItem,
+    removeItem,
+    quantitiesByProductId,
+  } = useCart();
   const navigate = useNavigate();
 
   const [categories, setCategories] = useState<Category[]>([]);
   const [loading, setLoading] = useState(true);
+
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     let isSubscribed = true;
 
+    // Carregar produtos
     fetchProducts()
       .then((data) => {
         if (!isSubscribed) {
@@ -125,6 +142,22 @@ const Home = () => {
       </div>
 
       <div className={styles.contentContainer}>{renderProductSections()}</div>
+
+      <CartDrawerOrder
+        open={activeDrawer === 'order'}
+        onClose={() => setActiveDrawer(null)}
+        onContinue={() => setActiveDrawer('finish')}
+        items={items}
+        onIncrement={incrementItem}
+        onDecrement={decrementItem}
+        onRemove={removeItem}
+      />
+      <CartDrawerFinish
+        open={activeDrawer === 'finish'}
+        onClose={() => setActiveDrawer(null)}
+      />
+
+      <CarouselComponent />
 
       <Footer />
     </div>

@@ -7,6 +7,7 @@
 
 .header {
   display: flex;
+  overflow: hidden;
   align-items: center;
   justify-content: space-between;
   margin-bottom: 1rem;
@@ -17,8 +18,9 @@
   }
 }
 
-.TableAdminComponent {
+.TableAdminCupomComponent {
   display: flex;
+  overflow: auto;
   flex-direction: column;
   padding: 1.25rem;
   background-color: $cinza-claro;

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import { HeaderTableAdminCupom } from '../HeaderTableAdminCupom/HeaderTableAdminCupom';
 import type { CupomRow } from '../HeaderTableAdminCupom/HeaderTableAdminCupom';
 // import { TempModalComponent } from '../../../TempModalComponent/TempModalComponent';
@@ -6,7 +6,15 @@ import { BsPlus } from 'react-icons/bs';
 import { Button } from '../../../Button/Button';
 import styles from './TableAdminCupomComponent.module.scss';
 
-function TabelAdminCupomComponent() {
+interface TableAdminCupomComponentProps {
+  filterStatus: string;
+  searchTerm: string;
+}
+
+function TableAdminCupomComponent({
+  filterStatus,
+  searchTerm,
+}: TableAdminCupomComponentProps) {
   // const [modalOpen, setModalOpen] = useState<boolean>(false);
   const [cupons, setCupoms] = useState<CupomRow[]>([
     {
@@ -48,8 +56,18 @@ function TabelAdminCupomComponent() {
   //   }
   // };
 
+  const filteredCupons = useMemo(() => {
+    return cupons.filter((cupom) => {
+      const matchesSearch = cupom.cupom
+        .toLowerCase()
+        .includes(searchTerm.toLowerCase());
+      const matchesStatus = filterStatus ? cupom.status === filterStatus : true;
+      return matchesSearch && matchesStatus;
+    });
+  }, [cupons, searchTerm, filterStatus]);
+
   return (
-    <div className={styles.TabelAdminCupomComponent}>
+    <div className={styles.TableAdminCupomComponent}>
       <div className={styles.header}>
         <h2 className={styles.headerTitle}>Lista de Cupons</h2>
         <div className={styles.btnWrapper}>
@@ -64,7 +82,7 @@ function TabelAdminCupomComponent() {
       </div>
       <div>
         <HeaderTableAdminCupom
-          cupons={cupons}
+          cupons={filteredCupons}
           deleteRow={handleDeleteRow}
           editRow={tempHandleEditRow}
         />
@@ -83,4 +101,4 @@ function TabelAdminCupomComponent() {
   );
 }
 
-export default TabelAdminCupomComponent;
+export default TableAdminCupomComponent;

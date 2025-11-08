@@ -7,6 +7,7 @@ import {
   AiOutlineShop,
   AiOutlineShoppingCart,
   AiOutlineTags,
+  AiOutlinePercentage,
 } from 'react-icons/ai';
 import { FaSignOutAlt } from 'react-icons/fa';
 import logoImage from '../../assets/images/logo-se-doce-fosse.png';
@@ -23,7 +24,7 @@ export default function SideBar() {
 
   const handleLogout = () => {
     logout();
-    navigate('/login');
+    navigate('/admin/login');
   };
 
   const navBarItems = [
@@ -56,6 +57,11 @@ export default function SideBar() {
       icon: <IoSettingsOutline size={24} />,
       label: 'Configurações',
       path: '/admin/configuracoes',
+    },
+    {
+      icon: <AiOutlinePercentage size={24} />,
+      label: 'Cupons',
+      path: '/admin/cupons',
     },
   ];
 

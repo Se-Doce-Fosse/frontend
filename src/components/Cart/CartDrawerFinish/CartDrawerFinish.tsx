@@ -1,11 +1,15 @@
 import CartDrawer from '../CartDrawer';
-import { AddressCard } from '../../AddressCard/AddressCard';
+import { AddressCard, type AddressData } from '../../AddressCard/AddressCard';
 import { AiOutlineShoppingCart } from 'react-icons/ai';
 import { CartItem } from '../CartItem';
 import { Button } from '@components';
 import styles from '../CartDrawer.module.scss';
-import { useMemo } from 'react';
+import { useMemo, useState } from 'react';
 import { useCart } from '../../../context/CartContext';
+import type { Order } from '../../../types/order';
+import { useCliente } from '../../../context/ClienteContext';
+import { createOrder } from '../../../services/order/order';
+
 interface CartDrawerFinishProps {
   open: boolean;
   onClose: () => void;
@@ -23,6 +27,7 @@ export default function CartDrawerFinish({
   open,
   onClose,
 }: CartDrawerFinishProps) {
+  const { cliente } = useCliente();
   const {
     items,
     incrementItem,
@@ -30,6 +35,8 @@ export default function CartDrawerFinish({
     removeItem,
     quantitiesByProductId,
   } = useCart();
+
+  const [addressData, setAddressData] = useState<AddressData | null>(null);
 
   const totalAmount = useMemo(
     () =>
@@ -41,14 +48,47 @@ export default function CartDrawerFinish({
     [items]
   );
 
+  const formatAddress = (address: AddressData) => {
+    const parts = [
+      address.street,
+      address.number,
+      address.complement && `(${address.complement})`,
+      address.neighborhood,
+      `CEP: ${address.cep}`,
+    ].filter(Boolean);
+
+    return parts.join(', ');
+  };
+
+  const buildOrder = (): Order => {
+    console.log('Cliente no buildOrder:', cliente);
+    return {
+      clientId: cliente?.id || '',
+      orderDate: new Date().toISOString(),
+      totalPrice: totalAmount,
+      orderStatus: 'PREPARANDO',
+      products: items.map((item) => item.id),
+      cupomId: 0,
+      outOfStock: [],
+    };
+  };
+
   const whatslines = items.map(
     (item) =>
       ` ${item.quantity} ${item.name} Unidade: ${formatCurrency(item.unitPrice)}`
   );
-  const whatsMessage = `Pedidos: ${whatslines} Total: ${formatCurrency(totalAmount)}`;
+
+  const addressText = addressData
+    ? `\n\nEndereço de entrega:\n${formatAddress(addressData)}`
+    : '';
+  const whatsMessage = `Pedidos: ${whatslines} Total: ${formatCurrency(totalAmount)}${addressText}`;
   const number = `5551994527855`;
 
-  const handleWhatsAppOrder = () => {
+  const handleAddressSubmit = (data: AddressData) => {
+    setAddressData(data);
+  };
+
+  const handleWhatsAppOrder = async () => {
     // Detecta se é mobile ou desktop
     const isMobile =
       /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
@@ -64,12 +104,21 @@ export default function CartDrawerFinish({
       const whatsLink = `https://web.whatsapp.com/send?phone=${number}&text=${encodeURIComponent(whatsMessage)}`;
       window.open(whatsLink, '_blank');
     }
+
+    try {
+      const order = buildOrder();
+      const response = await createOrder(order);
+      console.log('Resposta do servidor:', response);
+      console.log('Pedido criado com sucesso!');
+    } catch (error) {
+      console.error('Erro ao criar pedido:', error);
+    }
   };
 
   return (
     <CartDrawer open={open} onClose={onClose} withHeader={false}>
       <div className={styles.finishOrderContent}>
-        <AddressCard />
+        <AddressCard onSubmit={handleAddressSubmit} />
 
         <div className={styles.headingRow}>
           <AiOutlineShoppingCart className={styles.icon} aria-hidden="true" />

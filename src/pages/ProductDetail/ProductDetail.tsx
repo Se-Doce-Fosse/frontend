@@ -170,7 +170,6 @@ export const ProductDetail: React.FC = () => {
           </section>
         )}
       </main>
-
       <Footer />
     </div>
   );

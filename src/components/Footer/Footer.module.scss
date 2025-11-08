@@ -9,7 +9,7 @@
 
 .leftSide {
   display: grid;
-  grid-template-columns: 8rem 1fr;
+  grid-template-columns: 7rem 1fr;
   grid-template-areas:
     'logo horario'
     'logo contato';
@@ -120,7 +120,8 @@
 
     .commentTitle {
       grid-area: commentTitle;
-      margin-bottom: $space-md;
+      font-size: 1.5rem;
+      margin-bottom: $space-sm;
       font-weight: 600;
       color: $cacau-intenso;
     }

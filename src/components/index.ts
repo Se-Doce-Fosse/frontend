@@ -17,4 +17,8 @@ export * from './AddressCard/AddressCard';
 export * from './ProtectedRoute';
 export * from './Loading';
 export * from './Select';
+export * from './CommentCard';
+export * from './Carousel';
+export * from './AddCouponModal';
 export * from './OrderSummaryCard';
+export * from './AddUserModal';

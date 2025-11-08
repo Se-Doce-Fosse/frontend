@@ -1,8 +1,15 @@
+@use '../../styles/variables.scss' as *;
+
 .comentarios {
   padding: 2rem;
 
   h1 {
-    color: #333;
+    color: $marrom-gourmet;
     margin-bottom: 1rem;
   }
+}
+
+.filter {
+  padding-top: 2rem;
+  padding-bottom: 2rem;
 }

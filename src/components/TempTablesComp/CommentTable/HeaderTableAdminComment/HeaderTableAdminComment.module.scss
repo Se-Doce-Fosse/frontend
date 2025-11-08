@@ -4,66 +4,52 @@
 $table-shadow: 0px 10px 10px #ccc;
 
 .table-wrapper {
+  width: 100%;
   overflow-x: auto;
 }
 
 .table {
-  display: block;
-  overflow: hidden;
-  table-layout: fixed;
+  width: 100%;
   border-collapse: collapse;
   box-shadow: $table-shadow;
   border-radius: 0.625rem;
   white-space: nowrap;
   margin: auto;
-  table-layout: auto;
-  overflow-x: auto;
-
-  thead {
-    background-color: $cinza-claro;
-    color: $preto;
-  }
-
-  th,
-  td {
-    background-color: $cinza-claro;
-    padding: 0.8rem;
-    min-width: 15rem;
-
-    &:last-child {
-      min-width: 1rem;
-    }
-  }
-
-  td {
-    border: none;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    text-align: left;
-    vertical-align: middle;
-  }
-
-  th {
-    border: none;
-    text-align: left;
-    vertical-align: middle;
-  }
-
-  tr {
-    border-bottom: 1px solid #000;
-  }
-
-  tbody {
-    tr {
-      &:hover td {
-        background-color: $creme-caramelo;
-        cursor: pointer;
-      }
-    }
-  }
 }
 
-.actions {
+.table thead {
+  background-color: $cinza-claro;
+  color: $preto;
+}
+
+.table th,
+.table td {
+  background-color: $cinza-claro;
+  padding: 0.8rem;
+  min-width: 15rem;
+  text-align: left;
+  vertical-align: middle;
+  border: none;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.table th:last-child,
+.table td:last-child {
+  min-width: 1rem;
+}
+
+.table tr {
+  border-bottom: 0.0625rem solid $preto;
+}
+
+.table tbody tr:hover td {
+  background-color: $creme-caramelo;
+  cursor: pointer;
+}
+
+.acptDcln {
   display: flex;
   gap: 1.5rem;
 
@@ -73,4 +59,14 @@ $table-shadow: 0px 10px 10px #ccc;
 }
 .delete-btn {
   color: #e10d05;
+}
+
+.acptBtn {
+  background-color: $status-active;
+  color: $preto;
+}
+
+.dclnBtn {
+  background-color: $status-inactive;
+  color: $preto;
 }
