@@ -1,9 +1,9 @@
 import { useState, useMemo } from 'react';
 import { HeaderTableAdminConfig } from '../HeaderTableAdminConfig/HeaderTableAdminConfig';
 import type { userRow } from '../HeaderTableAdminConfig/HeaderTableAdminConfig';
-// import { TempModalComponent } from '../../../TempModalComponent/TempModalComponent';
 import { BsPlus } from 'react-icons/bs';
 import { Button } from '../../../Button/Button';
+import { AddUserModal } from '../../../AddUserModal';
 import styles from './TableAdminConfigComponent.module.scss';
 
 interface TableAdminConfigComponentProps {
@@ -15,7 +15,8 @@ function TableAdminConfigComponent({
   filterStatus,
   searchTerm,
 }: TableAdminConfigComponentProps) {
-  // const [modalOpen, setModalOpen] = useState<boolean>(false);
+  const [modalOpen, setModalOpen] = useState<boolean>(false);
+
   const [users, setUsers] = useState<userRow[]>([
     {
       user: 'Cookie Vegano',
@@ -24,35 +25,18 @@ function TableAdminConfigComponent({
       status: 'ativo',
     },
   ]);
-  const [rowToEdit, setRowToEdit] = useState<number | null>(null);
 
-  const tempHandleEditRow = (idx: number) => {
-    setRowToEdit(idx);
-    console.log(rowToEdit);
-    console.log('not done');
-  };
+  const [_rowToEdit, setRowToEdit] = useState<number | null>(null);
+  void _rowToEdit;
 
   const handleDeleteRow = (targetIndex: number) => {
-    setUsers(users.filter((_, idx) => idx !== targetIndex));
+    setUsers((prev) => prev.filter((_, idx) => idx !== targetIndex));
   };
 
-  // const handleEditRow = (idx: number) => {
-  //   setRowToEdit(idx);
-  //   setModalOpen(true);
-  // };
-
-  // const handleSubmit = (newRow: userRow) => {
-  //   if (rowToEdit === null) {
-  //     setUsers([...users, newRow]);
-  //   } else {
-  //     setUsers(
-  //       users.map((currRow, idx) => {
-  //         if (idx !== rowToEdit) return currRow;
-  //         return newRow;
-  //       })
-  //     );
-  //   }
-  // };
+  const handleEditRow = (idx: number) => {
+    setRowToEdit(idx);
+    setModalOpen(true);
+  };
 
   const filteredUsers = useMemo(() => {
     return users.filter((user) => {
@@ -72,29 +56,30 @@ function TableAdminConfigComponent({
           <Button
             label="Adicionar Usuário"
             icon={BsPlus}
-            // onClick={() => setModalOpen(true)}
+            onClick={() => {
+              setRowToEdit(null);
+              setModalOpen(true);
+            }}
             variant="primary"
             className={styles.btn}
           />
         </div>
       </div>
-      <div>
-        <HeaderTableAdminConfig
-          users={filteredUsers}
-          deleteRow={handleDeleteRow}
-          editRow={tempHandleEditRow}
-        />
-      </div>
-      {/* {modalOpen && (
-        <TempModalComponent
-          closeModal={() => {
+
+      <HeaderTableAdminConfig
+        users={filteredUsers}
+        deleteRow={handleDeleteRow}
+        editRow={handleEditRow}
+      />
+
+      {modalOpen && (
+        <AddUserModal
+          onClose={() => {
             setModalOpen(false);
             setRowToEdit(null);
           }}
-          onSubmit={handleSubmit}
-          defaultValue={rowToEdit !== null ? users[rowToEdit] : undefined}
         />
-      )} */}
+      )}
     </div>
   );
 }
