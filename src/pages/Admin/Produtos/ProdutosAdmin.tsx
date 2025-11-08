@@ -23,7 +23,7 @@ const ProdutosAdmin: React.FC = () => {
           <Filter
             title="Filtros"
             selectOptions={statusOptions}
-            selectPlaceholder="Status"
+            selectPlaceholder="Categorias"
             searchPlaceholder="Buscar produto..."
             searchValue={searchValue}
             onSearchChange={setSearchValue}
