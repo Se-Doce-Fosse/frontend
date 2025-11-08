@@ -10,3 +10,25 @@ body {
   padding: 0;
   margin: 0;
 }
+
+// Garantir que todos os links não tenham estilos padrão
+a,
+a:link,
+a:visited,
+a:hover,
+a:active,
+a:focus {
+  text-decoration: none !important;
+  color: inherit !important;
+}
+
+// Sobrescrever estilos específicos do Bootstrap
+a.btn,
+.btn a,
+.nav-link,
+.navbar-nav .nav-link,
+.dropdown-item,
+.dropdown-menu a {
+  text-decoration: none !important;
+  color: inherit !important;
+}
