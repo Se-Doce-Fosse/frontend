@@ -62,7 +62,7 @@ describe('ProdutosAdmin', () => {
     expect(props.selectOptions).toHaveLength(4);
     expect(
       props.selectOptions.map((option: { value: string }) => option.value)
-    ).toEqual(['todos', 'ativos', 'inativos']);
+    ).toEqual(['', 'Cookies Tradicionais', 'Cookies Recheados', 'Bolos']);
   });
 
   it('renderiza a tabela administrativa', () => {
