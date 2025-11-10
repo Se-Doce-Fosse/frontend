@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import styles from './Produtos.module.scss';
 import { NavBar, Footer } from '../../components';
 import ProductList from '../../components/ProductList';
@@ -9,6 +10,7 @@ import { fetchProducts } from '../../services/product/productService';
 import type { Category } from '../../types/api';
 
 const Produtos = () => {
+  const navigate = useNavigate();
   const {
     items,
     activeDrawer,
@@ -72,6 +74,7 @@ const Produtos = () => {
         products={category.products}
         onProductQuantityChange={updateProductQuantity}
         productQuantities={quantitiesByProductId}
+        onProductClick={(product) => navigate(`/produtos/${product.id}`)}
       />
     ));
   };
