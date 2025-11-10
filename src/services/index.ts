@@ -14,16 +14,34 @@ export const api = async (
   });
 
   if (!res.ok) {
+    const contentType = res.headers.get('content-type') ?? '';
     let errorMessage = 'Erro';
 
-    try {
-      const data = await res.json();
-      errorMessage = data.message;
-    } catch {
+    if (contentType.includes('application/json')) {
+      try {
+        const data = await res.json();
+        errorMessage = data.message ?? errorMessage;
+      } catch {
+        errorMessage = await res.text();
+      }
+    } else {
       errorMessage = await res.text();
     }
-    throw new Error(errorMessage);
+    throw new Error(errorMessage.trim() || 'Erro inesperado');
   }
 
-  return res.json();
+  if (res.status === 204) {
+    return null;
+  }
+
+  const contentType = res.headers.get('content-type') ?? '';
+  if (!contentType.includes('application/json')) {
+    return res.text();
+  }
+
+  try {
+    return await res.json();
+  } catch {
+    return null;
+  }
 };

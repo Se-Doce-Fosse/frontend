@@ -26,3 +26,10 @@
   background-color: $cinza-claro;
   border-radius: 0.625rem;
 }
+
+.errorState {
+  color: $status-inactive;
+  font-weight: $semi-bold;
+  text-align: center;
+  padding: $space-md 0;
+}
