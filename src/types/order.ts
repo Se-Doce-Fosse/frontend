@@ -4,6 +4,6 @@ export type Order = {
   totalPrice: number;
   orderStatus: 'PREPARANDO' | 'FINALIZADO' | 'CANCELADO' | string; // pode ajustar os status permitidos
   products: string[];
-  cupomId: number;
+  cupomId: number | null;
   outOfStock: string[];
 };

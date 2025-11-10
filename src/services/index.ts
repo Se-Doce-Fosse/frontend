@@ -1,9 +1,5 @@
 const URL = 'http://localhost:8081';
 
-export interface ApiError extends Error {
-  status?: number;
-}
-
 export const api = async (
   path: string,
   headers: HeadersInit,
@@ -18,27 +14,34 @@ export const api = async (
   });
 
   if (!res.ok) {
+    const contentType = res.headers.get('content-type') ?? '';
     let errorMessage = 'Erro';
-    const clonedResponse = res.clone();
 
-    try {
-      const data = await clonedResponse.json();
-      errorMessage = data?.message ?? errorMessage;
-    } catch {
+    if (contentType.includes('application/json')) {
       try {
-        errorMessage = await res.text();
+        const data = await res.json();
+        errorMessage = data.message ?? errorMessage;
       } catch {
-        errorMessage = res.statusText || errorMessage;
+        errorMessage = await res.text();
       }
+    } else {
+      errorMessage = await res.text();
     }
-    const error: ApiError = new Error(errorMessage);
-    error.status = res.status;
-    throw error;
+    throw new Error(errorMessage.trim() || 'Erro inesperado');
   }
 
   if (res.status === 204) {
     return null;
   }
 
-  return res.json();
+  const contentType = res.headers.get('content-type') ?? '';
+  if (!contentType.includes('application/json')) {
+    return res.text();
+  }
+
+  try {
+    return await res.json();
+  } catch {
+    return null;
+  }
 };
