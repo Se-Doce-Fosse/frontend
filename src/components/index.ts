@@ -22,3 +22,4 @@ export * from './Carousel';
 export * from './AddCouponModal';
 export * from './OrderSummaryCard';
 export * from './AddUserModal';
+export * from './Select';
