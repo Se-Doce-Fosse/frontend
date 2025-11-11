@@ -24,6 +24,11 @@ export interface ProductModalProps {
   disabled?: boolean;
 }
 
+interface SelectedSupply {
+  id: string;
+  quantity: number;
+}
+
 export function ProductModal({
   open,
   onOpenChange,
@@ -38,7 +43,10 @@ export function ProductModal({
   onSubmit,
   disabled,
 }: ProductModalProps) {
-  const [, setSupplies] = useState<Supply[]>([]);
+  const [supplies, setSupplies] = useState<Supply[]>([]);
+  const [selectedSupplies, setSelectedSupplies] = useState<SelectedSupply[]>([
+    { id: '', quantity: 1 },
+  ]);
   const { user } = useUser();
 
   useEffect(() => {
@@ -50,6 +58,35 @@ export function ProductModal({
     };
     fetchSupplies();
   }, [user?.token]);
+
+  const handleSupplyChange = (index: number, value: string) => {
+    const updated = [...selectedSupplies];
+    updated[index].id = value;
+    setSelectedSupplies(updated);
+    if (index === selectedSupplies.length - 1 && value !== '') {
+      setSelectedSupplies([...updated, { id: '', quantity: 1 }]);
+    }
+  };
+
+  const handleQuantityChange = (index: number, value: number) => {
+    const updated = [...selectedSupplies];
+    updated[index].quantity = value;
+    setSelectedSupplies(updated);
+  };
+
+  const handleRemoveSupply = (index: number) => {
+    if (index === 0) {
+      setSelectedSupplies([{ id: '', quantity: 1 }]);
+    } else {
+      const updated = selectedSupplies.filter((_, i) => i !== index);
+      setSelectedSupplies(updated.length ? updated : [{ id: '', quantity: 1 }]);
+    }
+  };
+
+  const supplyOptions = supplies.map((s) => ({
+    label: s.name,
+    value: String(s.id),
+  }));
 
   return (
     <Dialog.Root open={open} onOpenChange={onOpenChange}>
@@ -100,6 +137,7 @@ export function ProductModal({
                 )}
               </label>
             </div>
+
             <div className={styles.cellNome}>
               <Input
                 label="Nome"
@@ -109,6 +147,7 @@ export function ProductModal({
                 disabled={disabled}
               />
             </div>
+
             <div className={styles.cellPreco}>
               <Input
                 label="Preço"
@@ -119,6 +158,7 @@ export function ProductModal({
                 disabled={disabled}
               />
             </div>
+
             <div className={styles.cellCategoria}>
               <label className={styles.fieldLabel}>Categoria</label>
               <Select
@@ -142,6 +182,7 @@ export function ProductModal({
                 <span className={styles.errorMsg}>{errors.category}</span>
               )}
             </div>
+
             <div className={styles.cellStatus}>
               <label className={styles.fieldLabel}>Status</label>
               <Select
@@ -154,6 +195,7 @@ export function ProductModal({
                 disabled={disabled}
               />
             </div>
+
             <div className={styles.cellQuantidade}>
               <Input
                 label="Quantidade"
@@ -165,6 +207,7 @@ export function ProductModal({
                 disabled={disabled}
               />
             </div>
+
             <div className={styles.cellDescricao}>
               <Input
                 label="Descrição"
@@ -173,6 +216,58 @@ export function ProductModal({
                 disabled={disabled}
               />
             </div>
+
+            <div className={styles.cellSupplies}>
+              <label className={styles.fieldLabel}>Ingredientes</label>
+              <div
+                style={{
+                  display: 'flex',
+                  flexDirection: 'column',
+                  gap: '0.75rem',
+                }}
+              >
+                {selectedSupplies.map((supply, index) => (
+                  <div
+                    key={index}
+                    style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '0.75rem',
+                      width: '100%',
+                    }}
+                  >
+                    <Select
+                      placeholder="Selecione um ingrediente"
+                      options={supplyOptions}
+                      value={supply.id}
+                      onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
+                        handleSupplyChange(index, e.target.value)
+                      }
+                      disabled={disabled}
+                      style={{ flex: '1', minWidth: '250px' }}
+                    />
+                    <Input
+                      type="number"
+                      value={String(supply.quantity)}
+                      onChange={(e) =>
+                        handleQuantityChange(index, Number(e.target.value))
+                      }
+                      disabled={disabled}
+                      placeholder="Quantidade"
+                      style={{ width: '8rem' }}
+                    />
+                    <Button
+                      label={index === 0 ? 'Remover todos' : 'Remover'}
+                      variant="secondary"
+                      type="button"
+                      onClick={() => handleRemoveSupply(index)}
+                      style={{ width: '16rem' }}
+                    />
+                  </div>
+                ))}
+              </div>
+            </div>
+
             <div className={styles.footer}>
               <Dialog.Close asChild>
                 <Button label="Fechar" variant="outlined" />

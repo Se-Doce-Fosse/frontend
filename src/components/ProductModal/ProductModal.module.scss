@@ -41,6 +41,7 @@
     'url   url'
     'categoria status'
     'descricao descricao'
+    'supplies supplies'
     'footer footer';
 }
 
@@ -83,6 +84,7 @@
   display: flex;
   justify-content: space-around;
   gap: 0.75rem;
+  margin-top: 1rem;
 }
 
 .imageDrop {
@@ -165,6 +167,14 @@
   line-height: 1.2;
   max-width: 90%;
   word-wrap: break-word;
+}
+
+.cellSupplies {
+  grid-area: supplies;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin-top: 0.25rem;
 }
 
 @media (max-width: 640px) {
