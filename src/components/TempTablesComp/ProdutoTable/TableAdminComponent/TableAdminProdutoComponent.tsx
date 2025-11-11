@@ -113,7 +113,7 @@ function TabelAdminProdutoComponent() {
     }
     try {
       await deleteProduct(product.sku, user.token);
-      setProducts((prev) => prev.filter((_, i) => i !== deleteIndex));
+      await fetchProducts();
     } catch (error) {
       console.error('Error deleting product:', error);
     } finally {

@@ -39,13 +39,11 @@ export interface ProductDetail extends Product {
   description: string;
 }
 
-// Tipo que corresponde ao retorno da API /products/:id
-export interface ApiProductDetail {
-  sku: string;
-  nome: string;
+export interface ApiComment {
+  id: number;
+  pedidoId: number;
+  clienteId: string;
+  nota: number;
   descricao: string;
-  valor: number;
-  imagemUrl: string;
-  ativo: boolean;
-  categoriaNome: string;
+  nomeExibicao: string;
 }

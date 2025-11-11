@@ -5,48 +5,74 @@ import { Select } from '../../components/Select';
 import { Button } from '../../components/Button';
 import styles from './AddCouponModal.module.scss';
 
+export type CouponFormValues = {
+  name: string;
+  discount: number;
+  validity: string;
+  status: string;
+  unique: boolean;
+};
+
 export interface AddCouponModalProps {
   onClose: () => void;
-  onAdd: (data: {
-    name: string;
-    discount: number;
-    validity: string;
-    status: string;
-    unique: boolean;
-  }) => void;
+  onAdd: (data: CouponFormValues) => Promise<void> | void;
+  submitting?: boolean;
+  initialValues?: CouponFormValues;
+  title?: string;
+  submitLabel?: string;
 }
 
-const AddCouponModal: React.FC<AddCouponModalProps> = ({ onClose, onAdd }) => {
-  const [name, setName] = useState('');
-  const [discount, setDiscount] = useState<number | ''>('');
-  const [validity, setValidity] = useState('');
-  const [status, setStatus] = useState('');
-  const [unique, setUnique] = useState<boolean | null>(null);
+const AddCouponModal: React.FC<AddCouponModalProps> = ({
+  onClose,
+  onAdd,
+  submitting = false,
+  initialValues,
+  title,
+  submitLabel,
+}) => {
+  const [name, setName] = useState(initialValues?.name ?? '');
+  const [discount, setDiscount] = useState<number | ''>(
+    initialValues?.discount ?? ''
+  );
+  const [validity, setValidity] = useState(initialValues?.validity ?? '');
+  const [status, setStatus] = useState(initialValues?.status ?? '');
+  const [unique, setUnique] = useState<boolean | null>(
+    typeof initialValues?.unique === 'boolean' ? initialValues?.unique : null
+  );
 
-  const handleAdd = () => {
-    if (!name || discount === '' || !validity || !status || unique === null)
-      return;
-    onAdd({
-      name,
-      discount: Number(discount),
-      validity,
-      status,
-      unique,
-    });
-    onClose();
+  const isFormValid =
+    Boolean(name.trim()) &&
+    discount !== '' &&
+    Number(discount) > 0 &&
+    Boolean(validity) &&
+    Boolean(status) &&
+    unique !== null;
+
+  const handleAdd = async () => {
+    if (!isFormValid || submitting) return;
+
+    try {
+      await onAdd({
+        name: name.trim(),
+        discount: Number(discount),
+        validity,
+        status,
+        unique,
+      });
+      onClose();
+    } catch (error) {
+      console.error('Falha ao adicionar cupom:', error);
+    }
   };
 
   return (
-    <Dialog.Root
-      defaultOpen
-      onOpenChange={(open) => {
-        if (!open) onClose();
-      }}
-    >
+    <Dialog.Root defaultOpen onOpenChange={(open) => !open && onClose()}>
       <Dialog.Portal>
         <Dialog.Overlay className={styles.overlay} />
         <Dialog.Content className={styles.modal}>
-          <Dialog.Title className={styles.title}>Adicionar Cupom</Dialog.Title>
+          <Dialog.Title className={styles.title}>
+            {title ?? 'Adicionar Cupom'}
+          </Dialog.Title>
 
           <div className={styles.form}>
             <div className={styles.fieldGroup}>
@@ -124,13 +150,17 @@ const AddCouponModal: React.FC<AddCouponModalProps> = ({ onClose, onAdd }) => {
                   label="Cancelar"
                   variant="secondary"
                   className={styles.cancelButton}
+                  disabled={submitting}
                 />
               </Dialog.Close>
 
               <Button
-                label="Adicionar"
+                label={
+                  submitting ? 'Salvando...' : (submitLabel ?? 'Adicionar')
+                }
                 onClick={handleAdd}
                 className={styles.addButton}
+                disabled={!isFormValid || submitting}
               />
             </div>
           </div>
