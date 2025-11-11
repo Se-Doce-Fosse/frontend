@@ -103,7 +103,10 @@ export function ProductModal({
     <Dialog.Root open={open} onOpenChange={onOpenChange}>
       <Dialog.Portal>
         <Dialog.Overlay className={styles.overlay} />
-        <Dialog.Content className={styles.content}>
+        <Dialog.Content
+          className={styles.content}
+          style={{ maxHeight: '95vh', overflowY: 'auto' }}
+        >
           <Dialog.Title className={styles.title}>
             {title ??
               (mode === 'create'
@@ -236,6 +239,7 @@ export function ProductModal({
                 style={{
                   display: 'flex',
                   flexDirection: 'column',
+                  alignItems: 'flex-end',
                   gap: '0.75rem',
                 }}
               >
@@ -244,38 +248,60 @@ export function ProductModal({
                     key={index}
                     style={{
                       display: 'flex',
-                      alignItems: 'center',
+                      alignItems: 'flex-end',
                       gap: '0.75rem',
                       width: '100%',
                     }}
                   >
-                    <Select
-                      placeholder="Selecione um ingrediente"
-                      options={supplyOptions}
-                      value={supply.id}
-                      onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
-                        handleSupplyChange(index, e.target.value)
-                      }
-                      disabled={disabled}
-                      style={{ flex: '1', minWidth: '250px' }}
-                    />
-                    <Input
-                      type="number"
-                      value={String(supply.quantity)}
-                      onChange={(e) =>
-                        handleQuantityChange(index, Number(e.target.value))
-                      }
-                      disabled={disabled}
-                      placeholder="Quantidade"
-                      style={{ width: '8rem' }}
-                    />
-                    <Button
-                      label={index === 0 ? 'Remover todos' : 'Remover'}
-                      variant="secondary"
-                      type="button"
-                      onClick={() => handleRemoveSupply(index)}
-                      style={{ width: '16rem' }}
-                    />
+                    <div style={{ flex: '1', minWidth: '250px' }}>
+                      <label className={styles.fieldLabel}>Ingrediente</label>
+                      <Select
+                        placeholder="Selecione um ingrediente"
+                        options={supplyOptions}
+                        value={supply.id}
+                        onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
+                          handleSupplyChange(index, e.target.value)
+                        }
+                        disabled={disabled}
+                        style={{ width: '100%' }}
+                      />
+                    </div>
+
+                    <div
+                      style={{
+                        display: 'flex',
+                        flexDirection: 'column',
+                        gap: '0.25rem',
+                        width: '8rem',
+                      }}
+                    >
+                      <label
+                        className={styles.fieldLabel}
+                        htmlFor={`supply-qty-${index}`}
+                      >
+                        Quantidade
+                      </label>
+                      <Input
+                        id={`supply-qty-${index}`}
+                        type="number"
+                        value={String(supply.quantity)}
+                        onChange={(e) =>
+                          handleQuantityChange(index, Number(e.target.value))
+                        }
+                        disabled={disabled}
+                        placeholder="Quantidade"
+                        style={{ width: '100%' }}
+                      />
+                    </div>
+                    <div>
+                      <Button
+                        label={index === 0 ? 'Remover todos' : 'Remover'}
+                        variant="secondary"
+                        type="button"
+                        onClick={() => handleRemoveSupply(index)}
+                        style={{ width: '10rem' }}
+                      />
+                    </div>
                   </div>
                 ))}
               </div>
