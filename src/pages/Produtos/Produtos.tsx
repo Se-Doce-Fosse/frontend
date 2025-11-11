@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import styles from './Produtos.module.scss';
 import { NavBar, Footer } from '../../components';
 import ProductList from '../../components/ProductList';
@@ -19,6 +20,8 @@ const Produtos = () => {
     removeItem,
     quantitiesByProductId,
   } = useCart();
+
+  const navigate = useNavigate();
 
   const [categories, setCategories] = useState<Category[]>([]);
   const [loading, setLoading] = useState(true);
@@ -52,6 +55,10 @@ const Produtos = () => {
     };
   }, []);
 
+  const handleProductClick = (product: { id: string }) => {
+    navigate(`/produtos/${product.id}`);
+  };
+
   const renderContent = () => {
     if (loading) {
       return <div>Carregando produtos...</div>;
@@ -72,6 +79,7 @@ const Produtos = () => {
         products={category.products}
         onProductQuantityChange={updateProductQuantity}
         productQuantities={quantitiesByProductId}
+        onProductClick={handleProductClick}
       />
     ));
   };
