@@ -1,4 +1,5 @@
-import { useEffect, useState, useMemo } from 'react';
+import { useEffect, useState, useMemo, useCallback } from 'react';
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { HeaderTableAdminProduto } from '../HeaderTableAdminProduto/HeaderTableAdminProduto';
 import { BsPlus } from 'react-icons/bs';
 import { Button } from '../../../Button/Button';
@@ -25,15 +26,13 @@ function TabelAdminProdutoComponent({
   filterStatus,
   searchTerm,
 }: TableAdminProductComponentProps) {
-  const [modalOpen, setModalOpen] = useState<boolean>(false);
+  const [modalOpen, setModalOpen] = useState(false);
   const [products, setProducts] = useState<Product[]>([]);
-  const [loading, setLoading] = useState<boolean>(false);
+  const [loading, setLoading] = useState(false);
   const [rowToEdit, setRowToEdit] = useState<number | null>(null);
   const { user } = useUser();
-
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
   const [deleteIndex, setDeleteIndex] = useState<number | null>(null);
-
   const [productModalValues, setProductModalValues] = useState<
     Partial<Product>
   >({
@@ -47,10 +46,11 @@ function TabelAdminProdutoComponent({
     category: { id: undefined, name: '' },
     allergens: [],
     relatedProducts: [],
+    supplies: [],
   });
-  const [productModalMode, setProductModalMode] = useState<'create' | 'edit'>(
-    'create'
-  );
+  const [productModalMode, setProductModalMode] = useState<
+    'create' | 'edit' | 'view'
+  >('create');
   const [productModalSubmitting, setProductModalSubmitting] = useState(false);
   const [productModalErrors, setProductModalErrors] = useState<
     Partial<Record<keyof Product, string>>
@@ -60,13 +60,7 @@ function TabelAdminProdutoComponent({
     Record<string, CategoryDTO>
   >({});
 
-  useEffect(() => {
-    fetchProducts();
-    fetchCategorias();
-    // eslint-disable-next-line
-  }, [user?.token]);
-
-  const fetchProducts = async () => {
+  const fetchProducts = useCallback(async () => {
     if (!user?.token) return;
     setLoading(true);
     try {
@@ -77,15 +71,14 @@ function TabelAdminProdutoComponent({
     } finally {
       setLoading(false);
     }
-  };
+  }, [user?.token]);
 
-  const fetchCategorias = async () => {
+  const fetchCategorias = useCallback(async () => {
     try {
       const data = await getCategories();
       const options: Option[] = [];
       const map: Record<string, CategoryDTO> = {};
       if (data?.categories) {
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         data.categories.forEach((cat: any) => {
           options.push({ label: cat.name, value: cat.id });
           map[cat.id] = {
@@ -100,7 +93,12 @@ function TabelAdminProdutoComponent({
     } catch (error) {
       console.error('Erro ao buscar categorias:', error);
     }
-  };
+  }, []);
+
+  useEffect(() => {
+    fetchProducts();
+    fetchCategorias();
+  }, [fetchProducts, fetchCategorias]);
 
   const handleDeleteRow = (targetIndex: number) => {
     setDeleteIndex(targetIndex);
@@ -110,13 +108,10 @@ function TabelAdminProdutoComponent({
   const confirmDeleteRow = async () => {
     if (!user?.token || deleteIndex === null) return;
     const product = products?.[deleteIndex];
-    if (!product) {
-      console.warn('handleDeleteRow: índice inválido', deleteIndex);
-      return;
-    }
+    if (!product) return;
     try {
       await deleteProduct(product.sku, user.token);
-      setProducts((prev) => prev.filter((_, i) => i !== deleteIndex));
+      await fetchProducts();
     } catch (error) {
       console.error('Error deleting product:', error);
     } finally {
@@ -142,6 +137,7 @@ function TabelAdminProdutoComponent({
         : { id: undefined, name: '' },
       allergens: product.allergens,
       relatedProducts: product.relatedProducts,
+      supplies: product.supplies ?? [],
     });
     setProductModalMode('edit');
     setRowToEdit(idx);
@@ -161,11 +157,31 @@ function TabelAdminProdutoComponent({
       category: { id: undefined, name: '' },
       allergens: [],
       relatedProducts: [],
+      supplies: [],
     });
     setProductModalMode('create');
     setRowToEdit(null);
     setModalOpen(true);
     setProductModalErrors({});
+  };
+
+  const handleViewRow = (idx: number) => {
+    const product = products[idx];
+    setProductModalValues({
+      sku: product.sku,
+      name: product.name,
+      price: product.price,
+      imageSrc: product.imageSrc,
+      description: product.description,
+      isActive: product.isActive,
+      quantity: product.quantity ?? 0,
+      category: product.category,
+      allergens: product.allergens,
+      relatedProducts: product.relatedProducts,
+      supplies: product.supplies ?? [],
+    });
+    setProductModalMode('view');
+    setModalOpen(true);
   };
 
   const validateProduct = (values: Partial<Product>) => {
@@ -176,40 +192,44 @@ function TabelAdminProdutoComponent({
     return errors;
   };
 
-  const handleProductModalChange = (patch: Partial<Product>) => {
+  const handleProductModalChange = useCallback((patch: Partial<Product>) => {
     setProductModalValues((prev) => ({ ...prev, ...patch }));
-  };
+  }, []);
 
   const handleProductModalSubmit = async () => {
     const errors = validateProduct(productModalValues);
     setProductModalErrors(errors);
     if (Object.keys(errors).length > 0) return;
-
     setProductModalSubmitting(true);
     try {
       const categoriaId = productModalValues.category?.id;
       const categoriaObj = categoriaId
         ? categoriasMap[categoriaId]
         : { id: undefined, name: '' };
+
+      const productSupply = (productModalValues.supplies ?? []).map(
+        (s: any) => ({
+          supplyId: typeof s === 'number' ? s : s.id,
+          quantity: s.quantity ?? 0,
+          productSupplyEnum:
+            productModalMode === 'create' ? 'CREATE_ENUM' : 'UPDATE_ENUM',
+        })
+      );
+
+      const payload = {
+        ...productModalValues,
+        price: productModalValues.price ?? '',
+        isActive: !!productModalValues.isActive,
+        category: categoriaObj,
+        productSupply,
+      };
+
       if (productModalMode === 'create') {
-        await createProduct(
-          {
-            ...productModalValues,
-            price: productModalValues.price ?? '',
-            isActive: !!productModalValues.isActive,
-            category: categoriaObj,
-          } as Product,
-          user!.token
-        );
+        await createProduct(payload as any, user!.token);
       } else if (rowToEdit !== null) {
         await updateProduct(
           productModalValues.sku!,
-          {
-            ...productModalValues,
-            price: productModalValues.price ?? '',
-            isActive: !!productModalValues.isActive,
-            category: categoriaObj,
-          } as Product,
+          payload as any,
           user!.token
         );
       }
@@ -256,6 +276,7 @@ function TabelAdminProdutoComponent({
             produtos={filteredProducts}
             deleteRow={handleDeleteRow}
             editRow={handleEditRow}
+            viewRow={handleViewRow}
           />
         )}
       </div>
@@ -274,7 +295,11 @@ function TabelAdminProdutoComponent({
         onOpenChange={setModalOpen}
         mode={productModalMode}
         title={
-          productModalMode === 'create' ? 'Adicionar Produto' : 'Editar Produto'
+          productModalMode === 'create'
+            ? 'Adicionar Produto'
+            : productModalMode === 'edit'
+              ? 'Editar Produto'
+              : 'Detalhes do Produto'
         }
         isSubmitting={productModalSubmitting}
         values={productModalValues}
@@ -286,6 +311,7 @@ function TabelAdminProdutoComponent({
           { label: 'Inativo', value: 'false' },
         ]}
         onSubmit={handleProductModalSubmit}
+        disabled={productModalMode === 'view'}
       />
     </div>
   );
