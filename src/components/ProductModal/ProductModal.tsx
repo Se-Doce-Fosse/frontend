@@ -2,6 +2,10 @@ import * as Dialog from '@radix-ui/react-dialog';
 import styles from './ProductModal.module.scss';
 import { Button, Input, Select } from '@components';
 import type { Product, CategoryDTO } from '../../types/product';
+import { useEffect, useState } from 'react';
+import type { Supply } from '../../types/supply';
+import { getSupplies } from '../../services/admin-supplies/admin-supplies';
+import { useUser } from '../../context/UserContext';
 
 export type Option = { label: string; value: string };
 
@@ -34,6 +38,19 @@ export function ProductModal({
   onSubmit,
   disabled,
 }: ProductModalProps) {
+  const [, setSupplies] = useState<Supply[]>([]);
+  const { user } = useUser();
+
+  useEffect(() => {
+    const fetchSupplies = async () => {
+      if (!user?.token) return;
+      const token = user.token;
+      const response = await getSupplies(token);
+      setSupplies(response);
+    };
+    fetchSupplies();
+  }, [user?.token]);
+
   return (
     <Dialog.Root open={open} onOpenChange={onOpenChange}>
       <Dialog.Portal>
