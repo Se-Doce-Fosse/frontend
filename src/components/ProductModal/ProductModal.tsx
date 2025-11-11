@@ -52,12 +52,23 @@ export function ProductModal({
   useEffect(() => {
     const fetchSupplies = async () => {
       if (!user?.token) return;
-      const token = user.token;
-      const response = await getSupplies(token);
+      const response = await getSupplies(user.token);
       setSupplies(response);
     };
     fetchSupplies();
   }, [user?.token]);
+
+  useEffect(() => {
+    const suppliesData = selectedSupplies
+      .filter((s) => s.id !== '')
+      .map((s) => ({
+        id: Number(s.id),
+        quantity: s.quantity,
+        name: '',
+      }));
+
+    onChange({ supplies: suppliesData });
+  }, [onChange, selectedSupplies]);
 
   const handleSupplyChange = (index: number, value: string) => {
     const updated = [...selectedSupplies];
@@ -108,6 +119,7 @@ export function ProductModal({
               onSubmit();
             }}
           >
+            {/* Campos padrão */}
             <div className={styles.cellImage}>
               <label className={styles.fieldLabel}>Imagem</label>
               <label className={styles.imageDrop}>
@@ -217,6 +229,7 @@ export function ProductModal({
               />
             </div>
 
+            {/* 🔥 SUPPLIES */}
             <div className={styles.cellSupplies}>
               <label className={styles.fieldLabel}>Ingredientes</label>
               <div
@@ -268,13 +281,14 @@ export function ProductModal({
               </div>
             </div>
 
+            {/* Rodapé */}
             <div className={styles.footer}>
               <Dialog.Close asChild>
                 <Button label="Fechar" variant="outlined" />
               </Dialog.Close>
               {mode !== 'view' && (
                 <Button
-                  label={mode === 'create' ? 'Criar' : 'Salvar'}
+                  label={mode === 'create' ? 'Criar' : 'Editar'}
                   variant="primary"
                   type="submit"
                   disabled={isSubmitting}

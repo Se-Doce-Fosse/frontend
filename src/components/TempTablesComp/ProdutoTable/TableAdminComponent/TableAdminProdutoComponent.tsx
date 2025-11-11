@@ -1,5 +1,4 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-// sorry for this eslint disable, but it's necessary :(
 import { useEffect, useState, useCallback } from 'react';
 import { HeaderTableAdminProduto } from '../HeaderTableAdminProduto/HeaderTableAdminProduto';
 import { BsPlus } from 'react-icons/bs';
@@ -39,6 +38,7 @@ function TabelAdminProdutoComponent() {
     category: { id: undefined, name: '' },
     allergens: [],
     relatedProducts: [],
+    supplies: [],
   });
   const [productModalMode, setProductModalMode] = useState<
     'create' | 'edit' | 'view'
@@ -129,6 +129,7 @@ function TabelAdminProdutoComponent() {
         : { id: undefined, name: '' },
       allergens: product.allergens,
       relatedProducts: product.relatedProducts,
+      supplies: product.supplies ?? [],
     });
     setProductModalMode('edit');
     setRowToEdit(idx);
@@ -148,6 +149,7 @@ function TabelAdminProdutoComponent() {
       category: { id: undefined, name: '' },
       allergens: [],
       relatedProducts: [],
+      supplies: [],
     });
     setProductModalMode('create');
     setRowToEdit(null);
@@ -168,6 +170,7 @@ function TabelAdminProdutoComponent() {
       category: product.category,
       allergens: product.allergens,
       relatedProducts: product.relatedProducts,
+      supplies: product.supplies ?? [],
     });
     setProductModalMode('view');
     setModalOpen(true);
@@ -181,9 +184,9 @@ function TabelAdminProdutoComponent() {
     return errors;
   };
 
-  const handleProductModalChange = (patch: Partial<Product>) => {
+  const handleProductModalChange = useCallback((patch: Partial<Product>) => {
     setProductModalValues((prev) => ({ ...prev, ...patch }));
-  };
+  }, []);
 
   const handleProductModalSubmit = async () => {
     const errors = validateProduct(productModalValues);
@@ -195,25 +198,30 @@ function TabelAdminProdutoComponent() {
       const categoriaObj = categoriaId
         ? categoriasMap[categoriaId]
         : { id: undefined, name: '' };
+
+      const productSupply = (productModalValues.supplies ?? []).map(
+        (s: any) => ({
+          supplyId: typeof s === 'number' ? s : s.id,
+          quantity: s.quantity ?? 0,
+          productSupplyEnum:
+            productModalMode === 'create' ? 'CREATE_ENUM' : 'UPDATE_ENUM',
+        })
+      );
+
+      const payload = {
+        ...productModalValues,
+        price: productModalValues.price ?? '',
+        isActive: !!productModalValues.isActive,
+        category: categoriaObj,
+        productSupply,
+      };
+
       if (productModalMode === 'create') {
-        await createProduct(
-          {
-            ...productModalValues,
-            price: productModalValues.price ?? '',
-            isActive: !!productModalValues.isActive,
-            category: categoriaObj,
-          } as Product,
-          user!.token
-        );
+        await createProduct(payload as any, user!.token);
       } else if (rowToEdit !== null) {
         await updateProduct(
           productModalValues.sku!,
-          {
-            ...productModalValues,
-            price: productModalValues.price ?? '',
-            isActive: !!productModalValues.isActive,
-            category: categoriaObj,
-          } as Product,
+          payload as any,
           user!.token
         );
       }
