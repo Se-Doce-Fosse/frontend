@@ -59,10 +59,10 @@ describe('ProdutosAdmin', () => {
     const props = filterSpy.mock.calls[0][0] as {
       selectOptions: Array<{ label: string; value: string }>;
     };
-    expect(props.selectOptions).toHaveLength(3);
+    expect(props.selectOptions).toHaveLength(4);
     expect(
       props.selectOptions.map((option: { value: string }) => option.value)
-    ).toEqual(['todos', 'ativos', 'inativos']);
+    ).toEqual(['', 'Cookies Tradicionais', 'Cookies Recheados', 'Bolos']);
   });
 
   it('renderiza a tabela administrativa', () => {

@@ -1,5 +1,5 @@
+import { useEffect, useState, useMemo, useCallback } from 'react';
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { useEffect, useState, useCallback } from 'react';
 import { HeaderTableAdminProduto } from '../HeaderTableAdminProduto/HeaderTableAdminProduto';
 import { BsPlus } from 'react-icons/bs';
 import { Button } from '../../../Button/Button';
@@ -17,7 +17,15 @@ import { DeleteModal } from '../../../DeleteModal/DeleteModal';
 import { ProductModal, type Option } from '../../../ProductModal/ProductModal';
 import { Loading } from '../../../Loading/Loading';
 
-function TabelAdminProdutoComponent() {
+interface TableAdminProductComponentProps {
+  filterStatus: string;
+  searchTerm: string;
+}
+
+function TabelAdminProdutoComponent({
+  filterStatus,
+  searchTerm,
+}: TableAdminProductComponentProps) {
   const [modalOpen, setModalOpen] = useState(false);
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(false);
@@ -234,6 +242,18 @@ function TabelAdminProdutoComponent() {
     }
   };
 
+  const filteredProducts = useMemo(() => {
+    return products.filter((products) => {
+      const matchesSearch = products.name
+        .toLowerCase()
+        .includes(searchTerm.toLowerCase());
+      const matchesStatus = filterStatus
+        ? products.category.name === filterStatus
+        : true;
+      return matchesSearch && matchesStatus;
+    });
+  }, [products, searchTerm, filterStatus]);
+
   return (
     <div className={styles.TabelAdminProdutoComponent}>
       <div className={styles.header}>
@@ -253,7 +273,7 @@ function TabelAdminProdutoComponent() {
           <Loading />
         ) : (
           <HeaderTableAdminProduto
-            produtos={products}
+            produtos={filteredProducts}
             deleteRow={handleDeleteRow}
             editRow={handleEditRow}
             viewRow={handleViewRow}
