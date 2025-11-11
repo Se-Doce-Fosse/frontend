@@ -22,4 +22,5 @@ export type Product = {
   category: CategoryDTO;
   allergens: string[];
   relatedProducts: RelatedProductDTO[];
+  supplies?: number[];
 };
