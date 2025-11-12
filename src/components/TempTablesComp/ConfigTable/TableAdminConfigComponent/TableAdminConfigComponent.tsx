@@ -48,16 +48,6 @@ function TableAdminConfigComponent({
     });
   }, [users, searchTerm, filterStatus]);
 
-  const filteredUsers = useMemo(() => {
-    return users.filter((user) => {
-      const matchesSearch = user.user
-        .toLowerCase()
-        .includes(searchTerm.toLowerCase());
-      const matchesStatus = filterStatus ? user.status === filterStatus : true;
-      return matchesSearch && matchesStatus;
-    });
-  }, [users, searchTerm, filterStatus]);
-
   return (
     <div className={styles.TableAdminConfigComponent}>
       <div className={styles.header}>

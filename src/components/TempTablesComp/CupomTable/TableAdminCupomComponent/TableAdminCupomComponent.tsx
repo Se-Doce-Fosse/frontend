@@ -187,16 +187,6 @@ function TableAdminCupomComponent({
     });
   }, [cupons, searchTerm, filterStatus]);
 
-  const filteredCupons = useMemo(() => {
-    return cupons.filter((cupom) => {
-      const matchesSearch = cupom.cupom
-        .toLowerCase()
-        .includes(searchTerm.toLowerCase());
-      const matchesStatus = filterStatus ? cupom.status === filterStatus : true;
-      return matchesSearch && matchesStatus;
-    });
-  }, [cupons, searchTerm, filterStatus]);
-
   return (
     <div className={styles.TableAdminCupomComponent}>
       <div className={styles.header}>
