@@ -1,4 +1,4 @@
-import { render, screen, fireEvent } from '@testing-library/react';
+import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import AddCouponModal from './AddCouponModal';
 
@@ -46,7 +46,7 @@ describe('AddCouponModal', () => {
     expect(onCloseMock).not.toHaveBeenCalled();
   });
 
-  it('preenche todos os campos e chama onAdd + onClose com os valores corretos', () => {
+  it('preenche todos os campos e chama onAdd + onClose com os valores corretos', async () => {
     render(<AddCouponModal onAdd={onAddMock} onClose={onCloseMock} />);
 
     const nameInput = screen.getByLabelText('Nome do Cupom');
@@ -84,16 +84,20 @@ describe('AddCouponModal', () => {
 
     fireEvent.click(screen.getByRole('button', { name: /adicionar/i }));
 
-    expect(onAddMock).toHaveBeenCalledTimes(1);
-    expect(onAddMock).toHaveBeenCalledWith({
-      name: 'CUPOM10',
-      discount: 10,
-      validity: '2025-12-31',
-      status: 'ativo',
-      unique: false,
+    await waitFor(() => {
+      expect(onAddMock).toHaveBeenCalledTimes(1);
+      expect(onAddMock).toHaveBeenCalledWith({
+        name: 'CUPOM10',
+        discount: 10,
+        validity: '2025-12-31',
+        status: 'ativo',
+        unique: false,
+      });
     });
 
-    expect(onCloseMock).toHaveBeenCalledTimes(1);
+    await waitFor(() => {
+      expect(onCloseMock).toHaveBeenCalledTimes(1);
+    });
   });
 
   it('botão cancelar chama onClose', () => {

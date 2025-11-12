@@ -1,6 +1,7 @@
 import { render, screen, waitFor } from '@testing-library/react';
 import Produtos from './Produtos';
 import { CartProvider } from '../../context/CartContext';
+import { MemoryRouter } from 'react-router-dom';
 
 jest.mock('./Produtos.module.scss', () => ({
   page: 'page',
@@ -53,9 +54,11 @@ jest.mock('../../services/product/productService', () => ({
 
 const renderProdutos = () =>
   render(
-    <CartProvider>
-      <Produtos />
-    </CartProvider>
+    <MemoryRouter>
+      <CartProvider>
+        <Produtos />
+      </CartProvider>
+    </MemoryRouter>
   );
 
 describe('Produtos', () => {

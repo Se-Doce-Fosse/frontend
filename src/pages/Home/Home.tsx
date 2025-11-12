@@ -3,7 +3,12 @@ import { useNavigate } from 'react-router-dom';
 import styles from './Home.module.scss';
 import CartDrawerOrder from '../../components/Cart/CartDrawerOrder/CartDrawerOrder';
 import CartDrawerFinish from '../../components/Cart/CartDrawerFinish/CartDrawerFinish';
-import { NavBar, Footer, CupomBanner } from '../../components';
+import {
+  NavBar,
+  Footer,
+  CupomBanner,
+  CarouselComponent,
+} from '../../components';
 import bannerDesktop from '../../assets/images/banner-desktop.png';
 import bannerMobile from '../../assets/images/banner-mobile.png';
 import ProductList from '../../components/ProductList';
@@ -27,11 +32,13 @@ const Home = () => {
 
   const [categories, setCategories] = useState<Category[]>([]);
   const [loading, setLoading] = useState(true);
+
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     let isSubscribed = true;
 
+    // Carregar produtos
     fetchProducts()
       .then((data) => {
         if (!isSubscribed) {
@@ -149,6 +156,9 @@ const Home = () => {
         open={activeDrawer === 'finish'}
         onClose={() => setActiveDrawer(null)}
       />
+
+      <CarouselComponent />
+
       <Footer />
     </div>
   );
