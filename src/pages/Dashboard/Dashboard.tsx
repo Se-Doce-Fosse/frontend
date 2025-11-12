@@ -1,10 +1,7 @@
 import { Component } from 'react';
 import AdminLayout from '../../layouts/AdminLayout/AdminLayout';
 import Chart from 'react-apexcharts';
-import { getAllProductsFetch } from '../../views/view-controllers/OrdersDashboard.view.controller';
-import { Button } from '../../components/Button/Button';
 
-const test123babalu = () => getAllProductsFetch;
 interface DashboardState {
   options: {
     chart: {
@@ -59,11 +56,6 @@ class Dashboard extends Component<{}, DashboardState> {
             </div>
           </div>
         </div>
-        <Button
-          label="Novo Produto"
-          onClick={test123babalu}
-          variant="primary"
-        />
       </AdminLayout>
     );
   }
