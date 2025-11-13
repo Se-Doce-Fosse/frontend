@@ -25,4 +25,5 @@ export type Product = {
   allergens: string[];
   relatedProducts: RelatedProductDTO[];
   supplies?: Supply[];
+  file?: File | null;
 };

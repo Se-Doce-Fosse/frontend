@@ -5,10 +5,12 @@ export const api = async (
   headers: HeadersInit,
   options?: RequestInit
 ) => {
+  const isFormData = options?.body instanceof FormData;
+
   const res = await fetch(`${URL}${path}`, {
     ...options,
     headers: {
-      'Content-Type': 'application/json',
+      ...(isFormData ? {} : { 'Content-Type': 'application/json' }),
       ...headers,
     },
   });
