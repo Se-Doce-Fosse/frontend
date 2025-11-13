@@ -150,7 +150,7 @@ function TableAdminEstoqueComponent({
   return (
     <div className={styles.TableAdminComponent}>
       <div className={styles.header}>
-        <h2 className={styles.headerTitle}>Lista de Produtos</h2>
+        <h2 className={styles.headerTitle}>Lista de Itens</h2>
         <div className={styles.btnWrapper}>
           <Button
             label="Novo Item"

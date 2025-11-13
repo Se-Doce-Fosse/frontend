@@ -12,3 +12,19 @@
   background-color: $branco;
   overflow-y: auto;
 }
+
+@media (max-width: 1000px) {
+  .hasMobileHeader {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .layout {
+    padding-left: 0;
+  }
+
+  .content {
+    width: 100%;
+    padding: 0.5rem;
+  }
+}

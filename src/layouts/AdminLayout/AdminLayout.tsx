@@ -8,7 +8,7 @@ export default function AdminLayout({
 }) {
   return (
     <ProtectedRoute>
-      <div className={styles.layout}>
+      <div className={`${styles.layout} ${styles.hasMobileHeader}`}>
         <SideBar />
         <main className={styles.content}>{children}</main>
       </div>

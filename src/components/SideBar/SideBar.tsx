@@ -1,4 +1,5 @@
 import { useLocation, useNavigate } from 'react-router-dom';
+import { useState, useEffect } from 'react';
 import styles from './SideBar.module.scss';
 import { GoGraph } from 'react-icons/go';
 import { IoSettingsOutline } from 'react-icons/io5';
@@ -10,6 +11,7 @@ import {
   AiOutlinePercentage,
 } from 'react-icons/ai';
 import { FaSignOutAlt } from 'react-icons/fa';
+import { FaBars, FaTimes } from 'react-icons/fa';
 import logoImage from '../../assets/images/logo-se-doce-fosse.png';
 import { useUser } from '../../context/UserContext';
 
@@ -17,6 +19,11 @@ export default function SideBar() {
   const navigate = useNavigate();
   const location = useLocation();
   const { logout } = useUser();
+  const [menuOpen, setMenuOpen] = useState(false);
+
+  useEffect(() => {
+    setMenuOpen(false);
+  }, [location.pathname]);
 
   const handleNavigation = (path: string) => {
     navigate(path);
@@ -66,50 +73,93 @@ export default function SideBar() {
   ];
 
   return (
-    <nav className={styles.navBar}>
-      <div className={styles.navHeader}>
-        <div className={styles.navLogo}>
+    <>
+      <div className={styles.mobileHeader}>
+        <button
+          type="button"
+          className={styles.mobileLogoWrapper}
+          onClick={() => navigate('/admin/dashboard')}
+          aria-label="Ir para o Dashboard"
+        >
           <img
             src={logoImage}
             alt="Se Doce Fosse"
-            className={styles.logoImage}
+            className={styles.mobileLogoImage}
           />
-        </div>
-      </div>
+        </button>
 
-      <ul className={styles.navList}>
-        {navBarItems.map((item, index) => (
-          <li
-            key={index}
-            className={`${styles.navItem} ${
-              location.pathname === item.path ? styles.active : ''
-            }`}
-            onClick={() => handleNavigation(item.path)}
-          >
-            <div className={styles.navIcon}>{item.icon}</div>
-            <span className={styles.navLabel}>{item.label}</span>
-          </li>
-        ))}
-      </ul>
-
-      <div className={styles.navFooter}>
-        <div className={styles.adminInfo}>
-          <div className={styles.adminAvatar}>
-            <span className={styles.avatarText}>C</span>
-          </div>
-          <div className={styles.adminDetails}>
-            <span className={styles.adminName}>Administrador</span>
-            <span className={styles.adminEmail}>@carolina.padilha</span>
-          </div>
-        </div>
         <button
-          className={styles.logoutButton}
-          onClick={handleLogout}
-          title="Sair"
+          type="button"
+          className={`${styles.hamburger} ${menuOpen ? styles.hamburgerOpen : ''}`}
+          onClick={() => setMenuOpen((o) => !o)}
+          aria-label={menuOpen ? 'Fechar menu' : 'Abrir menu'}
+          aria-expanded={menuOpen}
+          aria-controls="admin-mobile-menu"
+          aria-pressed={menuOpen}
         >
-          <FaSignOutAlt size={18} />
+          {menuOpen ? (
+            <FaTimes size={25} color="#743014" />
+          ) : (
+            <FaBars size={25} color="#743014" />
+          )}
         </button>
       </div>
-    </nav>
+
+      <nav
+        id="admin-mobile-menu"
+        className={`${styles.navBar} ${styles.mobileMenu} ${menuOpen ? styles.isOpen : ''}`}
+      >
+        <div className={styles.navHeader}>
+          <div className={styles.navLogo}>
+            <img
+              src={logoImage}
+              alt="Se Doce Fosse"
+              className={styles.logoImage}
+            />
+          </div>
+        </div>
+
+        <ul className={styles.navList}>
+          {navBarItems.map((item, index) => (
+            <li
+              key={index}
+              className={`${styles.navItem} ${
+                location.pathname === item.path ? styles.active : ''
+              }`}
+              onClick={() => handleNavigation(item.path)}
+            >
+              <div className={styles.navIcon}>{item.icon}</div>
+              <span className={styles.navLabel}>{item.label}</span>
+            </li>
+          ))}
+        </ul>
+
+        <div className={styles.navFooter}>
+          <div className={styles.adminInfo}>
+            <div className={styles.adminAvatar}>
+              <span className={styles.avatarText}>C</span>
+            </div>
+            <div className={styles.adminDetails}>
+              <span className={styles.adminName}>Administrador</span>
+              <span className={styles.adminEmail}>@carolina.padilha</span>
+            </div>
+          </div>
+          <button
+            className={styles.logoutButton}
+            onClick={handleLogout}
+            title="Sair"
+          >
+            <FaSignOutAlt size={18} />
+          </button>
+        </div>
+      </nav>
+
+      <button
+        type="button"
+        className={`${styles.backdrop} ${menuOpen ? styles.backdropVisible : ''}`}
+        aria-hidden={!menuOpen}
+        onClick={() => setMenuOpen(false)}
+      />
+    </>
   );
 }
