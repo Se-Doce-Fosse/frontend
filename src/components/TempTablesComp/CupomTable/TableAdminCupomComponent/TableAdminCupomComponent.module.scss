@@ -33,3 +33,21 @@
   text-align: center;
   padding: $space-md 0;
 }
+
+@media (max-width: 1000px) {
+  .header {
+    display: flex;
+    width: 100%;
+
+    &Title {
+      font-size: 1.5rem;
+    }
+  }
+}
+
+@media (max-width: 400px) {
+  .header {
+    display: flex;
+    flex-direction: column;
+  }
+}

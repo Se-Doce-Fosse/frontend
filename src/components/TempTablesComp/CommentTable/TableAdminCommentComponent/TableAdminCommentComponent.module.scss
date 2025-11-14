@@ -25,16 +25,20 @@
   border-radius: 0.625rem;
 }
 
-.tableContent {
-  min-height: 12.5rem;
+@media (max-width: 1000px) {
+  .header {
+    display: flex;
+    width: 100%;
+
+    &Title {
+      font-size: 1.5rem;
+    }
+  }
 }
 
-.stateMessage {
-  text-align: center;
-  color: $cinza-texto;
-  padding: 2rem 0;
-}
-
-.stateError {
-  color: $status-inactive;
+@media (max-width: 400px) {
+  .header {
+    display: flex;
+    flex-direction: column;
+  }
 }

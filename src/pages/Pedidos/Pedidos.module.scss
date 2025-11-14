@@ -1,12 +1,8 @@
 @use '../../styles/variables.scss' as *;
 
 .pedidos {
-  padding: 2rem;
-  position: relative;
-
   h1 {
     color: $marrom-gourmet;
-    margin-bottom: 1rem;
   }
 
   .headerRow {

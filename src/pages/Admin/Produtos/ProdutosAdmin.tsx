@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import style from '../../Produtos/Produtos.module.scss';
+import style from './ProdutosAdmin.module.scss';
 import AdminLayout from '../../../layouts/AdminLayout/AdminLayout';
 import { Filter } from '../../../components/Filter';
 import TableAdminProdutoComponent from '../../../components/TempTablesComp/ProdutoTable/TableAdminComponent/TableAdminProdutoComponent';
