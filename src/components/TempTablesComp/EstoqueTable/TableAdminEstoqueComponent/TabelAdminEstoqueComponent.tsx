@@ -11,6 +11,7 @@ import {
   updateEstoque,
   deleteEstoque,
 } from '../../../../services/admin-estoque/admin-estoque';
+import { parseBRLToCents } from '../../../../utils/price';
 import { useUser } from '../../../../context/UserContext';
 import { DeleteModal } from '../../../DeleteModal/DeleteModal';
 import { Loading } from '../../../Loading/Loading';
@@ -43,7 +44,6 @@ function TableAdminEstoqueComponent({
     nome: '',
     quantidade: '',
     preco: '',
-    categoria: '',
     unidadeMedida: '',
   });
 
@@ -51,11 +51,6 @@ function TableAdminEstoqueComponent({
   const [formErrors, setFormErrors] = useState<
     Partial<Record<keyof EstoqueValues, string>>
   >({});
-
-  const categoriaOptions = [
-    { label: 'Insumo', value: 'insumo' },
-    { label: 'Embalagem', value: 'embalagem' },
-  ];
 
   const unidadeMedidaOptions = [
     { label: 'kg', value: 'kg' },
@@ -76,8 +71,7 @@ function TableAdminEstoqueComponent({
       item: estoque.name,
       quantidade: estoque.quantity,
       uniMedida: estoque.unitOfMeasure,
-      preco: Number(estoque.price),
-      categoria: estoque.category as 'insumo' | 'embalagem',
+      preco: parseBRLToCents(String(estoque.price)) / 100,
       atualizadoEm: new Date(),
     };
   };
@@ -87,7 +81,7 @@ function TableAdminEstoqueComponent({
       name: formValues.nome,
       quantity: Number(formValues.quantidade),
       price: formValues.preco,
-      category: formValues.categoria,
+      category: '',
       unitOfMeasure: formValues.unidadeMedida,
     };
   };
@@ -101,7 +95,7 @@ function TableAdminEstoqueComponent({
       name: formValues.nome,
       quantity: Number(formValues.quantidade),
       price: formValues.preco,
-      category: formValues.categoria,
+      category: '',
       unitOfMeasure: formValues.unidadeMedida,
     };
   };
@@ -111,7 +105,11 @@ function TableAdminEstoqueComponent({
     setLoading(true);
     try {
       const data = await getEstoque(user.token);
-      const estoquesArray = Array.isArray(data) ? data : data?.items || [];
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const anyData = data as any;
+      const estoquesArray = Array.isArray(anyData)
+        ? anyData
+        : anyData?.items || [];
       const mappedEstoques = estoquesArray.map(mapEstoqueToEstoqueRow);
       setEstoques(mappedEstoques);
     } catch (error) {
@@ -150,7 +148,6 @@ function TableAdminEstoqueComponent({
       nome: row.item,
       quantidade: String(row.quantidade),
       preco: String(row.preco),
-      categoria: row.categoria,
       unidadeMedida: row.uniMedida,
     });
     setFormErrors({});
@@ -163,7 +160,6 @@ function TableAdminEstoqueComponent({
       nome: row.item,
       quantidade: String(row.quantidade),
       preco: String(row.preco),
-      categoria: row.categoria,
       unidadeMedida: row.uniMedida,
     });
     setViewModalOpen(true);
@@ -176,7 +172,6 @@ function TableAdminEstoqueComponent({
       errors.quantidade = 'Quantidade deve ser maior que zero';
     if (!values.preco || Number(values.preco) <= 0)
       errors.preco = 'Preço deve ser maior que zero';
-    if (!values.categoria) errors.categoria = 'Categoria é obrigatória';
     if (!values.unidadeMedida)
       errors.unidadeMedida = 'Unidade de medida é obrigatória';
     return errors;
@@ -206,7 +201,6 @@ function TableAdminEstoqueComponent({
         nome: '',
         quantidade: '',
         preco: '',
-        categoria: '',
         unidadeMedida: '',
       });
       setRowToEdit(null);
@@ -225,7 +219,6 @@ function TableAdminEstoqueComponent({
       nome: '',
       quantidade: '',
       preco: '',
-      categoria: '',
       unidadeMedida: '',
     });
     setRowToEdit(null);
@@ -238,9 +231,7 @@ function TableAdminEstoqueComponent({
       const matchesSearch = item.item
         .toLowerCase()
         .includes(searchTerm.toLowerCase());
-      const matchesStatus = filterStatus
-        ? item.categoria === filterStatus
-        : true;
+      const matchesStatus = true;
       return matchesSearch && matchesStatus;
     });
   }, [estoques, searchTerm, filterStatus]);
@@ -301,7 +292,7 @@ function TableAdminEstoqueComponent({
             }
           }
         }}
-        categoriaOptions={categoriaOptions}
+        categoriaOptions={[]}
         unidadeMedidaOptions={unidadeMedidaOptions}
         onSubmit={handleSubmit}
         isSubmitting={isSubmitting}
@@ -314,7 +305,7 @@ function TableAdminEstoqueComponent({
         title="Visualizar Item"
         values={formValues}
         onChange={(patch) => setFormValues({ ...formValues, ...patch })}
-        categoriaOptions={categoriaOptions}
+        categoriaOptions={[]}
         unidadeMedidaOptions={unidadeMedidaOptions}
         mode="view"
       />

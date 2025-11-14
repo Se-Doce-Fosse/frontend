@@ -1,8 +1,7 @@
 import React from 'react';
 import { BsFillTrashFill, BsFillPencilFill } from 'react-icons/bs';
 import styles from './HeaderTableAdminEstoque.module.scss';
-import { StatusBadge } from '../../../StatusBadge/StatusBadge';
-import type { StatusEnum } from 'src/types/status';
+import { formatToBR } from '../../../../utils/price';
 
 export type EstoqueRow = {
   id: string;
@@ -10,7 +9,6 @@ export type EstoqueRow = {
   quantidade: number;
   uniMedida: string;
   preco: number;
-  categoria: StatusEnum;
   atualizadoEm: Date;
 };
 
@@ -36,7 +34,6 @@ export const HeaderTableAdminEstoque: React.FC<TableProps> = ({
             <th>Quantidade</th>
             <th>Uni.Medida</th>
             <th>Preco</th>
-            <th>Categoria</th>
             <th>Atualizado Em</th>
             <th>Ações</th>
           </tr>
@@ -52,10 +49,7 @@ export const HeaderTableAdminEstoque: React.FC<TableProps> = ({
                 <td>{row.item}</td>
                 <td>{row.quantidade}</td>
                 <td>{row.uniMedida}</td>
-                <td>{row.preco}</td>
-                <td>
-                  <StatusBadge status={row.categoria} />
-                </td>
+                <td>{formatToBR(row.preco)}</td>
                 <td>{row.atualizadoEm.toLocaleDateString()}</td>
                 <td>
                   <span className={styles.actions}>

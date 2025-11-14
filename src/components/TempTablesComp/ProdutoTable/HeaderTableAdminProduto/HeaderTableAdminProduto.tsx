@@ -3,6 +3,7 @@ import { BsFillTrashFill, BsFillPencilFill } from 'react-icons/bs';
 import styles from './HeaderTableAdminProduto.module.scss';
 import { StatusBadge } from '../../../StatusBadge/StatusBadge';
 import type { Product } from 'src/types/product';
+import { formatToBR } from '../../../../utils/price';
 
 export type ProdutoRow = {
   produto: string;
@@ -43,7 +44,7 @@ export const HeaderTableAdminProduto: React.FC<TableProps> = ({
               <tr key={idx}>
                 <td>{row.name}</td>
                 <td>{category?.name}</td>
-                <td>{row.price}</td>
+                <td>{formatToBR(row.price)}</td>
                 <td>{row.quantity}</td>
                 <td>
                   <StatusBadge status={row.isActive ? 'ativo' : 'inativo'} />

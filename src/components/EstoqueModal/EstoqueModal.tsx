@@ -1,7 +1,9 @@
+//
 import React from 'react';
 import * as Dialog from '@radix-ui/react-dialog';
 import styles from './EstoqueModal.module.scss';
 import { Button, Input, Select } from '@components';
+import { normalizeDecimalString } from '../../utils/price';
 
 export type Option = { label: string; value: string };
 
@@ -9,7 +11,6 @@ export type EstoqueValues = {
   nome: string;
   quantidade: string;
   preco: string;
-  categoria: string;
   unidadeMedida: string;
 };
 
@@ -34,7 +35,6 @@ export function EstoqueModal({
   isSubmitting,
   values,
   onChange,
-  categoriaOptions,
   unidadeMedidaOptions,
   onSubmit,
   mode = 'edit',
@@ -49,10 +49,7 @@ export function EstoqueModal({
     onChange({ quantidade: e.target.value });
 
   const handlePreco: React.ChangeEventHandler<HTMLInputElement> = (e) =>
-    onChange({ preco: e.target.value });
-
-  const handleCategoria: React.ChangeEventHandler<HTMLSelectElement> = (e) =>
-    onChange({ categoria: e.target.value });
+    onChange({ preco: normalizeDecimalString(e.target.value) });
 
   const handleUnidadeMedida: React.ChangeEventHandler<HTMLSelectElement> = (
     e
@@ -104,23 +101,7 @@ export function EstoqueModal({
               />
             </div>
 
-            <div className={styles.fieldCategoria}>
-              <label className={styles.label}>Categoria</label>
-              <div
-                className={errors.categoria ? styles.selectWrapperError : ''}
-              >
-                <Select
-                  placeholder="Selecione a categoria"
-                  options={categoriaOptions}
-                  value={values.categoria}
-                  onChange={handleCategoria}
-                  disabled={isViewMode}
-                />
-              </div>
-              {errors.categoria && (
-                <span className={styles.errorMessage}>{errors.categoria}</span>
-              )}
-            </div>
+            {/* Categoria removida conforme backend */}
 
             <div className={styles.fieldUnidadeMedida}>
               <label className={styles.label}>Unidade de Medida</label>
