@@ -12,6 +12,7 @@ interface MostSoldProductsChartProps {
 
 interface ProductData {
   sku: string;
+  nome?: string | null;
   quantidade: number;
   valorTotal: number;
 }
@@ -33,10 +34,12 @@ export const MostSoldProductsChart: React.FC<MostSoldProductsChartProps> = ({
       order.items.forEach((item) => {
         const existing = produtosMap.get(item.produtoSku) || {
           sku: item.produtoSku,
+          nome: item.produtoNome ?? item.produtoSku,
           quantidade: 0,
           valorTotal: 0,
         };
 
+        existing.nome = item.produtoNome ?? existing.nome ?? item.produtoSku;
         existing.quantidade += item.quantidade;
         existing.valorTotal += item.quantidade * item.valorUnitario;
 
@@ -59,7 +62,7 @@ export const MostSoldProductsChart: React.FC<MostSoldProductsChartProps> = ({
           data: topProdutos.map((p) => p.quantidade),
         },
       ],
-      categories: topProdutos.map((p) => p.sku),
+      categories: topProdutos.map((p) => p.nome || p.sku),
     };
   }, [orders, month, year, topN]);
 

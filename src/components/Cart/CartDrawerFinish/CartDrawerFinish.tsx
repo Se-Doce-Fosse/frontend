@@ -40,6 +40,7 @@ export default function CartDrawerFinish({
     decrementItem,
     removeItem,
     quantitiesByProductId,
+    clearCart,
   } = useCart();
 
   const [addressData, setAddressData] = useState<AddressData | null>(null);
@@ -95,18 +96,24 @@ export default function CartDrawerFinish({
   };
 
   const buildOrder = (): Order => {
-    console.log('Cliente no buildOrder:', cliente);
+    const formattedAddress =
+      addressData !== null ? formatAddress(addressData) : null;
+
+    const payloadItems = items.map((item) => ({
+      produtoSku: item.id,
+      quantidade: item.quantity,
+      valorUnitario: item.unitPrice,
+    }));
+
     return {
       clientId: cliente?.id || '',
       orderDate: new Date().toISOString(),
       totalPrice: finalTotal,
-      orderStatus: 'PREPARANDO',
-      items: items.map((item) => ({
-        produtoSku: item.id,
-        quantidade: item.quantity,
-        valorUnitario: item.unitPrice,
-      })),
+      orderStatus: 'ACEITO',
+      items: payloadItems,
       cupomId: appliedCoupon?.id ?? null,
+      couponCode: appliedCoupon?.codigo ?? (couponCode || null),
+      address: formattedAddress,
       outOfStock: [],
     };
   };
@@ -177,6 +184,13 @@ export default function CartDrawerFinish({
       const response = await createOrder(order);
       console.log('Resposta do servidor:', response);
       console.log('Pedido criado com sucesso!');
+
+      clearCart();
+      setAddressData(null);
+      setCouponCode('');
+      setAppliedCoupon(null);
+      setCouponMessage('');
+      setCouponError('');
     } catch (error) {
       console.error('Erro ao criar pedido:', error);
     }

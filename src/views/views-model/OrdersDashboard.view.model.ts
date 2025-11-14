@@ -10,6 +10,7 @@ import {
  */
 export interface ProductSalesInfo {
   produtoSku: string;
+  produtoNome?: string | null;
   quantidade: number;
   valorTotal: number;
 }
@@ -77,10 +78,14 @@ export const encontrarProdutoMaisVendido = (
     order.items.forEach((item) => {
       const existing = produtosMap.get(item.produtoSku) || {
         produtoSku: item.produtoSku,
+        produtoNome: item.produtoNome ?? item.produtoSku,
         quantidade: 0,
         valorTotal: 0,
       };
 
+      if (item.produtoNome) {
+        existing.produtoNome = item.produtoNome;
+      }
       existing.quantidade += item.quantidade;
       existing.valorTotal += item.quantidade * item.valorUnitario;
 

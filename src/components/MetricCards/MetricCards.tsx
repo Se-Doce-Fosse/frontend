@@ -128,7 +128,8 @@ export const MetricCards: React.FC<MetricCardsProps> = ({
                 color: '#fd7e14',
               }}
             >
-              {metrics.produtoMaisVendido.produtoSku}
+              {metrics.produtoMaisVendido.produtoNome ??
+                metrics.produtoMaisVendido.produtoSku}
             </p>
             <p style={{ margin: '5px 0', fontSize: '14px', color: '#666' }}>
               {metrics.produtoMaisVendido.quantidade} unidades

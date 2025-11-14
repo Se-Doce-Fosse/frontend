@@ -8,6 +8,35 @@ import type { Order } from '../types/order';
 import { useUser } from '../context/UserContext';
 import './OrdersDashboard.scss';
 
+const statusOptions = [
+  { value: 'TODOS', label: 'Todos' },
+  { value: 'ACEITO', label: 'Novo' },
+  { value: 'PREPARANDO', label: 'Preparando' },
+  { value: 'ROTA', label: 'Em rota' },
+  { value: 'ENTREGUE', label: 'Finalizado' },
+  { value: 'CANCELADO', label: 'Cancelado' },
+];
+
+const backendStatusesForAll = statusOptions
+  .filter((option) => option.value !== 'TODOS')
+  .map((option) => option.value);
+
+const normalizeOrdersResponse = (response: unknown): Order[] => {
+  if (Array.isArray(response)) {
+    return response;
+  }
+
+  if (
+    response &&
+    typeof response === 'object' &&
+    Array.isArray((response as { data?: Order[] }).data)
+  ) {
+    return (response as { data?: Order[] }).data ?? [];
+  }
+
+  return [];
+};
+
 export const OrdersDashboardView: React.FC = () => {
   const [orders, setOrders] = useState<Order[]>([]);
   const [selectedMonth, setSelectedMonth] = useState<number>(
@@ -33,8 +62,19 @@ export const OrdersDashboardView: React.FC = () => {
           return;
         }
 
-        const data = await getOrders(user.token, orderStatus);
-        setOrders(Array.isArray(data) ? data : data.data || []);
+        let fetchedOrders: Order[] = [];
+
+        if (orderStatus === 'TODOS') {
+          const responses = await Promise.all(
+            backendStatusesForAll.map((status) => getOrders(user.token, status))
+          );
+          fetchedOrders = responses.flatMap(normalizeOrdersResponse);
+        } else {
+          const response = await getOrders(user.token, orderStatus);
+          fetchedOrders = normalizeOrdersResponse(response);
+        }
+
+        setOrders(fetchedOrders);
       } catch (err) {
         console.error('Error fetching orders:', err);
         setError(
@@ -126,9 +166,11 @@ export const OrdersDashboardView: React.FC = () => {
               cursor: 'pointer',
             }}
           >
-            <option value="PREPARANDO">Preparando</option>
-            <option value="FINALIZADO">Finalizado</option>
-            <option value="CANCELADO">Cancelado</option>
+            {statusOptions.map((option) => (
+              <option key={option.value} value={option.value}>
+                {option.label}
+              </option>
+            ))}
           </select>
         </div>
 
