@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { api } from '..';
 import type { CreateEstoque, UpdateEstoque } from '../../types/estoque';
 
@@ -18,7 +19,6 @@ const hasId = (obj: unknown): obj is { id?: string | number } => {
 const toSupplyDto = (
   e: CreateEstoque | UpdateEstoque
 ): Record<string, unknown> => {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const unityRaw = String((e as any).unitOfMeasure ?? '');
   const parsedId = Number(unityRaw);
   const unityId =
@@ -26,7 +26,6 @@ const toSupplyDto = (
       ? parsedId
       : (UNIT_MAP as Record<string, number>)[unityRaw];
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const id = hasId(e) && (e as any).id ? Number((e as any).id) : undefined;
 
   return {
@@ -34,9 +33,9 @@ const toSupplyDto = (
     name: e.name,
     unityId,
     unityName: unityRaw || undefined,
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+
     quantity: Number((e as any).quantity ?? 0),
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+
     purchasePrice: (e as any).price
       ? Number(String((e as any).price).replace(/[^0-9.-]/g, ''))
       : 0,
