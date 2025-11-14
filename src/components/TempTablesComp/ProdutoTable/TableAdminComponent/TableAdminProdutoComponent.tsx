@@ -42,6 +42,7 @@ function TabelAdminProdutoComponent({
     name: '',
     price: '',
     imageSrc: '',
+    file: null,
     description: '',
     isActive: true,
     quantity: 0,

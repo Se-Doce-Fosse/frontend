@@ -146,7 +146,7 @@ export function ProductModal({
                       const f = e.target.files?.[0];
                       if (!f) return;
                       const preview = URL.createObjectURL(f);
-                      onChange({ imageSrc: preview });
+                      onChange({ imageSrc: preview, file: f });
                     }}
                   />
                 )}
