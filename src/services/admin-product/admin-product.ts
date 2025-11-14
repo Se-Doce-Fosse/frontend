@@ -1,5 +1,5 @@
 import type { Product } from '../../types/product';
-import { api } from '..';
+import { api, API_URL } from '..';
 
 const BASE_URL = '/admin/products';
 
@@ -51,7 +51,7 @@ export async function createProduct(product: any, token: string) {
 
   formData.append('productSupply', JSON.stringify(product.productSupply ?? []));
 
-  const res = await fetch(`http://localhost:8081${BASE_URL}`, {
+  const res = await fetch(`${API_URL}${BASE_URL}`, {
     method: 'POST',
     headers: {
       Authorization: `Bearer ${token}`,

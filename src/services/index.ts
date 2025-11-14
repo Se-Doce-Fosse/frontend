@@ -1,4 +1,4 @@
-const URL = 'http://localhost:8081';
+export const API_URL = import.meta.env.VITE_API_URL ?? 'http://localhost:8081';
 
 export const api = async (
   path: string,
@@ -7,7 +7,7 @@ export const api = async (
 ) => {
   const isFormData = options?.body instanceof FormData;
 
-  const res = await fetch(`${URL}${path}`, {
+  const res = await fetch(`${API_URL}${path}`, {
     ...options,
     headers: {
       ...(isFormData ? {} : { 'Content-Type': 'application/json' }),
