@@ -101,7 +101,11 @@ export default function CartDrawerFinish({
       orderDate: new Date().toISOString(),
       totalPrice: finalTotal,
       orderStatus: 'PREPARANDO',
-      products: items.map((item) => item.id),
+      items: items.map((item) => ({
+        produtoSku: item.id,
+        quantidade: item.quantity,
+        valorUnitario: item.unitPrice,
+      })),
       cupomId: appliedCoupon?.id ?? null,
       outOfStock: [],
     };
