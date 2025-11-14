@@ -2,6 +2,25 @@ import type { Comment } from '../../data/comments.mock';
 import type { ApiComment } from '../../types/api';
 import { MOCK_COMMENTS } from '../../data/comments.mock';
 import { api } from '../index';
+export interface CreateCommentPayload {
+  id?: number;
+  pedidoId?: number | null;
+  clienteId: string;
+  nota: number;
+  descricao: string;
+  nomeExibicao: string;
+}
+
+export async function createComment(payload: CreateCommentPayload) {
+  return api(
+    '/comments',
+    {},
+    {
+      method: 'POST',
+      body: JSON.stringify(payload),
+    }
+  );
+}
 
 const mapApiCommentToComment = (apiComment: ApiComment): Comment => ({
   id: apiComment.id.toString(),

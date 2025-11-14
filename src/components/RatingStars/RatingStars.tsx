@@ -2,15 +2,27 @@ import { useState } from 'react';
 import { FaStar } from 'react-icons/fa';
 import styles from './RatingStars.module.scss';
 
-export const RatingStars = () => {
-  const [rating, setRating] = useState(0);
+export interface RatingStarsProps {
+  value?: number;
+  onChange?: (value: number) => void;
+}
+
+export const RatingStars = ({ value, onChange }: RatingStarsProps = {}) => {
+  const [internalValue, setInternalValue] = useState(0);
+  const currentValue = value ?? internalValue;
+
+  const updateRating = (nextValue: number) => {
+    if (value === undefined) {
+      setInternalValue(nextValue);
+    }
+
+    onChange?.(nextValue);
+  };
 
   const handleClick = (index: number) => {
-    if (rating === index + 1) {
-      setRating(0);
-    } else {
-      setRating(index + 1);
-    }
+    const clickedValue = index + 1;
+    const nextValue = currentValue === clickedValue ? 0 : clickedValue;
+    updateRating(nextValue);
   };
 
   return (
@@ -20,7 +32,9 @@ export const RatingStars = () => {
           key={index}
           data-testid="star"
           onClick={() => handleClick(index)}
-          className={`${styles.star} ${index < rating ? styles.active : ''}`}
+          className={`${styles.star} ${
+            index < currentValue ? styles.active : ''
+          }`}
         />
       ))}
     </div>
