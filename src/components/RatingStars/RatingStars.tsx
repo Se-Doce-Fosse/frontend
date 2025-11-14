@@ -1,28 +1,40 @@
-import { useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { FaStar } from 'react-icons/fa';
 import styles from './RatingStars.module.scss';
 
-export interface RatingStarsProps {
+export type RatingStarsProps = {
   value?: number;
   onChange?: (value: number) => void;
-}
+  readOnly?: boolean;
+};
 
-export const RatingStars = ({ value, onChange }: RatingStarsProps = {}) => {
-  const [internalValue, setInternalValue] = useState(0);
-  const currentValue = value ?? internalValue;
+export const RatingStars = ({
+  value,
+  onChange,
+  readOnly = false,
+}: RatingStarsProps) => {
+  const [internalRating, setInternalRating] = useState<number>(value ?? 0);
+  const isControlled = useMemo(() => typeof value === 'number', [value]);
+  const currentRating = isControlled ? (value as number) : internalRating;
 
-  const updateRating = (nextValue: number) => {
-    if (value === undefined) {
-      setInternalValue(nextValue);
+  useEffect(() => {
+    if (isControlled) {
+      setInternalRating(value as number);
     }
-
-    onChange?.(nextValue);
-  };
+  }, [isControlled, value]);
 
   const handleClick = (index: number) => {
-    const clickedValue = index + 1;
-    const nextValue = currentValue === clickedValue ? 0 : clickedValue;
-    updateRating(nextValue);
+    if (readOnly) {
+      return;
+    }
+
+    const newRating = currentRating === index + 1 ? 0 : index + 1;
+
+    if (!isControlled) {
+      setInternalRating(newRating);
+    }
+
+    onChange?.(newRating);
   };
 
   return (
@@ -32,8 +44,8 @@ export const RatingStars = ({ value, onChange }: RatingStarsProps = {}) => {
           key={index}
           data-testid="star"
           onClick={() => handleClick(index)}
-          className={`${styles.star} ${
-            index < currentValue ? styles.active : ''
+          className={`${styles.star} ${index < currentRating ? styles.active : ''} ${
+            readOnly ? styles.readOnly : ''
           }`}
         />
       ))}
