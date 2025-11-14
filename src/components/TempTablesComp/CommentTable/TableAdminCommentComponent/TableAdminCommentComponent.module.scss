@@ -24,3 +24,17 @@
   background-color: $cinza-claro;
   border-radius: 0.625rem;
 }
+
+.tableContent {
+  min-height: 12.5rem;
+}
+
+.stateMessage {
+  text-align: center;
+  color: $cinza-texto;
+  padding: 2rem 0;
+}
+
+.stateError {
+  color: $status-inactive;
+}

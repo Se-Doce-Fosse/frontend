@@ -1,16 +1,40 @@
-import { useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { FaStar } from 'react-icons/fa';
 import styles from './RatingStars.module.scss';
 
-export const RatingStars = () => {
-  const [rating, setRating] = useState(0);
+export type RatingStarsProps = {
+  value?: number;
+  onChange?: (value: number) => void;
+  readOnly?: boolean;
+};
+
+export const RatingStars = ({
+  value,
+  onChange,
+  readOnly = false,
+}: RatingStarsProps) => {
+  const [internalRating, setInternalRating] = useState<number>(value ?? 0);
+  const isControlled = useMemo(() => typeof value === 'number', [value]);
+  const currentRating = isControlled ? (value as number) : internalRating;
+
+  useEffect(() => {
+    if (isControlled) {
+      setInternalRating(value as number);
+    }
+  }, [isControlled, value]);
 
   const handleClick = (index: number) => {
-    if (rating === index + 1) {
-      setRating(0);
-    } else {
-      setRating(index + 1);
+    if (readOnly) {
+      return;
     }
+
+    const newRating = currentRating === index + 1 ? 0 : index + 1;
+
+    if (!isControlled) {
+      setInternalRating(newRating);
+    }
+
+    onChange?.(newRating);
   };
 
   return (
@@ -20,7 +44,9 @@ export const RatingStars = () => {
           key={index}
           data-testid="star"
           onClick={() => handleClick(index)}
-          className={`${styles.star} ${index < rating ? styles.active : ''}`}
+          className={`${styles.star} ${index < currentRating ? styles.active : ''} ${
+            readOnly ? styles.readOnly : ''
+          }`}
         />
       ))}
     </div>
