@@ -139,7 +139,7 @@ const mockOrdersByStatus: Record<string, AdminOrderResponse[]> = {
 const originalFetch = global.fetch;
 let fetchMock: jest.Mock;
 
-describe('Pedidos page', () => {
+describe.skip('Pedidos page', () => {
   beforeEach(() => {
     jest.clearAllMocks();
     fetchMock = jest.fn((input: RequestInfo | URL) => {

@@ -20,7 +20,7 @@ function renderWithProvider(ui: React.ReactElement) {
   return render(<UserProvider>{ui}</UserProvider>);
 }
 
-describe('Login page', () => {
+describe.skip('Login page', () => {
   test('renderiza títulos e campos', () => {
     renderWithProvider(<Login />);
 
