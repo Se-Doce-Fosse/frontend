@@ -12,6 +12,7 @@ import {
   deleteProduct,
   getCategories,
 } from '../../../../services/admin-product/admin-product';
+import { normalizeDecimalString } from '../../../../utils/price';
 import { useUser } from '../../../../context/UserContext';
 import { DeleteModal } from '../../../DeleteModal/DeleteModal';
 import { ProductModal, type Option } from '../../../ProductModal/ProductModal';
@@ -207,6 +208,10 @@ function TabelAdminProdutoComponent({
         ? categoriasMap[categoriaId]
         : { id: undefined, name: '' };
 
+      const normalizedPrice = normalizeDecimalString(
+        productModalValues.price ?? ''
+      );
+
       const productSupply = (productModalValues.supplies ?? []).map(
         (s: any) => ({
           supplyId: typeof s === 'number' ? s : s.id,
@@ -218,7 +223,7 @@ function TabelAdminProdutoComponent({
 
       const payload = {
         ...productModalValues,
-        price: productModalValues.price ?? '',
+        price: normalizedPrice,
         isActive: !!productModalValues.isActive,
         category: categoriaObj,
         productSupply,
