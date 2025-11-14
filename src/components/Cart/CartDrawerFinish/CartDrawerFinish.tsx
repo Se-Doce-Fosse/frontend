@@ -95,14 +95,24 @@ export default function CartDrawerFinish({
   };
 
   const buildOrder = (): Order => {
-    console.log('Cliente no buildOrder:', cliente);
+    const formattedAddress =
+      addressData !== null ? formatAddress(addressData) : null;
+
+    const payloadItems = items.map((item) => ({
+      produtoSku: item.id,
+      quantidade: item.quantity,
+      valorUnitario: item.unitPrice,
+    }));
+
     return {
       clientId: cliente?.id || '',
       orderDate: new Date().toISOString(),
       totalPrice: finalTotal,
       orderStatus: 'PREPARANDO',
-      products: items.map((item) => item.id),
+      items: payloadItems,
       cupomId: appliedCoupon?.id ?? null,
+      couponCode: appliedCoupon?.codigo ?? (couponCode || null),
+      address: formattedAddress,
       outOfStock: [],
     };
   };
