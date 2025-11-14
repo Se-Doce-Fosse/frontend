@@ -5,7 +5,7 @@ import { api } from '../index';
 export interface CreateCommentPayload {
   id?: number;
   pedidoId?: number | null;
-  clienteId: number;
+  clienteId: string;
   nota: number;
   descricao: string;
   nomeExibicao: string;

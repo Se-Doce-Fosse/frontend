@@ -2,11 +2,14 @@ import styles from './Footer.module.scss';
 import logoFooter from '../../assets/images/logo-footer.png';
 import { FaInstagram, FaWhatsapp, FaEnvelope } from 'react-icons/fa';
 import { useState, type ReactNode } from 'react';
+import { useCliente } from '../../context/ClienteContext';
 import { Input } from '../Input';
 import { Textarea } from '../Textarea';
 import { RatingStars } from '../RatingStars';
 import { createComment } from '../../services/comment/commentService';
-import type { ApiError } from '../../services';
+
+// Tipo local para erro da API com status opcional
+type ApiError = Error & { status?: number };
 
 export interface CommentData {
   comment: string;
@@ -65,7 +68,10 @@ export const Footer = ({
     comment?: string;
     name?: string;
     phone?: string;
+    rating?: string;
   }>({});
+
+  const { cliente } = useCliente();
 
   const handleSubmit: React.FormEventHandler<HTMLFormElement> = async (e) => {
     e.preventDefault();
@@ -75,9 +81,8 @@ export const Footer = ({
     const comment = String(formData.get('comment') || '').trim();
     const name = String(formData.get('name') || '').trim();
     const phone = String(formData.get('phone') || '');
-    const digitsOnly = phone.replace(/\D/g, '');
-    const normalizedId = digitsOnly.slice(-9);
-    const clienteId = Number(normalizedId);
+    // Pegamos o id direto do contexto do cliente (simplificado)
+    const clienteId = cliente?.id;
     const errors: typeof fieldErrors = {};
     setFeedback(null);
     setFieldErrors({});
@@ -88,12 +93,11 @@ export const Footer = ({
     if (!name) {
       errors.name = 'Informe seu nome.';
     }
-    if (!normalizedId) {
-      errors.phone = 'Informe um telefone.';
-    } else if (normalizedId.length < 8) {
-      errors.phone = 'Informe um telefone com DDD (mínimo 8 dígitos).';
-    } else if (Number.isNaN(clienteId)) {
-      errors.phone = 'Informe um telefone válido para continuar.';
+    if (!rating || rating <= 0) {
+      errors.rating = 'Por favor, avalie com pelo menos 1 estrela.';
+    }
+    if (!clienteId) {
+      errors.phone = 'Você precisa estar logado para enviar um comentário.';
     }
 
     if (Object.keys(errors).length > 0) {
@@ -104,7 +108,7 @@ export const Footer = ({
     try {
       setIsSubmitting(true);
       await createComment({
-        clienteId,
+        clienteId: clienteId as string,
         descricao: comment,
         nomeExibicao: name,
         nota: rating,
@@ -250,6 +254,9 @@ export const Footer = ({
           <div className={styles.avaliation}>
             <RatingStars value={rating} onChange={setRating} />
           </div>
+          {fieldErrors.rating && (
+            <span className={styles.fieldError}>{fieldErrors.rating}</span>
+          )}
 
           <div className={styles.buttonContainer}>
             <button type="submit" disabled={isSubmitting}>
