@@ -40,6 +40,7 @@ export default function CartDrawerFinish({
     decrementItem,
     removeItem,
     quantitiesByProductId,
+    clearCart,
   } = useCart();
 
   const [addressData, setAddressData] = useState<AddressData | null>(null);
@@ -183,6 +184,13 @@ export default function CartDrawerFinish({
       const response = await createOrder(order);
       console.log('Resposta do servidor:', response);
       console.log('Pedido criado com sucesso!');
+
+      clearCart();
+      setAddressData(null);
+      setCouponCode('');
+      setAppliedCoupon(null);
+      setCouponMessage('');
+      setCouponError('');
     } catch (error) {
       console.error('Erro ao criar pedido:', error);
     }
