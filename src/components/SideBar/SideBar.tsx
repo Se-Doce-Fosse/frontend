@@ -80,10 +80,7 @@ export default function SideBar() {
 
   const displayName = user?.name || user?.email || 'Administrador';
   const displayRole = (user?.role && roleLabels[user.role]) || 'Administrador';
-  const avatarLetter =
-    displayName?.charAt(0)?.toUpperCase() ||
-    displayEmail.charAt(0)?.toUpperCase() ||
-    'A';
+  const avatarLetter = displayName?.charAt(0)?.toUpperCase() || 'A';
 
   return (
     <>
