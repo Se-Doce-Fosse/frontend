@@ -11,7 +11,7 @@ const Comentarios: React.FC = () => {
   const statusOptions = [
     { value: '', label: 'Todos' },
     { value: 'aprovado', label: 'Aprovado' },
-    { value: 'rejeitado', label: 'Rejeitado' },
+    { value: 'recusado', label: 'Recusado' },
     { value: 'pendente', label: 'Pendente' },
   ];
 
