@@ -109,7 +109,7 @@ export default function CartDrawerFinish({
       clientId: cliente?.id || '',
       orderDate: new Date().toISOString(),
       totalPrice: finalTotal,
-      orderStatus: 'PREPARANDO',
+      orderStatus: 'ACEITO',
       items: payloadItems,
       cupomId: appliedCoupon?.id ?? null,
       couponCode: appliedCoupon?.codigo ?? (couponCode || null),
