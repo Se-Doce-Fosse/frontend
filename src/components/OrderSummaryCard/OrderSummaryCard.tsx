@@ -33,6 +33,20 @@ const OrderSummaryCard: React.FC<OrderSummaryCardProps> = ({
             </div>
           )}
 
+          {status === 'em_preparacao' && (
+            <div className={styles.preparingStatus}>
+              <div className={styles.statusDot}></div>
+              <div>Em preparo</div>
+            </div>
+          )}
+
+          {status === 'pronto' && (
+            <div className={styles.readyStatus}>
+              <div className={styles.statusDot}></div>
+              <div>Pronto</div>
+            </div>
+          )}
+
           {status === 'finalizado' && (
             <div className={styles.finalizedStatus}>
               <div className={styles.statusDot}></div>

@@ -1,10 +1,17 @@
-import React, { useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import AdminLayout from '../../layouts/AdminLayout/AdminLayout';
 import style from './Pedidos.module.scss';
 // import { Filter } from '../../components/Filter';
 // import TableAdminEncomendasComponent from '../../components/TempTablesComp/EncomendasTable/TableAdminEncomendasComponent/TableAdminEncomendasComponent';
 import OrderSummaryCard from '../../components/OrderSummaryCard/OrderSummaryCard';
 import { Button } from '../../components/Button';
+import {
+  fetchAdminOrdersByStatus,
+  type AdminOrderItemResponse,
+  type AdminOrderStatus,
+} from '../../services/admin-order/admin-order';
+import { useUser } from '../../context/UserContext';
+import OrderDetailsModal from '../../components/OrderDetailsModal/OrderDetailsModal';
 
 /*const status = [
   { label: 'Todos os status', value: 'todos' },
@@ -21,111 +28,154 @@ import { Button } from '../../components/Button';
   { label: 'Pronto', value: 'pronto' },
 ];*/
 
+type FrontOrderStatus =
+  | 'novo'
+  | 'em_preparacao'
+  | 'pronto'
+  | 'finalizado'
+  | 'cancelado';
+
+type OrderFilter = 'todos' | FrontOrderStatus;
+
+type Order = {
+  orderCode: string;
+  clientName: string;
+  address?: string | null;
+  items: string[];
+  rawItems: AdminOrderItemResponse[];
+  isNew: boolean;
+  status: FrontOrderStatus;
+  statusLabel: string;
+  totalPrice?: number;
+  orderDate?: string;
+  couponCode?: string | null;
+};
+
+const backendToFrontStatus: Record<AdminOrderStatus, FrontOrderStatus> = {
+  ACEITO: 'novo',
+  PREPARANDO: 'em_preparacao',
+  ROTA: 'pronto',
+  ENTREGUE: 'finalizado',
+  CANCELADO: 'cancelado',
+};
+
+const backendStatuses = Object.keys(backendToFrontStatus) as AdminOrderStatus[];
+
+const frontStatusLabels: Record<FrontOrderStatus, string> = {
+  novo: 'Novo',
+  em_preparacao: 'Em preparo',
+  pronto: 'Pronto',
+  finalizado: 'Finalizado',
+  cancelado: 'Cancelado',
+};
+
 const tabs = [
   { id: 'pedidos', label: 'Pedidos' },
   //{ id: 'encomendas', label: 'Encomendas' },
   //{ id: 'concluidos', label: 'Concluídos' },
 ];
 
+const formatOrderCode = (orderId?: number | null) => {
+  if (typeof orderId !== 'number') {
+    return '#------';
+  }
+  return `#${orderId.toString().padStart(6, '0')}`;
+};
+
+const formatOrderItems = (items?: AdminOrderItemResponse[]) => {
+  if (!items || items.length === 0) {
+    return ['Itens não informados'];
+  }
+  return items.map(
+    (item) =>
+      `${item.quantidade}x ${
+        item.produtoNome ?? item.produtoSku?.toUpperCase() ?? 'Produto'
+      }`
+  );
+};
+
 const Pedidos: React.FC = () => {
   const [activeTab, setActiveTab] = useState<string>('pedidos');
-  const [selectedStatus, setSelectedStatus] = useState<string>('todos');
+  const [selectedStatus, setSelectedStatus] = useState<OrderFilter>('todos');
+  const [orders, setOrders] = useState<Order[]>([]);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const { user, loading: userLoading } = useUser();
+  const [selectedOrder, setSelectedOrder] = useState<Order | null>(null);
 
-  type Order = {
-    orderCode: string;
-    clientName: string;
-    items: string[];
-    isNew?: boolean;
-    status: string;
-  };
+  const loadOrders = useCallback(async () => {
+    if (!user?.token) {
+      setErrorMessage('Sessão expirada. Faça login novamente para continuar.');
+      setOrders([]);
+      return;
+    }
 
-  const [orders, setOrders] = useState<Order[]>([
-    {
-      orderCode: '#0caa7673',
-      clientName: 'Ana',
-      items: ['2x Cookie Tradicional', '1x Cookie de Oreo'],
-      isNew: true,
-      status: 'novo',
-    },
-    {
-      orderCode: '#0caa7674',
-      clientName: 'Cleison',
-      items: ['2x Cookie Tradicional'],
-      isNew: true,
-      status: 'novo',
-    },
-    {
-      orderCode: '#0caa7777',
-      clientName: 'Felipe',
-      items: ['2x Cookie Tradicional'],
-      isNew: false,
-      status: 'pronto',
-    },
-    {
-      orderCode: '#0caa7679',
-      clientName: 'Julia',
-      items: ['3x Cookie Tradicional'],
-      isNew: false,
-      status: 'pronto',
-    },
-    {
-      orderCode: '#0caa7654',
-      clientName: 'Samuel',
-      items: [
-        '1x Cookie Tradicional',
-        '1x Cookie de Oreo',
-        '1x Cookie de Avelã',
-        '1x Cookie de Amendoim',
-      ],
-      isNew: false,
-      status: 'pronto',
-    },
-    {
-      orderCode: '#0caa1245',
-      clientName: 'Luan',
-      items: [
-        '1x Cookie Tradicional',
-        '1x Cookie de Oreo',
-        '1x Cookie de Avelã',
-        '1x Cookie de Amendoim',
-        '1x Cookie de Chocolate',
-        '1x Cookie de Banana',
-        '1x Cookie de Caju',
-      ],
-      isNew: false,
-      status: 'pronto',
-    },
-    {
-      orderCode: '#6785cbed',
-      clientName: 'Samara',
-      items: ['2x Cookie Tradicional'],
-      isNew: false,
-      status: 'em_preparacao',
-    },
-    {
-      orderCode: '#6785aaaa',
-      clientName: 'Jonas',
-      items: ['7x Cookie Morango'],
-      isNew: false,
-      status: 'finalizado',
-    },
-    {
-      orderCode: '#6785a45a',
-      clientName: 'Laura',
-      items: ['3x Cookie M&Ms'],
-      isNew: false,
-      status: 'cancelado',
-    },
-  ]);
+    setIsLoading(true);
+    setErrorMessage(null);
+    try {
+      const responses = await Promise.all(
+        backendStatuses.map(async (status) => {
+          const apiOrders = await fetchAdminOrdersByStatus(status, user.token);
+          const mappedStatus = backendToFrontStatus[status];
+          const statusLabel = frontStatusLabels[mappedStatus];
+          return apiOrders.map((order) => ({
+            orderCode: formatOrderCode(order.orderId),
+            clientName:
+              order.clientName || order.clientId || 'Cliente não identificado',
+            address: order.address ?? null,
+            items: formatOrderItems(order.items),
+            rawItems: order.items ?? [],
+            status: mappedStatus,
+            statusLabel,
+            isNew: mappedStatus === 'novo',
+            totalPrice: order.totalPrice,
+            orderDate: order.orderDate,
+            couponCode: order.couponCode ?? null,
+          }));
+        })
+      );
+      setOrders(responses.flat());
+    } catch (error) {
+      const message =
+        error instanceof Error
+          ? error.message
+          : 'Não foi possível carregar os pedidos.';
+      setErrorMessage(message);
+    } finally {
+      setIsLoading(false);
+    }
+  }, [user?.token]);
 
-  const statusCounts = orders.reduce<Record<string, number>>((acc, o) => {
-    acc[o.status] = (acc[o.status] || 0) + 1;
-    return acc;
-  }, {});
+  useEffect(() => {
+    if (userLoading) return;
+    if (user?.token) {
+      void loadOrders();
+    } else {
+      setOrders([]);
+      setErrorMessage(
+        'Faça login como administrador para visualizar os pedidos.'
+      );
+    }
+  }, [user?.token, userLoading, loadOrders]);
 
-  const visibleOrders = orders.filter(
-    (o) => selectedStatus === 'todos' || o.status === selectedStatus
+  const statusCounts = orders.reduce<Record<FrontOrderStatus, number>>(
+    (acc, order) => {
+      acc[order.status] = (acc[order.status] || 0) + 1;
+      return acc;
+    },
+    {
+      novo: 0,
+      em_preparacao: 0,
+      pronto: 0,
+      finalizado: 0,
+      cancelado: 0,
+    }
   );
+
+  const visibleOrders =
+    selectedStatus === 'todos'
+      ? orders
+      : orders.filter((o) => o.status === selectedStatus);
 
   return (
     <AdminLayout>
@@ -136,7 +186,8 @@ const Pedidos: React.FC = () => {
             <Button
               label="Atualizar"
               variant="secondary"
-              onClick={() => window.location.reload()}
+              onClick={() => void loadOrders()}
+              disabled={isLoading || userLoading || !user?.token}
             />
           </div>
         </div>
@@ -249,10 +300,33 @@ const Pedidos: React.FC = () => {
           <div className={style.tabContent}>
             {activeTab === 'pedidos' && (
               <>
+                {isLoading && (
+                  <div role="status" className={style.feedbackMessage}>
+                    Carregando pedidos...
+                  </div>
+                )}
+
+                {errorMessage && (
+                  <div role="alert" className={style.feedbackMessage}>
+                    <p>{errorMessage}</p>
+                    <Button
+                      label="Tentar novamente"
+                      onClick={() => void loadOrders()}
+                      variant="secondary"
+                    />
+                  </div>
+                )}
+
+                {!isLoading && !errorMessage && visibleOrders.length === 0 && (
+                  <div className={style.feedbackMessage}>
+                    Nenhum pedido encontrado para este status.
+                  </div>
+                )}
+
                 <div className={style.cardsGrid}>
                   {visibleOrders.map((o) => (
                     <OrderSummaryCard
-                      key={o.orderCode}
+                      key={`${o.orderCode}-${o.clientName}`}
                       orderCode={o.orderCode}
                       clientName={o.clientName}
                       items={o.items}
@@ -282,7 +356,7 @@ const Pedidos: React.FC = () => {
                           })
                         );
                       }}
-                      onDetails={() => console.log('detalhes', o.orderCode)}
+                      onDetails={() => setSelectedOrder(o)}
                     />
                   ))}
                 </div>
@@ -314,6 +388,21 @@ const Pedidos: React.FC = () => {
             */}
           </div>
         </div>
+        {selectedOrder && (
+          <OrderDetailsModal
+            order={{
+              orderCode: selectedOrder.orderCode,
+              clientName: selectedOrder.clientName,
+              address: selectedOrder.address,
+              statusLabel: selectedOrder.statusLabel,
+              totalPrice: selectedOrder.totalPrice,
+              orderDate: selectedOrder.orderDate,
+              couponCode: selectedOrder.couponCode,
+              items: selectedOrder.rawItems,
+            }}
+            onClose={() => setSelectedOrder(null)}
+          />
+        )}
       </div>
     </AdminLayout>
   );

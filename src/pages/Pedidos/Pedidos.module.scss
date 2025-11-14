@@ -188,6 +188,25 @@
     align-items: start;
   }
 
+  .feedbackMessage {
+    margin-top: 1rem;
+    padding: 1rem 1.25rem;
+    border-radius: 0.5rem;
+    background: #fffdf7;
+    border: 0.0625rem solid #f0e2c5;
+    color: #7a2f1f;
+    font-weight: 600;
+    line-height: 1.4;
+
+    p {
+      margin: 0 0 0.5rem 0;
+    }
+
+    button {
+      margin-top: 0.25rem;
+    }
+  }
+
   .emptyPlaceholder {
     padding: 2rem;
     background: #fff;

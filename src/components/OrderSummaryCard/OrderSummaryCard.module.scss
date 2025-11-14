@@ -78,6 +78,34 @@
   background-color: #e40404;
 }
 
+.preparingStatus,
+.readyStatus {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.75rem;
+  padding: 0.25rem 0.45rem;
+  border-radius: 999px;
+  border: 1px solid transparent;
+  color: #5c4200;
+  background-color: #fff7de;
+  border-color: #f0d46a;
+}
+
+.preparingStatus .statusDot {
+  background-color: #f0d46a;
+}
+
+.readyStatus {
+  color: #1f5f31;
+  background-color: #e9f9ef;
+  border-color: #7bd99d;
+}
+
+.readyStatus .statusDot {
+  background-color: #7bd99d;
+}
+
 .clientSection,
 .itemsSection {
   display: flex;
