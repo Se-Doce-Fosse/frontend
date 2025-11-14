@@ -8,9 +8,13 @@ import { signup } from '../../services/auth/auth';
 
 export interface AddUserModalProps {
   onClose: () => void;
+  onUserCreated?: () => void;
 }
 
-const AddUserModal: React.FC<AddUserModalProps> = ({ onClose }) => {
+const AddUserModal: React.FC<AddUserModalProps> = ({
+  onClose,
+  onUserCreated,
+}) => {
   const [username, setUsername] = useState('');
   const [role, setRole] = useState('');
   const [email, setEmail] = useState('');
@@ -21,6 +25,7 @@ const AddUserModal: React.FC<AddUserModalProps> = ({ onClose }) => {
 
     try {
       await signup(username, email, role, password);
+      onUserCreated?.();
     } catch (error) {
       console.log(error);
     }

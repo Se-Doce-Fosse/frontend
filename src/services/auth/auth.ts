@@ -1,6 +1,15 @@
 import { api } from '..';
 
-export async function login(email: string, password: string) {
+export interface AuthResponse {
+  username: string;
+  token: string;
+  role: string;
+}
+
+export async function login(
+  email: string,
+  password: string
+): Promise<AuthResponse> {
   return api(
     '/auth/login',
     {},

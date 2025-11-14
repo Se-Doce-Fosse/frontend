@@ -24,3 +24,19 @@
   background-color: $cinza-claro;
   border-radius: 0.625rem;
 }
+
+.feedback {
+  margin-top: 1rem;
+  padding: 0.75rem 1rem;
+  border-radius: 0.5rem;
+  background-color: #fff;
+  border: 1px solid #e0e0e0;
+  color: #495057;
+  font-size: 0.95rem;
+
+  &Error {
+    background-color: color.mix(#fff4f4, #ca071a, 70%);
+    border-color: #ca071a;
+    color: #ca071a;
+  }
+}

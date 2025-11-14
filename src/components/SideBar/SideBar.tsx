@@ -18,7 +18,7 @@ import { useUser } from '../../context/UserContext';
 export default function SideBar() {
   const navigate = useNavigate();
   const location = useLocation();
-  const { logout } = useUser();
+  const { logout, user } = useUser();
   const [menuOpen, setMenuOpen] = useState(false);
 
   useEffect(() => {
@@ -71,6 +71,19 @@ export default function SideBar() {
       path: '/admin/cupons',
     },
   ];
+
+  const roleLabels: Record<string, string> = {
+    ROLE_OWNER: 'Proprietário',
+    ROLE_MANAGER: 'Gerente',
+    ROLE_USER: 'Usuário',
+  };
+
+  const displayName = user?.name || user?.email || 'Administrador';
+  const displayRole = (user?.role && roleLabels[user.role]) || 'Administrador';
+  const avatarLetter =
+    displayName?.charAt(0)?.toUpperCase() ||
+    displayEmail.charAt(0)?.toUpperCase() ||
+    'A';
 
   return (
     <>
@@ -137,11 +150,13 @@ export default function SideBar() {
         <div className={styles.navFooter}>
           <div className={styles.adminInfo}>
             <div className={styles.adminAvatar}>
-              <span className={styles.avatarText}>C</span>
+              <span className={styles.avatarText}>{avatarLetter}</span>
             </div>
             <div className={styles.adminDetails}>
-              <span className={styles.adminName}>Administrador</span>
-              <span className={styles.adminEmail}>@carolina.padilha</span>
+              <span className={styles.adminName}>{displayRole}</span>
+              {displayName && (
+                <span className={styles.adminEmail}>{displayName}</span>
+              )}
             </div>
           </div>
           <button

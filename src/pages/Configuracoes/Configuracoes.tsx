@@ -10,7 +10,7 @@ const Configuracoes: React.FC = () => {
 
   const statusOptions = [
     { value: '', label: 'Todos' },
-    { value: 'admin', label: 'Admin' },
+    { value: 'ativo', label: 'Ativo' },
     { value: 'inativo', label: 'Inativo' },
   ];
 
