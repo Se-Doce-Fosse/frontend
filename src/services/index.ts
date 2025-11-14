@@ -13,19 +13,30 @@ export const api = async (
     },
   });
 
+  const getContentType = () =>
+    typeof res.headers?.get === 'function'
+      ? (res.headers.get('content-type') ?? '')
+      : '';
+
+  const readText = async () =>
+    typeof res.text === 'function' ? res.text() : '';
+
+  const readJson = async () =>
+    typeof res.json === 'function' ? res.json() : null;
+
   if (!res.ok) {
-    const contentType = res.headers.get('content-type') ?? '';
+    const contentType = getContentType();
     let errorMessage = 'Erro';
 
     if (contentType.includes('application/json')) {
       try {
-        const data = await res.json();
-        errorMessage = data.message ?? errorMessage;
+        const data = (await readJson()) ?? {};
+        errorMessage = (data as { message?: string }).message ?? errorMessage;
       } catch {
-        errorMessage = await res.text();
+        errorMessage = await readText();
       }
     } else {
-      errorMessage = await res.text();
+      errorMessage = await readText();
     }
     throw new Error(errorMessage.trim() || 'Erro inesperado');
   }
@@ -34,13 +45,16 @@ export const api = async (
     return null;
   }
 
-  const contentType = res.headers.get('content-type') ?? '';
-  if (!contentType.includes('application/json')) {
-    return res.text();
+  const contentType = getContentType();
+  const isJsonResponse =
+    contentType.includes('application/json') || contentType.length === 0;
+
+  if (!isJsonResponse) {
+    return readText();
   }
 
   try {
-    return await res.json();
+    return await readJson();
   } catch {
     return null;
   }

@@ -20,6 +20,7 @@ export interface CartContextValue {
   incrementItem: (id: string) => void;
   decrementItem: (id: string) => void;
   removeItem: (id: string) => void;
+  clearCart: () => void;
   quantitiesByProductId: Record<string, number>;
 }
 
@@ -168,6 +169,11 @@ export function CartProvider({ children }: { children: ReactNode }) {
     setItems((prevItems) => prevItems.filter((item) => item.id !== id));
   }, []);
 
+  const clearCart = useCallback(() => {
+    setItems([]);
+    setActiveDrawer(null);
+  }, [setActiveDrawer]);
+
   const quantitiesByProductId = useMemo(
     () =>
       items.reduce<Record<string, number>>((acc, item) => {
@@ -186,6 +192,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
       incrementItem,
       decrementItem,
       removeItem,
+      clearCart,
       quantitiesByProductId,
     }),
     [
@@ -196,6 +203,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
       incrementItem,
       decrementItem,
       removeItem,
+      clearCart,
       quantitiesByProductId,
     ]
   );

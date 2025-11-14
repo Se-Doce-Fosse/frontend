@@ -6,28 +6,62 @@ export interface OrderSummaryCardProps {
   orderCode: string;
   clientName: string;
   items: string[];
-  handleClick?: () => void;
-  isNew: boolean;
+  onMoveStage?: () => void;
+  onDetails?: () => void;
+  isNew?: boolean;
+  status?: string;
 }
 
 const OrderSummaryCard: React.FC<OrderSummaryCardProps> = ({
   orderCode,
   clientName,
   items,
-  handleClick,
+  onMoveStage,
+  onDetails,
   isNew,
+  status,
 }) => {
   return (
     <div className={styles.card}>
-      <div className={styles.header}>
-        <div className={styles.orderCode}>{orderCode}</div>
-        {isNew && (
-          <div className={styles.newStatus}>
-            <div className={styles.statusDot}></div>
-            <div>Novo</div>
-          </div>
-        )}
-      </div>
+      <header className={styles.header}>
+        <span className={styles.orderCode}>{orderCode}</span>
+        <div style={{ display: 'inline-flex', gap: '0.5rem' }}>
+          {isNew && (
+            <div className={styles.newStatus}>
+              <div className={styles.statusDot}></div>
+              <div>Novo</div>
+            </div>
+          )}
+
+          {status === 'em_preparacao' && (
+            <div className={styles.preparingStatus}>
+              <div className={styles.statusDot}></div>
+              <div>Em preparo</div>
+            </div>
+          )}
+
+          {status === 'pronto' && (
+            <div className={styles.readyStatus}>
+              <div className={styles.statusDot}></div>
+              <div>Pronto</div>
+            </div>
+          )}
+
+          {status === 'finalizado' && (
+            <div className={styles.finalizedStatus}>
+              <div className={styles.statusDot}></div>
+              <div>Finalizado</div>
+            </div>
+          )}
+
+          {status === 'cancelado' && (
+            <div className={styles.cancelledStatus}>
+              <div className={styles.statusDot}></div>
+              <div>Cancelado</div>
+            </div>
+          )}
+        </div>
+      </header>
 
       <div className={styles.clientSection}>
         <label className={styles.label}>Cliente</label>
@@ -49,9 +83,9 @@ const OrderSummaryCard: React.FC<OrderSummaryCardProps> = ({
         <Button
           className={styles.moveStageButton}
           label="Mover Estágio"
-          onClick={handleClick}
+          onClick={onMoveStage}
         />
-        <Button label="Detalhes" onClick={handleClick} />
+        <Button label="Detalhes" onClick={onDetails} />
       </div>
     </div>
   );

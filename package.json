@@ -18,6 +18,9 @@
   },
   "dependencies": {
     "@radix-ui/react-dialog": "^1.1.15",
+    "apexcharts": "^5.3.5",
+    "react": "^19.1.0",
+    "react-apexcharts": "^1.8.0",
     "bootstrap": "^5.3.8",
     "react": "^19.1.0",
     "react-bootstrap": "^2.10.10",

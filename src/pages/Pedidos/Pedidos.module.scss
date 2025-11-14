@@ -4,6 +4,259 @@
   h1 {
     color: $marrom-gourmet;
   }
+
+  .headerRow {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-bottom: 1rem;
+  }
+
+  .headerActions {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+  }
+
+  .tabs {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+    margin-bottom: 0.1rem;
+    position: relative;
+  }
+
+  .tab {
+    background: transparent;
+    border: none;
+    padding: 0.45rem 0.9rem;
+    border-radius: 0.375rem;
+    cursor: pointer;
+    color: #3e3e3e;
+    font-weight: 700;
+    box-shadow: none;
+  }
+
+  .active {
+    background: #d6c19a;
+    color: #151515;
+    box-shadow: 0 0.0625rem 0 rgba(0, 0, 0, 0.06) inset;
+  }
+
+  .statusRow {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .statusChips {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+
+  .statusChips button {
+    background: #f2f2f2;
+    border: 0;
+    border-radius: 62.4375rem;
+    padding: 0.35rem 0.75rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: #bdbdbd;
+    font-weight: 600;
+    cursor: pointer;
+    transition:
+      color 120ms ease,
+      background 120ms ease,
+      transform 120ms ease;
+    white-space: nowrap;
+  }
+
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: #f0f0f0;
+    color: #333;
+    border-radius: 62.4375rem;
+    padding: 0.15rem 0.5rem;
+    font-size: 0.9rem;
+    margin-left: 0.25rem;
+    min-width: 2rem;
+    justify-content: center;
+    position: relative;
+  }
+
+  .badge::before {
+    content: '';
+    width: 0.625rem;
+    height: 0.625rem;
+    display: inline-block;
+    border-radius: 50%;
+    box-shadow: 0 0 0 0.25rem rgba(0, 0, 0, 0.03) inset;
+  }
+
+  .statusChips button:nth-child(1) .badge::before {
+    background: #e27b7b;
+  }
+  .statusChips button:nth-child(2) .badge::before {
+    background: #f0d46a;
+  }
+  .statusChips button:nth-child(3) .badge::before {
+    background: #7bd99d;
+  }
+  .statusChips button:nth-child(4) .badge::before {
+    background: #0545e8;
+  }
+  .statusChips button:nth-child(5) .badge::before {
+    background: #e40404;
+  }
+
+  .statusItemMuted,
+  .statusChips button {
+    color: #bdbdbd;
+    background: #f5f5f5;
+  }
+
+  .statusActive,
+  .statusChips button[aria-pressed='true'] {
+    color: #7a2f1f;
+    background: transparent;
+    transform: translateY(-0.0625rem);
+  }
+  .statusChips button {
+    position: relative;
+  }
+
+  .statusChips button[aria-pressed='true']::after {
+    content: '';
+    position: absolute;
+    left: 8%;
+    right: 11%;
+    height: 0.25rem;
+    bottom: -0.3125rem;
+    border-radius: 0.125rem;
+    pointer-events: none;
+  }
+
+  .statusChips button:nth-child(1)[aria-pressed='true']::after {
+    background: #e27b7b;
+  }
+  .statusChips button:nth-child(2)[aria-pressed='true']::after {
+    background: #f0d46a;
+  }
+  .statusChips button:nth-child(3)[aria-pressed='true']::after {
+    background: #7bd99d;
+  }
+  .statusChips button:nth-child(4)[aria-pressed='true']::after {
+    background: #0545e8;
+  }
+  .statusChips button:nth-child(5)[aria-pressed='true']::after {
+    background: #e40404;
+  }
+
+  .tabContent {
+    margin-top: 1rem;
+  }
+
+  .panel {
+    background: #f2f2f2;
+    padding: 1.5rem;
+    border-radius: 0.625rem;
+    box-shadow: 0 0.0625rem 0 rgba(0, 0, 0, 0.02) inset;
+  }
+
+  .filterWrapper {
+    margin-bottom: 2.5rem;
+  }
+
+  .tabs {
+    margin-bottom: 1rem;
+  }
+
+  .cardsGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(17.5rem, 1fr));
+    gap: 3rem;
+    margin-top: 2rem;
+    align-items: start;
+  }
+
+  .feedbackMessage {
+    margin-top: 1rem;
+    padding: 1rem 1.25rem;
+    border-radius: 0.5rem;
+    background: #fffdf7;
+    border: 0.0625rem solid #f0e2c5;
+    color: #7a2f1f;
+    font-weight: 600;
+    line-height: 1.4;
+
+    p {
+      margin: 0 0 0.5rem 0;
+    }
+
+    button {
+      margin-top: 0.25rem;
+    }
+  }
+
+  .emptyPlaceholder {
+    padding: 2rem;
+    background: #fff;
+    border-radius: 0.5rem;
+    border: 0.0625rem dashed #e6e6e6;
+    color: #666;
+  }
+}
+
+@media (max-width: 520px) {
+  .pedidos {
+    .statusChips {
+      display: flex;
+      flex-direction: column;
+      gap: 0.6rem;
+      align-items: stretch;
+    }
+
+    .statusChips button {
+      width: 100%;
+      justify-content: space-between;
+      padding: 0.6rem 0.9rem;
+    }
+
+    .badge {
+      margin-left: 0;
+    }
+
+    .statusChips button .badge {
+      margin-left: auto;
+    }
+  }
+}
+
+@media (max-width: 840px) {
+  .pedidos {
+    .statusChips {
+      gap: 0.8rem;
+    }
+  }
+}
+
+.tabs::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 0.25rem;
+  background: #d6c19a;
+  bottom: 0rem;
+  border-radius: 0.25rem;
+  pointer-events: none;
 }
 
 .filter {

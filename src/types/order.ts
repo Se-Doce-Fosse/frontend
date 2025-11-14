@@ -1,9 +1,25 @@
+export type OrderItemPayload = {
+  produtoSku: string;
+  produtoNome?: string | null;
+  quantidade: number;
+  valorUnitario: number;
+};
+
 export type Order = {
   clientId: string;
   orderDate: string; // ISO date string, ex: "2025-10-30T19:10:07.975Z"
   totalPrice: number;
   orderStatus: 'PREPARANDO' | 'FINALIZADO' | 'CANCELADO' | string; // pode ajustar os status permitidos
-  products: string[];
+  items: OrderItemPayload[];
   cupomId: number | null;
-  outOfStock: string[];
+  couponCode?: string | null;
+  address?: string | null;
+  outOfStock: OrderItemPayload[];
+};
+
+export type ProductOrder = {
+  produtoSku: string;
+  produtoNome?: string | null;
+  quantidade: number;
+  valorUnitario: number;
 };
