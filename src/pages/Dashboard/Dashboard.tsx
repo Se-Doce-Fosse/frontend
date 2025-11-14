@@ -1,10 +1,13 @@
-import React from 'react';
 import AdminLayout from '../../layouts/AdminLayout/AdminLayout';
+import { OrdersDashboardView } from '../../views/OrdersDashboard.view';
 
 const Dashboard: React.FC = () => {
   return (
     <AdminLayout>
-      <h1>Dashboard</h1>
+      <div className="app">
+        <OrdersDashboardView />
+        <div style={{ marginTop: '40px' }}></div>
+      </div>
     </AdminLayout>
   );
 };

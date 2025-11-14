@@ -1,26 +1,43 @@
-import style from '../../Produtos/Produtos.module.scss';
+import React, { useState } from 'react';
+import style from './ProdutosAdmin.module.scss';
 import AdminLayout from '../../../layouts/AdminLayout/AdminLayout';
 import { Filter } from '../../../components/Filter';
 import TableAdminProdutoComponent from '../../../components/TempTablesComp/ProdutoTable/TableAdminComponent/TableAdminProdutoComponent';
 
-const status = [
-  { label: 'Todos os status', value: 'todos' },
-  { label: 'Ativos', value: 'ativos' },
-  { label: 'Inativos', value: 'inativos' },
-];
-
 const ProdutosAdmin: React.FC = () => {
+  const [searchValue, setSearchValue] = useState('');
+  const [filterStatus, setFilterStatus] = useState('');
+
+  const statusOptions = [
+    { value: '', label: 'Todos' },
+    { value: 'Cookies Tradicionais', label: 'Cookies Tradicionais' },
+    { value: 'Cookies Recheados', label: 'Cookies Recheados' },
+    { value: 'Bolos', label: 'Bolos' },
+  ];
+
   return (
     <AdminLayout>
       <div className={style.produtos}>
         <h1>Produtos</h1>
-        <Filter
-          title="Filtro"
-          searchPlaceholder="Busque por produto ou categoria..."
-          selectPlaceholder="Todos os status"
-          selectOptions={status}
+        <div className={style.filter}>
+          <Filter
+            title="Filtros"
+            selectOptions={statusOptions}
+            selectPlaceholder="Categorias"
+            searchPlaceholder="Buscar produto..."
+            searchValue={searchValue}
+            onSearchChange={setSearchValue}
+            selectProps={{
+              value: filterStatus,
+              onChange: (event) => setFilterStatus(event.target.value),
+              options: statusOptions,
+            }}
+          />
+        </div>
+        <TableAdminProdutoComponent
+          filterStatus={filterStatus}
+          searchTerm={searchValue}
         />
-        <TableAdminProdutoComponent />
       </div>
     </AdminLayout>
   );

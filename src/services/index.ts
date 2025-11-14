@@ -5,25 +5,59 @@ export const api = async (
   headers: HeadersInit,
   options?: RequestInit
 ) => {
+  const isFormData = options?.body instanceof FormData;
+
   const res = await fetch(`${URL}${path}`, {
     ...options,
     headers: {
-      'Content-Type': 'application/json',
+      ...(isFormData ? {} : { 'Content-Type': 'application/json' }),
       ...headers,
     },
   });
 
+  const getContentType = () =>
+    typeof res.headers?.get === 'function'
+      ? (res.headers.get('content-type') ?? '')
+      : '';
+
+  const readText = async () =>
+    typeof res.text === 'function' ? res.text() : '';
+
+  const readJson = async () =>
+    typeof res.json === 'function' ? res.json() : null;
+
   if (!res.ok) {
+    const contentType = getContentType();
     let errorMessage = 'Erro';
 
-    try {
-      const data = await res.json();
-      errorMessage = data.message;
-    } catch {
-      errorMessage = await res.text();
+    if (contentType.includes('application/json')) {
+      try {
+        const data = (await readJson()) ?? {};
+        errorMessage = (data as { message?: string }).message ?? errorMessage;
+      } catch {
+        errorMessage = await readText();
+      }
+    } else {
+      errorMessage = await readText();
     }
-    throw new Error(errorMessage);
+    throw new Error(errorMessage.trim() || 'Erro inesperado');
   }
 
-  return res.json();
+  if (res.status === 204) {
+    return null;
+  }
+
+  const contentType = getContentType();
+  const isJsonResponse =
+    contentType.includes('application/json') || contentType.length === 0;
+
+  if (!isJsonResponse) {
+    return readText();
+  }
+
+  try {
+    return await readJson();
+  } catch {
+    return null;
+  }
 };

@@ -20,3 +20,7 @@
 .active {
   color: $status-avaliacao;
 }
+.readOnly {
+  cursor: default;
+  pointer-events: none;
+}

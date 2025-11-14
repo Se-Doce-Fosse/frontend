@@ -105,3 +105,27 @@
   justify-self: center;
   font-size: 1.1rem;
 }
+
+@media (max-width: 1000px) {
+  .modal {
+    padding: 0.5rem 1rem;
+  }
+}
+
+@media (max-width: 700px) {
+  .form {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .fieldGroup {
+    width: 100%;
+  }
+
+  .buttonRow {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    gap: 0.5rem;
+  }
+}

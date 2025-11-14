@@ -8,7 +8,6 @@ export type SuppliesValues = {
   nome: string;
   quantidade: string;
   preco: string;
-  categoria: string;
   unidade: string;
 };
 
@@ -19,7 +18,6 @@ export interface SuppliesModalProps {
   isSubmitting?: boolean;
   values: SuppliesValues;
   onChange: (patch: Partial<SuppliesValues>) => void;
-  categoriaOptions: Option[];
   unidadeOptions: Option[];
   onSubmit: () => void;
 }
@@ -31,7 +29,6 @@ export function SuppliesModal({
   isSubmitting,
   values,
   onChange,
-  categoriaOptions,
   unidadeOptions,
   onSubmit,
 }: SuppliesModalProps) {
@@ -43,9 +40,6 @@ export function SuppliesModal({
 
   const handlePreco: React.ChangeEventHandler<HTMLInputElement> = (e) =>
     onChange({ preco: e.target.value });
-
-  const handleCategoria: React.ChangeEventHandler<HTMLSelectElement> = (e) =>
-    onChange({ categoria: e.target.value });
 
   const handleUnidade: React.ChangeEventHandler<HTMLSelectElement> = (e) =>
     onChange({ unidade: e.target.value });
@@ -86,15 +80,7 @@ export function SuppliesModal({
               />
             </div>
 
-            <div className={styles.fieldCategoria}>
-              <label className={styles.label}>Categoria</label>
-              <Select
-                placeholder="Selecione a categoria"
-                options={categoriaOptions}
-                value={values.categoria}
-                onChange={handleCategoria}
-              />
-            </div>
+            {/* Categoria removida conforme backend */}
 
             <div className={styles.fieldUnidade}>
               <label className={styles.label}>Unidade de Medida</label>

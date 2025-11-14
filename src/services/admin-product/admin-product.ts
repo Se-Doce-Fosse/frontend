@@ -33,16 +33,38 @@ export const getProductBySku = async (sku: string, token: string) => {
   );
 };
 
-export const createProduct = async (product: Product, token: string) => {
-  return api(
-    `${BASE_URL}`,
-    { Authorization: `Bearer ${token}` },
-    {
-      method: 'POST',
-      body: JSON.stringify(product),
-    }
-  );
-};
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export async function createProduct(product: any, token: string) {
+  const formData = new FormData();
+
+  formData.append('sku', product.sku ?? '');
+  formData.append('name', product.name ?? '');
+  formData.append('price', product.price ?? '');
+  formData.append('description', product.description ?? '');
+  formData.append('isActive', String(product.isActive ?? true));
+  formData.append('quantity', String(product.quantity ?? 0));
+  formData.append('categoryId', product.category?.id ?? '');
+
+  if (product.file) {
+    formData.append('imageSrc', product.file);
+  }
+
+  formData.append('productSupply', JSON.stringify(product.productSupply ?? []));
+
+  const res = await fetch(`http://localhost:8081${BASE_URL}`, {
+    method: 'POST',
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+    body: formData,
+  });
+
+  if (!res.ok) {
+    throw new Error(`Erro ao criar produto: ${res.statusText}`);
+  }
+
+  return await res.json();
+}
 
 export const updateProduct = async (
   sku: string,

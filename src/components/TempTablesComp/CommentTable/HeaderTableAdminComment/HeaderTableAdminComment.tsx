@@ -6,6 +6,7 @@ import { Button } from '../../../Button/Button';
 import { RatingStars } from '../../../RatingStars/RatingStars';
 
 export type CommentRow = {
+  id: number;
   pedido: string;
   cliente: string;
   estrela: number;
@@ -15,11 +16,15 @@ export type CommentRow = {
 
 type TableProps = {
   comments: CommentRow[];
-  deleteRow: (idx: number) => void;
-  editRow: (idx: number) => void;
+  onShow: (id: number) => void;
+  onRemove: (id: number) => void;
 };
 
-export const HeaderTableAdminComment: React.FC<TableProps> = ({ comments }) => {
+export const HeaderTableAdminComment: React.FC<TableProps> = ({
+  comments,
+  onShow,
+  onRemove,
+}) => {
   return (
     <div className={styles['table-wrapper']}>
       <table className={styles.table}>
@@ -34,13 +39,15 @@ export const HeaderTableAdminComment: React.FC<TableProps> = ({ comments }) => {
           </tr>
         </thead>
         <tbody>
-          {comments.map((row, idx) => {
+          {comments.map((row) => {
+            const isHidden = row.status === 'recusado';
+
             return (
-              <tr key={idx}>
+              <tr key={row.id}>
                 <td>{row.pedido}</td>
                 <td>{row.cliente}</td>
                 <td>
-                  <RatingStars />
+                  <RatingStars value={row.estrela} readOnly />
                 </td>
                 <td>
                   <StatusBadge status={row.status} />
@@ -49,14 +56,16 @@ export const HeaderTableAdminComment: React.FC<TableProps> = ({ comments }) => {
                 <td>
                   <span className={styles.acptDcln}>
                     <Button
-                      label={'Aceitar'}
+                      label={'Mostrar'}
                       className={styles.acptBtn}
-                      //onClick={() => func()}
+                      disabled={!isHidden}
+                      onClick={() => onShow(row.id)}
                     />
                     <Button
-                      label={'Recusar'}
+                      label={'Remover'}
                       className={styles.dclnBtn}
-                      //onClick={() => func()}
+                      disabled={isHidden}
+                      onClick={() => onRemove(row.id)}
                     />
                   </span>
                 </td>

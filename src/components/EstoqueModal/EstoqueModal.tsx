@@ -1,7 +1,9 @@
+//
 import React from 'react';
 import * as Dialog from '@radix-ui/react-dialog';
 import styles from './EstoqueModal.module.scss';
 import { Button, Input, Select } from '@components';
+import { normalizeDecimalString } from '../../utils/price';
 
 export type Option = { label: string; value: string };
 
@@ -9,7 +11,6 @@ export type EstoqueValues = {
   nome: string;
   quantidade: string;
   preco: string;
-  categoria: string;
   unidadeMedida: string;
 };
 
@@ -24,6 +25,7 @@ export interface EstoqueModalProps {
   unidadeMedidaOptions: Option[];
   onSubmit?: () => void;
   mode?: 'view' | 'edit';
+  errors?: Partial<Record<keyof EstoqueValues, string>>;
 }
 
 export function EstoqueModal({
@@ -33,10 +35,10 @@ export function EstoqueModal({
   isSubmitting,
   values,
   onChange,
-  categoriaOptions,
   unidadeMedidaOptions,
   onSubmit,
   mode = 'edit',
+  errors = {},
 }: EstoqueModalProps) {
   const isViewMode = mode === 'view';
 
@@ -47,10 +49,7 @@ export function EstoqueModal({
     onChange({ quantidade: e.target.value });
 
   const handlePreco: React.ChangeEventHandler<HTMLInputElement> = (e) =>
-    onChange({ preco: e.target.value });
-
-  const handleCategoria: React.ChangeEventHandler<HTMLSelectElement> = (e) =>
-    onChange({ categoria: e.target.value });
+    onChange({ preco: normalizeDecimalString(e.target.value) });
 
   const handleUnidadeMedida: React.ChangeEventHandler<HTMLSelectElement> = (
     e
@@ -76,6 +75,7 @@ export function EstoqueModal({
                 value={values.nome}
                 onChange={handleNome}
                 disabled={isViewMode}
+                error={errors.nome}
               />
             </div>
 
@@ -86,6 +86,7 @@ export function EstoqueModal({
                 value={values.quantidade}
                 onChange={handleQuantidade}
                 disabled={isViewMode}
+                error={errors.quantidade}
               />
             </div>
 
@@ -96,29 +97,32 @@ export function EstoqueModal({
                 value={values.preco}
                 onChange={handlePreco}
                 disabled={isViewMode}
+                error={errors.preco}
               />
             </div>
 
-            <div className={styles.fieldCategoria}>
-              <label className={styles.label}>Categoria</label>
-              <Select
-                placeholder="Selecione a categoria"
-                options={categoriaOptions}
-                value={values.categoria}
-                onChange={handleCategoria}
-                disabled={isViewMode}
-              />
-            </div>
+            {/* Categoria removida conforme backend */}
 
             <div className={styles.fieldUnidadeMedida}>
               <label className={styles.label}>Unidade de Medida</label>
-              <Select
-                placeholder="Selecione a unidade"
-                options={unidadeMedidaOptions}
-                value={values.unidadeMedida}
-                onChange={handleUnidadeMedida}
-                disabled={isViewMode}
-              />
+              <div
+                className={
+                  errors.unidadeMedida ? styles.selectWrapperError : ''
+                }
+              >
+                <Select
+                  placeholder="Selecione a unidade"
+                  options={unidadeMedidaOptions}
+                  value={values.unidadeMedida}
+                  onChange={handleUnidadeMedida}
+                  disabled={isViewMode}
+                />
+              </div>
+              {errors.unidadeMedida && (
+                <span className={styles.errorMessage}>
+                  {errors.unidadeMedida}
+                </span>
+              )}
             </div>
 
             <div className={styles.footer}>

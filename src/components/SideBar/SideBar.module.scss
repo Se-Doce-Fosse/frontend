@@ -157,3 +157,137 @@ $active-text: #e8d1a7;
     border-radius: 1.25rem;
   }
 }
+
+.mobileHeader {
+  display: none;
+}
+
+.hamburger {
+  display: none;
+}
+
+@media (max-width: 1000px) {
+  :root {
+    --admin-mobile-header-h: 56px;
+  }
+
+  .navItem {
+    padding: 1rem 1.6rem;
+  }
+
+  .navFooter {
+    padding: 0.5rem;
+  }
+
+  .mobileHeader {
+    position: sticky;
+    top: 0;
+    z-index: 1001;
+    height: var(--admin-mobile-header-h);
+    padding: 0 12px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: #fff;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+    background-color: $navbar-bg;
+  }
+
+  .mobileLogoWrapper {
+    display: inline-flex;
+    align-items: center;
+    border: 0;
+    background: transparent;
+    padding: 0;
+    cursor: pointer;
+  }
+
+  .mobileLogoImage {
+    height: 28px;
+    width: auto;
+    display: block;
+  }
+
+  .hamburger {
+    display: inline-flex;
+    width: 36px;
+    height: 36px;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    border: 0;
+    background: transparent;
+    cursor: pointer;
+
+    span {
+      display: block;
+      width: 22px;
+      height: 2px;
+      background: currentColor;
+      transition:
+        transform 0.25s ease,
+        opacity 0.2s ease;
+    }
+  }
+
+  .hamburgerOpen span:nth-child(1) {
+    transform: translateY(6px) rotate(45deg);
+  }
+  .hamburgerOpen span:nth-child(2) {
+    opacity: 0;
+  }
+  .hamburgerOpen span:nth-child(3) {
+    transform: translateY(-6px) rotate(-45deg);
+  }
+
+  .mobileMenu {
+    position: fixed;
+    inset: var(--admin-mobile-header-h) 0 0 0;
+    z-index: 1002;
+    transform: translateY(-8px);
+    opacity: 0;
+    pointer-events: none;
+    transition:
+      transform 0.2s ease,
+      opacity 0.2s ease;
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .mobileMenu.isOpen {
+    transform: translateY(0);
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  .backdrop {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.28);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s ease;
+    z-index: 1000;
+  }
+
+  .backdropVisible {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  .navList {
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .navList {
+    flex: 0 0 auto;
+    overflow: visible;
+  }
+
+  .mobileMenu .navHeader,
+  .mobileMenu .navLogo,
+  .mobileMenu .logoImage {
+    display: none !important;
+  }
+}

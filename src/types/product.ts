@@ -1,3 +1,5 @@
+import type { Supply } from './supply';
+
 export type CategoryDTO = {
   id?: number;
   name: string;
@@ -22,4 +24,6 @@ export type Product = {
   category: CategoryDTO;
   allergens: string[];
   relatedProducts: RelatedProductDTO[];
+  supplies?: Supply[];
+  file?: File | null;
 };

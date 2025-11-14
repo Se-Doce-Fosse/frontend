@@ -1,10 +1,15 @@
-import { FaInstagram, FaWhatsapp, FaEnvelope } from 'react-icons/fa';
 import styles from './Footer.module.scss';
 import logoFooter from '../../assets/images/logo-footer.png';
-import type { ReactNode } from 'react';
+import { FaInstagram, FaWhatsapp, FaEnvelope } from 'react-icons/fa';
+import { useState, type ReactNode } from 'react';
+import { useCliente } from '../../context/ClienteContext';
 import { Input } from '../Input';
 import { Textarea } from '../Textarea';
 import { RatingStars } from '../RatingStars';
+import { createComment } from '../../services/comment/commentService';
+
+// Tipo local para erro da API com status opcional
+type ApiError = Error & { status?: number };
 
 export interface CommentData {
   comment: string;
@@ -53,17 +58,96 @@ export const Footer = ({
   className = '',
   onSendComment,
 }: FooterProps) => {
-  const handleSubmit: React.FormEventHandler<HTMLFormElement> = (e) => {
+  const [rating, setRating] = useState(0);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [feedback, setFeedback] = useState<{
+    type: 'success' | 'error';
+    message: string;
+  } | null>(null);
+  const [fieldErrors, setFieldErrors] = useState<{
+    comment?: string;
+    name?: string;
+    phone?: string;
+    rating?: string;
+  }>({});
+
+  const { cliente } = useCliente();
+
+  const handleSubmit: React.FormEventHandler<HTMLFormElement> = async (e) => {
     e.preventDefault();
-    if (!onSendComment) return;
+
     const form = e.currentTarget;
     const formData = new FormData(form);
-    onSendComment({
-      comment: String(formData.get('comment') || ''),
-      name: String(formData.get('name') || ''),
-      phone: String(formData.get('phone') || ''),
-    });
-    form.reset();
+    const comment = String(formData.get('comment') || '').trim();
+    const name = String(formData.get('name') || '').trim();
+    const phone = String(formData.get('phone') || '');
+    // Pegamos o id direto do contexto do cliente (simplificado)
+    const clienteId = cliente?.id;
+    const errors: typeof fieldErrors = {};
+    setFeedback(null);
+    setFieldErrors({});
+
+    if (!comment) {
+      errors.comment = 'Escreva seu comentário.';
+    }
+    if (!name) {
+      errors.name = 'Informe seu nome.';
+    }
+    if (!rating || rating <= 0) {
+      errors.rating = 'Por favor, avalie com pelo menos 1 estrela.';
+    }
+    if (!clienteId) {
+      errors.phone = 'Você precisa estar logado para enviar um comentário.';
+    }
+
+    if (Object.keys(errors).length > 0) {
+      setFieldErrors(errors);
+      return;
+    }
+
+    try {
+      setIsSubmitting(true);
+      await createComment({
+        clienteId: clienteId as string,
+        descricao: comment,
+        nomeExibicao: name,
+        nota: rating,
+        pedidoId: null,
+      });
+
+      onSendComment?.({
+        comment,
+        name,
+        phone,
+      });
+
+      form.reset();
+      setFieldErrors({});
+      setRating(0);
+      setFeedback({
+        type: 'success',
+        message: 'Comentário enviado com sucesso!',
+      });
+    } catch (error) {
+      console.error(error);
+      const apiError = error as ApiError;
+      let message =
+        apiError instanceof Error
+          ? apiError.message
+          : 'Não foi possível enviar seu comentário.';
+
+      if (apiError?.status === 403) {
+        message =
+          'Você precisa ter pelo menos um pedido para enviar um comentário.';
+      }
+
+      setFeedback({
+        type: 'error',
+        message,
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -117,7 +201,11 @@ export const Footer = ({
         >
           <h3 className={styles.commentTitle}>{commentTitle}</h3>
 
-          <div className={styles.textareaGroup}>
+          <div
+            className={`${styles.textareaGroup} ${
+              fieldErrors.comment ? styles.inputError : ''
+            }`}
+          >
             <Textarea
               hasBorder
               aria-label="comentário"
@@ -125,18 +213,32 @@ export const Footer = ({
               placeholder="Escreva aqui..."
               rows={4}
             />
+            {fieldErrors.comment && (
+              <span className={styles.fieldError}>{fieldErrors.comment}</span>
+            )}
           </div>
 
-          <div className={styles.nameLabel}>
+          <div
+            className={`${styles.nameLabel} ${
+              fieldErrors.name ? styles.inputError : ''
+            }`}
+          >
             <Input
               hasBorder
               name="name"
               placeholder="Nome*"
               aria-label="Nome"
             />
+            {fieldErrors.name && (
+              <span className={styles.fieldError}>{fieldErrors.name}</span>
+            )}
           </div>
 
-          <div className={styles.phoneLabel}>
+          <div
+            className={`${styles.phoneLabel} ${
+              fieldErrors.phone ? styles.inputError : ''
+            }`}
+          >
             <Input
               hasBorder
               name="phone"
@@ -144,15 +246,37 @@ export const Footer = ({
               placeholder="Telefone*"
               aria-label="Telefone"
             />
+            {fieldErrors.phone && (
+              <span className={styles.fieldError}>{fieldErrors.phone}</span>
+            )}
           </div>
 
           <div className={styles.avaliation}>
-            <RatingStars />
+            <RatingStars value={rating} onChange={setRating} />
           </div>
+          {fieldErrors.rating && (
+            <span className={styles.fieldError}>{fieldErrors.rating}</span>
+          )}
 
           <div className={styles.buttonContainer}>
-            <button type="submit">Enviar</button>
+            <button type="submit" disabled={isSubmitting}>
+              {isSubmitting ? 'Enviando...' : 'Enviar'}
+            </button>
           </div>
+
+          {feedback && (
+            <p
+              role="status"
+              aria-live="polite"
+              className={
+                feedback.type === 'success'
+                  ? styles.successMessage
+                  : styles.errorMessage
+              }
+            >
+              {feedback.message}
+            </p>
+          )}
         </form>
       </div>
     </footer>

@@ -7,6 +7,7 @@
 
 .header {
   display: flex;
+  overflow: hidden;
   align-items: center;
   justify-content: space-between;
   margin-bottom: 1rem;
@@ -19,8 +20,34 @@
 
 .TableAdminCupomComponent {
   display: flex;
+  overflow: auto;
   flex-direction: column;
   padding: 1.25rem;
   background-color: $cinza-claro;
   border-radius: 0.625rem;
+}
+
+.errorState {
+  color: $status-inactive;
+  font-weight: $semi-bold;
+  text-align: center;
+  padding: $space-md 0;
+}
+
+@media (max-width: 1000px) {
+  .header {
+    display: flex;
+    width: 100%;
+
+    &Title {
+      font-size: 1.5rem;
+    }
+  }
+}
+
+@media (max-width: 400px) {
+  .header {
+    display: flex;
+    flex-direction: column;
+  }
 }

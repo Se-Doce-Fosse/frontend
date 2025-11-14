@@ -16,7 +16,10 @@
   background: $branco;
   border-radius: 10px;
   box-shadow: 0 12px 30px rgba(0, 0, 0, 0.2);
-  width: auto;
+
+  width: min(960px, 95vw);
+  max-width: 95vw;
+
   padding: 1.5rem;
   display: flex;
   flex-direction: column;
@@ -41,6 +44,7 @@
     'url   url'
     'categoria status'
     'descricao descricao'
+    'supplies supplies'
     'footer footer';
 }
 
@@ -83,6 +87,7 @@
   display: flex;
   justify-content: space-around;
   gap: 0.75rem;
+  margin-top: 1rem;
 }
 
 .imageDrop {
@@ -167,9 +172,29 @@
   word-wrap: break-word;
 }
 
-@media (max-width: 640px) {
+.cellSupplies {
+  grid-area: supplies;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin-top: 0.25rem;
+}
+
+@media (max-width: 1000px) {
+  .grid {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .content {
+    padding: 0.5rem;
+  }
+
   .imageDrop {
-    width: 220px;
-    height: 220px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
   }
 }

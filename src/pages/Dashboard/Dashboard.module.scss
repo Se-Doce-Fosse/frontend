@@ -1,8 +1,36 @@
-.dashboard {
-  padding: 2rem;
+@use '../../styles/variables.scss' as *;
 
-  h1 {
-    color: #333;
-    margin-bottom: 1rem;
+.dashboard {
+  display: flex;
+  flex-direction: column;
+  gap: $space-md;
+}
+
+.head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10rem;
+}
+
+.filtro {
+  display: flex;
+  align-items: center;
+  gap: $space-xs;
+  width: 100%;
+}
+
+.cards {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+}
+
+@media (max-width: 1000px) {
+  .cards {
+    display: flex;
+    flex-direction: column;
+    gap: $space-md;
+    width: 100%;
   }
 }

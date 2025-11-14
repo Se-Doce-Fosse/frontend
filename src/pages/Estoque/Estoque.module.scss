@@ -1,8 +1,19 @@
-.estoque {
-  padding: 2rem;
+@use '../../styles/variables.scss' as *;
 
+.estoque {
   h1 {
-    color: #333;
-    margin-bottom: 1rem;
+    color: $marrom-gourmet;
+  }
+}
+
+.filter {
+  padding-top: 2rem;
+  padding-bottom: 2rem;
+}
+
+@media (max-width: 1000px) {
+  .filter {
+    padding-top: 1rem;
+    padding-bottom: 1rem;
   }
 }
