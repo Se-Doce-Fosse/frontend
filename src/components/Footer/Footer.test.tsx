@@ -3,6 +3,17 @@ import { Footer } from './Footer';
 import type { FooterProps } from './Footer';
 import { createComment } from '../../services/comment/commentService';
 
+// Mock the ClienteContext to provide a cliente id for tests
+jest.mock('../../context/ClienteContext', () => ({
+  useCliente: () => ({
+    cliente: { id: '934567890', nome: 'Teste', telefone: '934567890' },
+    saveCliente: jest.fn(),
+    logoutCliente: jest.fn(),
+    isAuthenticated: true,
+    loading: false,
+  }),
+}));
+
 // Mocka o módulo de estilos
 jest.mock('./Footer.module.scss', () => ({
   footer: 'footer-class',
@@ -84,16 +95,20 @@ describe('Footer Component', () => {
     fireEvent.change(nameInput, { target: { value: 'Ana Silva' } });
     fireEvent.change(phoneInput, { target: { value: '(51) 93456-7890' } });
 
+    // set a rating > 0 so validation passes
+    const stars = screen.getAllByTestId('star');
+    fireEvent.click(stars[0]);
+
     fireEvent.click(submitButton);
 
     await waitFor(() => {
       expect(mockedCreateComment).toHaveBeenCalledTimes(1);
     });
     expect(mockedCreateComment).toHaveBeenCalledWith({
-      clienteId: 934567890,
+      clienteId: '934567890',
       descricao: 'Ótimo serviço!',
       nomeExibicao: 'Ana Silva',
-      nota: 0,
+      nota: 1,
       pedidoId: null,
     });
 
@@ -118,6 +133,10 @@ describe('Footer Component', () => {
     fireEvent.change(nameInput, { target: { value: 'Test Name' } });
     fireEvent.change(phoneInput, { target: { value: '123456789' } });
 
+    // set a rating so submission is allowed
+    const stars = screen.getAllByTestId('star');
+    fireEvent.click(stars[0]);
+
     fireEvent.submit(form);
 
     await waitFor(() => {
@@ -135,7 +154,10 @@ describe('Footer Component', () => {
 
     expect(screen.getByText('Escreva seu comentário.')).toBeInTheDocument();
     expect(screen.getByText('Informe seu nome.')).toBeInTheDocument();
-    expect(screen.getByText('Informe um telefone.')).toBeInTheDocument();
+    // since we mock a logged-in cliente, validation fails on rating > 0
+    expect(
+      screen.getByText('Por favor, avalie com pelo menos 1 estrela.')
+    ).toBeInTheDocument();
     expect(mockedCreateComment).not.toHaveBeenCalled();
   });
 
@@ -151,6 +173,9 @@ describe('Footer Component', () => {
     fireEvent.change(commentInput, { target: { value: 'Comentário' } });
     fireEvent.change(nameInput, { target: { value: 'João' } });
     fireEvent.change(phoneInput, { target: { value: '987654321' } });
+
+    const stars = screen.getAllByTestId('star');
+    fireEvent.click(stars[0]);
 
     fireEvent.click(submitButton);
 
@@ -179,6 +204,8 @@ describe('Footer Component', () => {
     fireEvent.change(commentInput, { target: { value: 'Teste' } });
     fireEvent.change(nameInput, { target: { value: 'Fulano' } });
     fireEvent.change(phoneInput, { target: { value: '5194035757' } });
+    const stars = screen.getAllByTestId('star');
+    fireEvent.click(stars[0]);
 
     fireEvent.click(submitButton);
 
