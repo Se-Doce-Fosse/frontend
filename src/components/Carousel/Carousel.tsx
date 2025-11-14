@@ -1,66 +1,123 @@
-import React, { useState } from 'react';
-import { Button } from '../Button';
+import React, { useState, useEffect } from 'react';
+import { CommentCard } from '../../components';
 import styles from './Carousel.module.scss';
-import { FaAngleLeft, FaAngleRight } from 'react-icons/fa';
+import type { Comment } from '../../data/comments.mock';
+import Slider from 'react-slick';
+import 'slick-carousel/slick/slick.css';
+import 'slick-carousel/slick/slick-theme.css';
+import { fetchComments } from '../../services/comment/commentService';
 
 export type CarouselProps = {
-  items: React.ReactNode[];
-  visibleCount?: number; // número de itens visíveis ao mesmo tempo
+  items?: React.ReactNode[];
+  visibleCount?: number;
 };
 
-export const Carousel: React.FC<CarouselProps> = ({
-  items,
-  visibleCount = 3,
-}) => {
-  const [currentIndex, setCurrentIndex] = useState(0);
+export const CarouselComponent: React.FC<CarouselProps> = () => {
+  const [comments, setComments] = useState<Comment[]>([]);
+  const [loadingComments, setLoadingComments] = useState(true);
+  const [commentsError, setCommentsError] = useState<string | null>(null);
 
-  const prev = () => {
-    setCurrentIndex((i) => Math.max(i - 1, 0));
-  };
+  useEffect(() => {
+    let isSubscribed = true;
 
-  const next = () => {
-    setCurrentIndex((i) => Math.min(i + 1, items.length - visibleCount));
-  };
+    fetchComments()
+      .then((data) => {
+        if (!isSubscribed) {
+          return;
+        }
+        setComments(data);
+        setLoadingComments(false);
+      })
+      .catch(() => {
+        if (!isSubscribed) {
+          return;
+        }
 
-  // Pegando os itens visíveis
-  const visibleItems = items.slice(currentIndex, currentIndex + visibleCount);
+        setCommentsError('Erro ao carregar comentários');
+        setLoadingComments(false);
+      });
 
-  return (
-    <div className={styles.head}>
-      <h1 className={styles.tittle}>Comentários</h1>
-      <div className={styles.body}>
-        <div className={styles.carouselContainer}>
-          <Button
-            onClick={prev}
-            label=""
-            icon={() => (
-              <span>
-                <FaAngleLeft />
-              </span>
-            )}
-            className={styles.arrow}
-          />
+    return () => {
+      isSubscribed = false;
+    };
+  }, []);
 
-          <div className={styles.slides}>
-            {visibleItems.map((item, idx) => (
-              <div key={idx} className={styles.slide}>
-                {item}
+  const renderCommentsCarousel = () => {
+    if (loadingComments) {
+      return (
+        <div className={styles.commentsSection}>
+          <h2 className={styles.commentsTitle}>Comentários</h2>
+          <div className={styles.loadingContainer}>
+            <div>Carregando comentários...</div>
+          </div>
+        </div>
+      );
+    }
+
+    if (commentsError) {
+      return (
+        <div className={styles.commentsSection}>
+          <h2 className={styles.commentsTitle}>Comentários</h2>
+          <div className={styles.errorContainer}>
+            <div>{commentsError}</div>
+          </div>
+        </div>
+      );
+    }
+
+    if (comments.length === 0) {
+      return (
+        <div className={styles.commentsSection}>
+          <h2 className={styles.commentsTitle}>Comentários</h2>
+          <div className={styles.noCommentsContainer}>
+            <div>Nenhum comentário disponível no momento.</div>
+          </div>
+        </div>
+      );
+    }
+
+    const settings = {
+      dots: true,
+      infinite: true,
+      speed: 500,
+      autoplay: true,
+      autoplaySpeed: 4000,
+      pauseOnHover: true,
+      slidesToShow: 3,
+      slidesToScroll: 1,
+      responsive: [
+        {
+          breakpoint: 768,
+          settings: {
+            slidesToShow: 1,
+            slidesToScroll: 1,
+            centerMode: true,
+            centerPadding: '0px',
+            variableWidth: false,
+          },
+        },
+      ],
+    };
+
+    return (
+      <div className={styles.commentsSection}>
+        <h2 className={styles.commentsTitle}>Comentários</h2>
+        <div className={styles.sliderContainer}>
+          <Slider {...settings}>
+            {comments.map((comment) => (
+              <div key={comment.id} className={styles.slideItem}>
+                <CommentCard
+                  name={comment.name}
+                  description={comment.description}
+                  rating={comment.rating}
+                />
               </div>
             ))}
-          </div>
-
-          <Button
-            onClick={next}
-            label=""
-            icon={() => (
-              <span>
-                <FaAngleRight />
-              </span>
-            )}
-            className={styles.arrow}
-          />
+          </Slider>
         </div>
       </div>
-    </div>
-  );
+    );
+  };
+
+  return <>{renderCommentsCarousel()}</>;
 };

@@ -1,78 +1,154 @@
 @use '../../styles/variables.scss' as *;
-@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
 
-.head {
-  width: 100%;
-  background-color: $branco;
-
-  display: flex;
-  flex-direction: column; // título em cima, conteúdo abaixo
-  align-items: center; // centraliza horizontalmente o conteúdo
+.commentsSection {
+  padding: 2rem 1rem;
+  background-color: #f8f9fa;
 }
 
-.tittle {
-  align-self: flex-start;
-  margin-left: 6rem;
-  color: $cacau-intenso;
-  font-family: 'Roboto', sans-serif;
+.commentsTitle {
+  text-align: left;
+  font-size: 2rem;
+  font-weight: $bold;
   margin-bottom: 1rem;
-  font-size: 2rem;
-  font-weight: bold;
+  color: $cacau-intenso;
+  max-width: 1200px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 1rem;
 }
 
-.body {
-  display: flex;
-  flex-direction: row; // deixa o conteúdo em linha (botão, cards, botão)
-  align-items: center;
-  width: 100%;
-  // alinha verticalmente ao centro
-}
+.sliderContainer {
+  max-width: 1200px;
+  margin: 0 auto;
+  position: relative;
 
-.carouselContainer {
-  display: flex;
-  align-items: center; // centraliza verticalmente
-  gap: 1rem;
-  width: 100%;
-}
+  @media (max-width: 767px) {
+    overflow: hidden;
+    padding: 0 1rem;
 
-.arrow {
-  cursor: pointer;
-  background: $cacau-intenso;
-  border-radius: 100%;
-  margin-left: 1rem;
-  min-width: 2rem;
-  min-height: 2rem;
-  margin-right: 1rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 2rem;
-  padding: 1rem;
-  gap: 0 !important;
+    :global(.slick-track) {
+      display: flex;
+      align-items: center;
+    }
 
-  span {
-    gap: 0 !important;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-    height: 100%;
+    :global(.slick-slide) {
+      display: flex !important;
+      justify-content: center;
+      align-items: center;
 
-    svg {
-      // margin-left: 0.5rem;
+      > div {
+        padding: 0;
+        margin: 0;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+      }
+    }
+
+    :global(.slick-center) {
+      opacity: 1;
+      transform: scale(1);
+    }
+
+    :global(.slick-slide:not(.slick-center)) {
+      opacity: 0;
+      transform: scale(0);
+      pointer-events: none;
+    }
+  }
+
+  :global(.slick-arrow) {
+    width: 50px;
+    height: 50px;
+    z-index: 1;
+
+    &:before {
+      font-size: 25px;
+      color: $cacau-intenso;
+      opacity: 0.8;
+    }
+
+    &:hover:before {
+      color: $verde-pistache;
+      opacity: 1;
+    }
+  }
+
+  :global(.slick-prev) {
+    left: -60px;
+
+    @media (max-width: 767px) {
+      left: -25px;
+    }
+  }
+
+  :global(.slick-next) {
+    right: -60px;
+
+    @media (max-width: 767px) {
+      right: -25px;
+    }
+  }
+
+  :global(.slick-dots) {
+    bottom: -50px;
+
+    li button:before {
+      font-size: 12px;
+      color: $cacau-intenso;
+      opacity: 0.5;
+    }
+
+    li.slick-active button:before {
+      color: $verde-pistache;
+      opacity: 1;
     }
   }
 }
 
-.slides {
-  display: flex;
-  overflow: hidden;
-  flex-grow: 0; // evitar crescer além do que é definido
-  gap: 1rem;
-  width: 100%; // largura exata para 3 cards + 2 gaps
-  min-width: 0;
+.slideItem {
+  padding: 0 10px;
+  outline: none;
+
+  @media (max-width: 767px) {
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+  }
 }
 
-.slide {
-  flex: 0 0 200px; // largura fixa dos cards
+.loadingContainer,
+.errorContainer,
+.noCommentsContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 200px;
+  font-size: 1.2rem;
+  color: $preto;
+}
+
+.errorContainer {
+  color: #dc3545;
+}
+
+.loadingContainer {
+  color: $cacau-intenso;
+}
+
+@media (min-width: 64rem) {
+  .commentsSection {
+    padding: 3rem 5rem;
+    margin-bottom: 3rem;
+  }
+
+  .commentsTitle {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+    max-width: 1200px;
+    margin-left: auto;
+    margin-right: auto;
+  }
 }

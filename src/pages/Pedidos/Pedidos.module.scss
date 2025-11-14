@@ -1,9 +1,11 @@
+@use '../../styles/variables.scss' as *;
+
 .pedidos {
   padding: 2rem;
   position: relative;
 
   h1 {
-    color: #333;
+    color: $marrom-gourmet;
     margin-bottom: 1rem;
   }
 
@@ -259,4 +261,9 @@
   bottom: 0rem;
   border-radius: 0.25rem;
   pointer-events: none;
+}
+
+.filter {
+  padding-top: 2rem;
+  padding-bottom: 2rem;
 }

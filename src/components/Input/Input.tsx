@@ -13,10 +13,19 @@ export const Input = ({
   hasBorder = false,
   id,
   error,
+  className = '',
   ...props
 }: InputProps) => {
   const generatedId = useId();
   const inputId = id ?? generatedId;
+  const inputClassNames = [
+    styles.inputField,
+    hasBorder ? styles.inputBorder : '',
+    error ? styles.inputError : '',
+    className,
+  ]
+    .filter(Boolean)
+    .join(' ');
 
   return (
     <div className={styles.input}>
@@ -31,7 +40,7 @@ export const Input = ({
       )}
       <input
         id={inputId}
-        className={`${styles.inputField} ${hasBorder ? styles.inputBorder : ''} ${error ? styles.inputError : ''}`}
+        className={inputClassNames}
         aria-invalid={!!error}
         {...props}
       />
