@@ -5,6 +5,7 @@ export type StatusEnum =
   | 'pendente'
   | 'aprovado'
   | 'rejeitado'
+  | 'recusado'
   | 'entregue'
   | 'pronto'
   | 'preparando'

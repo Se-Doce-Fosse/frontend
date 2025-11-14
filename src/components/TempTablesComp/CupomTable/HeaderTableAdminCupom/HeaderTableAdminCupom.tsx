@@ -5,11 +5,16 @@ import { StatusBadge } from '../../../StatusBadge/StatusBadge';
 import type { StatusEnum } from 'src/types/status';
 
 export type CupomRow = {
+  id: number;
   cupom: string;
   desconto: string;
   validade: Date;
   status: StatusEnum;
   unico: string;
+  valorDesc: number;
+  validadeISO: string;
+  ativo: boolean;
+  unicoBool: boolean;
 };
 
 type TableProps = {
@@ -39,7 +44,7 @@ export const HeaderTableAdminCupom: React.FC<TableProps> = ({
         <tbody>
           {cupons.map((row, idx) => {
             return (
-              <tr key={idx}>
+              <tr key={Number.isFinite(row.id) ? row.id : idx}>
                 <td>{row.cupom}</td>
                 <td>{row.desconto}</td>
                 <td>{row.validade.toLocaleDateString()}</td>

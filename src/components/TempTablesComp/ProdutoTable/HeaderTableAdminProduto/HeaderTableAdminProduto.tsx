@@ -17,12 +17,14 @@ type TableProps = {
   produtos: Product[];
   deleteRow: (idx: number) => void;
   editRow: (idx: number) => void;
+  viewRow: (idx: number) => void;
 };
 
 export const HeaderTableAdminProduto: React.FC<TableProps> = ({
   produtos,
   deleteRow,
   editRow,
+  viewRow,
 }) => {
   return (
     <div className={styles['table-wrapper']}>
@@ -41,7 +43,18 @@ export const HeaderTableAdminProduto: React.FC<TableProps> = ({
           {produtos.map((row, idx) => {
             const category = row.category;
             return (
-              <tr key={idx}>
+              <tr
+                key={idx}
+                onClick={(e) => {
+                  const target = e.target as HTMLElement;
+                  if (
+                    target.closest('svg') ||
+                    target.closest(`.${styles.actions}`)
+                  )
+                    return;
+                  viewRow(idx);
+                }}
+              >
                 <td>{row.name}</td>
                 <td>{category?.name}</td>
                 <td>{formatToBR(row.price)}</td>
