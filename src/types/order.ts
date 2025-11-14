@@ -1,5 +1,6 @@
 export type OrderItemPayload = {
   produtoSku: string;
+  produtoNome?: string | null;
   quantidade: number;
   valorUnitario: number;
 };
@@ -14,4 +15,11 @@ export type Order = {
   couponCode?: string | null;
   address?: string | null;
   outOfStock: OrderItemPayload[];
+};
+
+export type ProductOrder = {
+  produtoSku: string;
+  produtoNome?: string | null;
+  quantidade: number;
+  valorUnitario: number;
 };

@@ -144,8 +144,16 @@ describe('Pedidos page', () => {
     jest.clearAllMocks();
     fetchMock = jest.fn((input: RequestInfo | URL) => {
       const url = typeof input === 'string' ? input : input.toString();
-      const match = url.match(/admin\/order\/([^/]+)$/);
-      const statusKey = match ? match[1] : '';
+
+      if (/admin\/order\/\d+\/status$/i.test(url)) {
+        return Promise.resolve({
+          ok: true,
+          json: async () => ({}),
+        } as Response);
+      }
+
+      const match = url.match(/admin\/order\/([^/]+)$/i);
+      const statusKey = match ? match[1].toUpperCase() : '';
       const payload = mockOrdersByStatus[statusKey] ?? [];
       return Promise.resolve({
         ok: true,
@@ -214,20 +222,38 @@ describe('Pedidos page', () => {
 
     // avançar 3 vezes: novo -> em_preparacao -> pronto -> finalizado
     fireEvent.click(moveBtn);
-    fireEvent.click(moveBtn);
-    fireEvent.click(moveBtn);
+    await waitFor(() =>
+      expect(withinCard.getByText(/em preparo/i)).toBeInTheDocument()
+    );
 
-    // agora Novo deve desaparecer e Finalizado deve aparecer
-    expect(withinCard.queryByText(/novo/i)).not.toBeInTheDocument();
-    expect(withinCard.getByText(/finalizado/i)).toBeInTheDocument();
+    fireEvent.click(moveBtn);
+    await waitFor(() =>
+      expect(withinCard.getByText(/pronto/i)).toBeInTheDocument()
+    );
+
+    fireEvent.click(moveBtn);
+    await waitFor(() => {
+      expect(withinCard.queryByText(/novo/i)).not.toBeInTheDocument();
+      expect(withinCard.getByText(/finalizado/i)).toBeInTheDocument();
+    });
 
     // clicar mais uma vez para ir a cancelado
     fireEvent.click(moveBtn);
-    expect(withinCard.getByText(/cancelado/i)).toBeInTheDocument();
+    await waitFor(() =>
+      expect(withinCard.getByText(/cancelado/i)).toBeInTheDocument()
+    );
 
     // clicar mais uma vez para retornar a novo
     fireEvent.click(moveBtn);
-    expect(withinCard.getByText(/novo/i)).toBeInTheDocument();
+    await waitFor(() =>
+      expect(withinCard.getByText(/novo/i)).toBeInTheDocument()
+    );
+
+    const patchCalls = fetchMock.mock.calls.filter(([url]) => {
+      const parsed = typeof url === 'string' ? url : url.toString();
+      return parsed.includes('/status');
+    });
+    expect(patchCalls.length).toBeGreaterThanOrEqual(5);
   });
 
   it('abre modal de detalhes com informações do pedido selecionado', async () => {

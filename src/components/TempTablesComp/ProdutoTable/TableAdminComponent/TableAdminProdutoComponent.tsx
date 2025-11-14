@@ -65,8 +65,9 @@ function TabelAdminProdutoComponent({
     if (!user?.token) return;
     setLoading(true);
     try {
-      const data = await getAllProducts(user.token);
-      setProducts(data);
+      const datas = await getAllProducts(user.token);
+      setProducts(datas);
+      console.log(datas);
     } catch (error) {
       console.error('Error fetching products:', error);
     } finally {

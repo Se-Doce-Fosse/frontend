@@ -7,6 +7,7 @@ import OrderSummaryCard from '../../components/OrderSummaryCard/OrderSummaryCard
 import { Button } from '../../components/Button';
 import {
   fetchAdminOrdersByStatus,
+  updateAdminOrderStatus,
   type AdminOrderItemResponse,
   type AdminOrderStatus,
 } from '../../services/admin-order/admin-order';
@@ -38,6 +39,7 @@ type FrontOrderStatus =
 type OrderFilter = 'todos' | FrontOrderStatus;
 
 type Order = {
+  orderId: number;
   orderCode: string;
   clientName: string;
   address?: string | null;
@@ -59,6 +61,14 @@ const backendToFrontStatus: Record<AdminOrderStatus, FrontOrderStatus> = {
   CANCELADO: 'cancelado',
 };
 
+const frontToBackendStatus: Record<FrontOrderStatus, AdminOrderStatus> = {
+  novo: 'ACEITO',
+  em_preparacao: 'PREPARANDO',
+  pronto: 'ROTA',
+  finalizado: 'ENTREGUE',
+  cancelado: 'CANCELADO',
+};
+
 const backendStatuses = Object.keys(backendToFrontStatus) as AdminOrderStatus[];
 
 const frontStatusLabels: Record<FrontOrderStatus, string> = {
@@ -74,6 +84,24 @@ const tabs = [
   //{ id: 'encomendas', label: 'Encomendas' },
   //{ id: 'concluidos', label: 'Concluídos' },
 ];
+
+const statusTransitionSequence: FrontOrderStatus[] = [
+  'novo',
+  'em_preparacao',
+  'pronto',
+  'finalizado',
+  'cancelado',
+];
+
+const getNextFrontStatus = (status: FrontOrderStatus): FrontOrderStatus => {
+  const currentIndex = statusTransitionSequence.indexOf(status);
+  if (currentIndex === -1) {
+    return status;
+  }
+  return statusTransitionSequence[
+    (currentIndex + 1) % statusTransitionSequence.length
+  ];
+};
 
 const formatOrderCode = (orderId?: number | null) => {
   if (typeof orderId !== 'number') {
@@ -119,6 +147,7 @@ const Pedidos: React.FC = () => {
           const mappedStatus = backendToFrontStatus[status];
           const statusLabel = frontStatusLabels[mappedStatus];
           return apiOrders.map((order) => ({
+            orderId: order.orderId,
             orderCode: formatOrderCode(order.orderId),
             clientName:
               order.clientName || order.clientId || 'Cliente não identificado',
@@ -157,6 +186,43 @@ const Pedidos: React.FC = () => {
       );
     }
   }, [user?.token, userLoading, loadOrders]);
+
+  const handleMoveStage = useCallback(
+    async (order: Order) => {
+      if (!user?.token) {
+        setErrorMessage(
+          'Sessão expirada. Faça login novamente para continuar.'
+        );
+        return;
+      }
+
+      const nextFrontStatus = getNextFrontStatus(order.status);
+      const backendStatus = frontToBackendStatus[nextFrontStatus];
+
+      try {
+        await updateAdminOrderStatus(order.orderId, backendStatus, user.token);
+        setOrders((prev) =>
+          prev.map((p) =>
+            p.orderId === order.orderId
+              ? {
+                  ...p,
+                  status: nextFrontStatus,
+                  statusLabel: frontStatusLabels[nextFrontStatus],
+                  isNew: nextFrontStatus === 'novo',
+                }
+              : p
+          )
+        );
+      } catch (error) {
+        const message =
+          error instanceof Error
+            ? error.message
+            : 'Não foi possível atualizar o status do pedido.';
+        setErrorMessage(message);
+      }
+    },
+    [user?.token, setOrders, setErrorMessage]
+  );
 
   const statusCounts = orders.reduce<Record<FrontOrderStatus, number>>(
     (acc, order) => {
@@ -326,35 +392,14 @@ const Pedidos: React.FC = () => {
                 <div className={style.cardsGrid}>
                   {visibleOrders.map((o) => (
                     <OrderSummaryCard
-                      key={`${o.orderCode}-${o.clientName}`}
+                      key={o.orderId}
                       orderCode={o.orderCode}
                       clientName={o.clientName}
                       items={o.items}
                       isNew={o.isNew}
                       status={o.status}
                       onMoveStage={() => {
-                        setOrders((prev) =>
-                          prev.map((p) => {
-                            if (p.orderCode !== o.orderCode) return p;
-                            const nextStatus =
-                              p.status === 'novo'
-                                ? 'em_preparacao'
-                                : p.status === 'em_preparacao'
-                                  ? 'pronto'
-                                  : p.status === 'pronto'
-                                    ? 'finalizado'
-                                    : p.status === 'finalizado'
-                                      ? 'cancelado'
-                                      : p.status === 'cancelado'
-                                        ? 'novo'
-                                        : p.status;
-                            return {
-                              ...p,
-                              status: nextStatus,
-                              isNew: nextStatus === 'novo',
-                            };
-                          })
-                        );
+                        void handleMoveStage(o);
                       }}
                       onDetails={() => setSelectedOrder(o)}
                     />

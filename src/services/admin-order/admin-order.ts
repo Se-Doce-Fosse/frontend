@@ -37,3 +37,21 @@ export async function fetchAdminOrdersByStatus(
     { method: 'GET' }
   );
 }
+
+export async function updateAdminOrderStatus(
+  orderId: number,
+  status: AdminOrderStatus,
+  token: string
+): Promise<AdminOrderResponse> {
+  return api(
+    `/admin/order/${orderId}/status`,
+    {
+      Authorization: `Bearer ${token}`,
+      'Content-Type': 'application/json',
+    },
+    {
+      method: 'PATCH',
+      body: JSON.stringify({ status }),
+    }
+  );
+}
