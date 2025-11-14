@@ -15,7 +15,7 @@ import {
 } from '../../views/view-controllers/OrdersDashboard.view.controller';
 
 interface DashboardSummaryProps {
-  orders: Order[]; // current orders (usually filtered by status)
+  orders: Order[];
   selectedMonth: number;
   selectedYear: number;
 }
@@ -51,12 +51,10 @@ export const DashboardSummary: React.FC<DashboardSummaryProps> = ({
     fetchCanceled();
   }, [user]);
 
-  // Compute metrics for the provided orders (these usually reflect selected status)
   const dia = obterMetricasDia(orders, new Date());
   const semana = obterMetricasSemana(orders, new Date());
   const mes = obterMetricasMes(orders, selectedMonth, selectedYear);
 
-  // Compute canceled counts per period using canceledOrders (independent of orders filter)
   const canceledToday = filterOrdersByDay(canceledOrders, new Date()).length;
   const canceledWeek = filterOrdersByWeek(canceledOrders, new Date()).length;
   const canceledMonth = filterOrdersByMonth(

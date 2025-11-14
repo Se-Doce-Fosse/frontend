@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { MostSoldProductsChart } from '../components/MostSoldProductsChart';
 import { HourlySalesChart } from '../components/HourlySalesChart';
 import { MetricCards } from '../components/MetricCards';
-import { DashboardSummary } from '../components/DashboardSummary';
+// import { DashboardSummary } from '../components/DashboardSummary';
 import { getOrders } from './view-controllers/OrdersDashboard.view.controller';
 import type { Order } from '../types/order';
 import { useUser } from '../context/UserContext';
@@ -66,30 +66,6 @@ export const OrdersDashboardView: React.FC = () => {
           <input type="date" />
           <label>A</label>
           <input type="date" />
-        </div>
-      </div>
-
-      <div className="top-cards">
-        <div className="card-small">
-          <div style={{ fontSize: 12, color: '#777' }}>Vendas</div>
-          <div className="value">
-            {new Intl.NumberFormat('pt-BR', {
-              style: 'currency',
-              currency: 'BRL',
-            }).format(dashboardTotal(orders))}
-          </div>
-        </div>
-        <div className="card-small">
-          <div style={{ fontSize: 12, color: '#777' }}>Pedidos</div>
-          <div className="value">{orders.length}</div>
-        </div>
-        <div className="card-small">
-          <div style={{ fontSize: 12, color: '#777' }}>Produtos em Estoque</div>
-          <div className="value">—</div>
-        </div>
-        <div className="card-small">
-          <div style={{ fontSize: 12, color: '#777' }}>Clientes Ativos</div>
-          <div className="value">—</div>
         </div>
       </div>
 
@@ -224,12 +200,16 @@ export const OrdersDashboardView: React.FC = () => {
       {/* Charts */}
       {!loading && orders.length > 0 ? (
         <div style={{ marginTop: '24px' }}>
-          <DashboardSummary
+          {/* <DashboardSummary
             orders={orders}
             selectedMonth={selectedMonth}
             selectedYear={selectedYear}
+          /> */}
+          <MetricCards
+            orders={orders}
+            month={selectedMonth}
+            year={selectedYear}
           />
-
           <div style={{ height: 24 }} />
           <div className="panels">
             <div className="panel-large">
@@ -253,11 +233,6 @@ export const OrdersDashboardView: React.FC = () => {
           </div>
 
           <div style={{ height: 24 }} />
-          <MetricCards
-            orders={orders}
-            month={selectedMonth}
-            year={selectedYear}
-          />
         </div>
       ) : !loading && orders.length === 0 && !error ? (
         <div
@@ -276,7 +251,3 @@ export const OrdersDashboardView: React.FC = () => {
     </div>
   );
 };
-
-function dashboardTotal(orders: Order[]): number {
-  return orders.reduce((sum, o) => sum + (o.totalPrice || 0), 0);
-}

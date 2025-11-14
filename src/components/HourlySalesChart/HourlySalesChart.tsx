@@ -5,7 +5,7 @@ import { filterOrdersByMonth } from '../../views/view-controllers/OrdersDashboar
 
 interface HourlySalesChartProps {
   orders: Order[];
-  month?: number; // 1-12
+  month?: number;
   year?: number;
 }
 
@@ -15,10 +15,8 @@ export const HourlySalesChart: React.FC<HourlySalesChartProps> = ({
   year = new Date().getFullYear(),
 }) => {
   const chartData = useMemo(() => {
-    // Filter orders by month
     const filteredOrders = filterOrdersByMonth(orders, month, year);
 
-    // Create hourly aggregation
     const horasMap = new Map<
       number,
       { quantidade: number; valorTotal: number }
