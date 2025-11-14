@@ -5,7 +5,10 @@ import { BsPlus } from 'react-icons/bs';
 import { Button } from '../../../Button/Button';
 import { AddUserModal } from '../../../AddUserModal';
 import styles from './TableAdminConfigComponent.module.scss';
-import { fetchAdminUsers } from '../../../../services/admin-users/admin-users';
+import {
+  fetchAdminUsers,
+  deleteAdminUser,
+} from '../../../../services/admin-users/admin-users';
 import { useUser } from '../../../../context/UserContext';
 
 const ROLE_LABELS: Record<string, string> = {
@@ -29,9 +32,7 @@ function TableAdminConfigComponent({
   const [modalOpen, setModalOpen] = useState<boolean>(false);
 
   const [users, setUsers] = useState<userRow[]>([]);
-
-  const [_rowToEdit, setRowToEdit] = useState<number | null>(null);
-  void _rowToEdit;
+  const [userBeingEdited, setUserBeingEdited] = useState<userRow | null>(null);
 
   const loadUsers = useCallback(async () => {
     if (!user?.token) {
@@ -48,10 +49,12 @@ function TableAdminConfigComponent({
       const apiUsers = await fetchAdminUsers(user.token);
       setUsers(
         apiUsers.map((admin) => ({
+          id: admin.id,
           user: admin.username,
           cargo: ROLE_LABELS[admin.role] ?? admin.role,
           email: admin.email,
           status: 'ativo',
+          role: admin.role,
         }))
       );
     } catch (error) {
@@ -70,12 +73,28 @@ function TableAdminConfigComponent({
     void loadUsers();
   }, [loadUsers]);
 
-  const handleDeleteRow = (targetIndex: number) => {
-    setUsers((prev) => prev.filter((_, idx) => idx !== targetIndex));
+  const handleDeleteRow = async (targetUser: userRow) => {
+    if (!user?.token) {
+      setFetchError(
+        'Sessão expirada. Faça login novamente para remover usuários.'
+      );
+      return;
+    }
+
+    try {
+      await deleteAdminUser(targetUser.id, user.token);
+      setUsers((prev) => prev.filter((u) => u.id !== targetUser.id));
+    } catch (error) {
+      const message =
+        error instanceof Error
+          ? error.message
+          : 'Não foi possível remover o usuário.';
+      setFetchError(message);
+    }
   };
 
-  const handleEditRow = (idx: number) => {
-    setRowToEdit(idx);
+  const handleEditRow = (row: userRow) => {
+    setUserBeingEdited(row);
     setModalOpen(true);
   };
 
@@ -99,7 +118,7 @@ function TableAdminConfigComponent({
             label="Adicionar Usuário"
             icon={BsPlus}
             onClick={() => {
-              setRowToEdit(null);
+              setUserBeingEdited(null);
               setModalOpen(true);
             }}
             variant="primary"
@@ -128,11 +147,21 @@ function TableAdminConfigComponent({
         <AddUserModal
           onClose={() => {
             setModalOpen(false);
-            setRowToEdit(null);
+            setUserBeingEdited(null);
           }}
-          onUserCreated={() => {
+          onUserSaved={() => {
             void loadUsers();
           }}
+          editingUser={
+            userBeingEdited
+              ? {
+                  id: userBeingEdited.id,
+                  username: userBeingEdited.user,
+                  email: userBeingEdited.email,
+                  role: userBeingEdited.role,
+                }
+              : undefined
+          }
         />
       )}
     </div>
