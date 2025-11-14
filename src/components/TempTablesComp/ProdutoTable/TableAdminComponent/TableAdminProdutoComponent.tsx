@@ -17,6 +17,7 @@ import { useUser } from '../../../../context/UserContext';
 import { DeleteModal } from '../../../DeleteModal/DeleteModal';
 import { ProductModal, type Option } from '../../../ProductModal/ProductModal';
 import { Loading } from '../../../Loading/Loading';
+import AlertModal from '../../../AlertModal/AlertModal';
 
 interface TableAdminProductComponentProps {
   filterStatus: string;
@@ -56,6 +57,14 @@ function TabelAdminProdutoComponent({
   const [productModalErrors, setProductModalErrors] = useState<
     Partial<Record<keyof Product, string>>
   >({});
+  const [alertOpen, setAlertOpen] = useState(false);
+  const [alertVariant, setAlertVariant] = useState<
+    'success' | 'error' | 'info'
+  >('info');
+  const [alertMessages, setAlertMessages] = useState<string[] | undefined>(
+    undefined
+  );
+  const [alertError, setAlertError] = useState<unknown>(undefined);
   const [categoriaOptions, setCategoriaOptions] = useState<Option[]>([]);
   const [categoriasMap, setCategoriasMap] = useState<
     Record<string, CategoryDTO>
@@ -232,17 +241,29 @@ function TabelAdminProdutoComponent({
 
       if (productModalMode === 'create') {
         await createProduct(payload as any, user!.token);
+        setAlertVariant('success');
+        setAlertMessages(['Produto criado com sucesso.']);
+        setAlertError(undefined);
+        setAlertOpen(true);
       } else if (rowToEdit !== null) {
         await updateProduct(
           productModalValues.sku!,
           payload as any,
           user!.token
         );
+        setAlertVariant('success');
+        setAlertMessages(['Produto atualizado com sucesso.']);
+        setAlertError(undefined);
+        setAlertOpen(true);
       }
       setModalOpen(false);
       fetchProducts();
     } catch (error) {
       console.error('Erro ao salvar produto:', error);
+      setAlertVariant('error');
+      setAlertMessages(undefined);
+      setAlertError(error);
+      setAlertOpen(true);
     } finally {
       setProductModalSubmitting(false);
     }
@@ -318,6 +339,13 @@ function TabelAdminProdutoComponent({
         ]}
         onSubmit={handleProductModalSubmit}
         disabled={productModalMode === 'view'}
+      />
+      <AlertModal
+        open={alertOpen}
+        onOpenChange={setAlertOpen}
+        variant={alertVariant}
+        messages={alertMessages}
+        error={alertError}
       />
     </div>
   );

@@ -20,6 +20,7 @@ import type {
   CreateEstoque,
   UpdateEstoque,
 } from '../../../../types/estoque';
+import AlertModal from '../../../AlertModal/AlertModal';
 
 interface TableAdminEstoqueComponentProps {
   filterStatus: string;
@@ -51,6 +52,14 @@ function TableAdminEstoqueComponent({
   const [formErrors, setFormErrors] = useState<
     Partial<Record<keyof EstoqueValues, string>>
   >({});
+  const [alertOpen, setAlertOpen] = useState(false);
+  const [alertVariant, setAlertVariant] = useState<
+    'success' | 'error' | 'info'
+  >('info');
+  const [alertMessages, setAlertMessages] = useState<string[] | undefined>(
+    undefined
+  );
+  const [alertError, setAlertError] = useState<unknown>(undefined);
 
   const unidadeMedidaOptions = [
     { label: 'kg', value: 'kg' },
@@ -189,12 +198,20 @@ function TableAdminEstoqueComponent({
       if (rowToEdit === null) {
         const estoqueData = mapToCreateEstoque(formValues);
         await createEstoque(estoqueData, user.token);
+        setAlertVariant('success');
+        setAlertMessages(['Insumo criado com sucesso.']);
+        setAlertError(undefined);
+        setAlertOpen(true);
       } else {
         const estoqueData = mapToUpdateEstoque(
           formValues,
           estoques[rowToEdit].id
         );
         await updateEstoque(estoques[rowToEdit].id, estoqueData, user.token);
+        setAlertVariant('success');
+        setAlertMessages(['Insumo atualizado com sucesso.']);
+        setAlertError(undefined);
+        setAlertOpen(true);
       }
 
       setFormValues({
@@ -209,6 +226,10 @@ function TableAdminEstoqueComponent({
       await fetchEstoque();
     } catch (error) {
       console.error('Erro ao salvar estoque:', error);
+      setAlertVariant('error');
+      setAlertMessages(undefined);
+      setAlertError(error);
+      setAlertOpen(true);
     } finally {
       setIsSubmitting(false);
     }
@@ -234,6 +255,7 @@ function TableAdminEstoqueComponent({
       const matchesStatus = true;
       return matchesSearch && matchesStatus;
     });
+    //eslint-disable-next-line
   }, [estoques, searchTerm, filterStatus]);
 
   return (
@@ -297,6 +319,15 @@ function TableAdminEstoqueComponent({
         onSubmit={handleSubmit}
         isSubmitting={isSubmitting}
         errors={formErrors}
+      />
+
+      {/* Alert modal for success/error messages */}
+      <AlertModal
+        open={alertOpen}
+        onOpenChange={setAlertOpen}
+        variant={alertVariant}
+        messages={alertMessages}
+        error={alertError}
       />
 
       <EstoqueModal
