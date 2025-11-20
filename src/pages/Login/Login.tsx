@@ -40,8 +40,8 @@ const Login = () => {
     if (Object.keys(newErrors).length === 0) {
       setLoading(true);
       try {
-        const { token } = await loginApi(email, password);
-        saveUser({ email, token });
+        const { token, username, role } = await loginApi(email, password);
+        saveUser({ email, token, name: username, role });
         navigate('/admin/dashboard');
       } catch (err: unknown) {
         let message = 'Erro ao fazer login';
