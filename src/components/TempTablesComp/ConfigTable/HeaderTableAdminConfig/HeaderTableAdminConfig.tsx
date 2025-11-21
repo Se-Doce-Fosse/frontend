@@ -3,18 +3,21 @@ import { BsFillTrashFill, BsFillPencilFill } from 'react-icons/bs';
 import styles from './HeaderTableAdminConfig.module.scss';
 import { StatusBadge } from '../../../StatusBadge/StatusBadge';
 import type { StatusEnum } from 'src/types/status';
+import type { AdminUserRole } from '../../../../services/admin-users/admin-users';
 
 export type userRow = {
+  id: number;
   user: string;
   cargo: string;
   email: string;
   status: StatusEnum;
+  role: AdminUserRole;
 };
 
 type TableProps = {
   users: userRow[];
-  deleteRow: (idx: number) => void;
-  editRow: (idx: number) => void;
+  deleteRow: (row: userRow) => void;
+  editRow: (row: userRow) => void;
 };
 
 export const HeaderTableAdminConfig: React.FC<TableProps> = ({
@@ -48,12 +51,12 @@ export const HeaderTableAdminConfig: React.FC<TableProps> = ({
                   <span className={styles.actions}>
                     <BsFillPencilFill
                       className={styles['edit-btn']}
-                      onClick={() => editRow(idx)}
+                      onClick={() => editRow(row)}
                       color="#5065B8"
                     />
                     <BsFillTrashFill
                       className={styles['delete-btn']}
-                      onClick={() => deleteRow(idx)}
+                      onClick={() => deleteRow(row)}
                       color="#CA071A"
                     />
                   </span>
